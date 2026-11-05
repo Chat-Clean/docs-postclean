@@ -1,0 +1,46 @@
+---
+title: Mastodon
+description: Conecte sua conta do Mastodon ao PostClean
+icon: "mastodon"
+---
+
+O PostClean publica posts e sequências em qualquer instância do Mastodon.
+
+## Conectar sua conta
+
+1. Na barra lateral, abra **Canais** e clique em **Conectar canal** (ou use **Novo** > **Conectar um novo canal**)
+2. Escolha **Mastodon** e clique em **Conectar Mastodon**
+3. No formulário **Conectar Mastodon**, informe a **URL da instância** (por exemplo `mastodon.social`) e clique em **Continuar com Mastodon**
+4. Autorize o PostClean na sua instância
+5. Na página de confirmação, marque a conta e clique em **Concluir conexão**
+
+O PostClean abre a página **Publicar** do novo canal e pergunta quantas vezes por semana você quer postar. Veja o fluxo completo em [Conectar canais](/knowledge-base/channels/connecting).
+
+## Tipos de conteúdo
+
+| Tipo | `content_type` | Descrição |
+|------|----------------|-----------|
+| **Post** | `mastodon_post` | Texto com até 4 imagens opcionais ou 1 vídeo |
+
+## Limites de mídia
+
+| `content_type` | Imagem | Vídeo | Formato |
+|----------------|--------|-------|---------|
+| `mastodon_post` | 10 MB | 40 MB | JPEG/PNG/GIF/WebP; vídeo MP4 ou MOV |
+
+Especificações oficiais: [Attachments](https://docs.joinmastodon.org/user/posting/#attachments), [`Instance.media_attachments`](https://docs.joinmastodon.org/entities/Instance/). Catálogo completo: [Mídia](/knowledge-base/media#mastodon).
+
+## Texto e opções do post
+
+- **500 caracteres** por post, **contando o aviso de conteúdo**. O PostClean usa o limite padrão do Mastodon mesmo que a sua instância permita mais.
+- **Aviso de conteúdo** — esconda o post atrás de um aviso (`meta.spoiler_text`, até 500 caracteres). Numa sequência, o aviso se repete em todas as respostas.
+- **Sequências** — clique em **Iniciar sequência** para adicionar respostas abaixo do post, até **24**. Cada resposta tem o próprio texto e até 4 mídias.
+- **Texto alternativo** — até 1.500 caracteres por imagem.
+
+## Insights
+
+Os posts e os seguidores do Mastodon aparecem em [Insights](/knowledge-base/insights/overview).
+
+## Escopos OAuth
+
+`read:accounts`, `read:statuses`, `write:statuses`, `write:media`

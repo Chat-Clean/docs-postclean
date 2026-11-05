@@ -1,0 +1,89 @@
+---
+title: "Contatos e etiquetas"
+description: "Veja quem conversou com as suas automações, organize com etiquetas e exporte para Excel ou Google Planilhas."
+icon: "address-book"
+---
+
+Todo mundo que conversa com uma automação vira um contato no PostClean. Os contatos ficam em **Automações → Contatos** e são do workspace inteiro, de todos os canais do Instagram.
+
+Só o dono da conta e os admins do workspace veem e gerenciam automações, contatos, etiquetas e integrações.
+
+## O que fica salvo em cada contato
+
+| Coluna | De onde vem |
+|--------|-------------|
+| **Instagram** | O @ da pessoa |
+| **Nome** | O nome do perfil no Instagram. Você pode editar |
+| **E-mail** | A resposta a um bloco **Pergunta** (ou passo **Pedir um dado**) do tipo **E-mail** |
+| **Telefone** | A resposta a uma pergunta do tipo **Telefone (WhatsApp)** |
+| **Segue** | **Sim** ou **Não**, quando um fluxo verificou se a pessoa segue o perfil |
+| **Etiquetas** | As etiquetas que os fluxos ou você colocaram |
+| **Canal** | A conta do Instagram onde a conversa aconteceu |
+| **Automação de origem** | A automação que trouxe o contato |
+| **Última interação** e **Primeiro contato** | Datas da conversa |
+
+As respostas a perguntas do tipo **Outra resposta** ficam salvas com o **Nome do campo** que você escolheu no fluxo (por exemplo, `cidade`). Elas viram colunas próprias no Excel e na planilha do Google.
+
+Um telefone digitado com 10 ou 11 dígitos, sem o `+` na frente, ganha o código do Brasil (`55`). Assim `84999990000` fica salvo como `5584999990000`.
+
+## Buscar e filtrar
+
+- Use a busca **Buscar por @, nome, e-mail ou telefone**.
+- Filtre por etiqueta no seletor **Todas as etiquetas**.
+
+## Editar ou excluir um contato
+
+Na linha do contato, abra **Ações**:
+
+- **Editar contato:** muda o nome, o e-mail, o telefone e as etiquetas (até 20 por contato).
+- **Excluir:** remove o contato e as etiquetas dele.
+
+## Etiquetas
+
+As etiquetas organizam os contatos, por exemplo `lead-curso` ou `cliente`. Cada uma tem um nome (até 50 caracteres, sem repetir no workspace) e uma cor.
+
+<Steps>
+  <Step title="Crie a etiqueta">
+    Em **Automações → Contatos**, clique em **Etiquetas**. Na janela, digite o nome em **Nova etiqueta**, escolha a cor e clique em **Salvar**. Na mesma janela você edita e exclui as etiquetas.
+  </Step>
+  <Step title="Use nos fluxos">
+    No formulário, o passo **Etiquetas** coloca as etiquetas quando o contato chega na entrega. No editor de blocos, o bloco **Etiquetas** pode **Adicionar** ou **Remover** etiquetas em qualquer ponto, e o bloco **Condição** pode perguntar **Tem a etiqueta?**. Veja [Editor de fluxo](/knowledge-base/automations/flow-editor).
+  </Step>
+</Steps>
+
+Excluir uma etiqueta tira ela de todos os contatos.
+
+## Baixar em Excel
+
+Clique em **Baixar Excel**. O arquivo `.xlsx` traz os contatos da busca e do filtro que estão na tela, com as colunas da tabela acima e mais uma coluna para cada campo de **Outra resposta**.
+
+## Planilha do Google ao vivo
+
+Para ter os contatos numa planilha do Google que se atualiza sozinha, crie uma integração **Google Planilhas**:
+
+<Steps>
+  <Step title="Crie a integração">
+    Em **Automações → Integrações**, clique em **Nova integração** e escolha **Google Planilhas**.
+  </Step>
+  <Step title="Filtre, se quiser">
+    Em **Só contatos com a etiqueta**, escolha uma etiqueta para mandar só esses contatos. Em branco, vão todos os contatos do workspace.
+  </Step>
+  <Step title="Copie a fórmula">
+    Salve. O PostClean gera uma **Fórmula** como esta:
+
+    ```
+    =IMPORTDATA("https://post.chatclean.com.br/automations/feeds/SEU_CODIGO/contacts.csv")
+    ```
+  </Step>
+  <Step title="Cole na planilha">
+    Cole a fórmula numa célula vazia (por exemplo, `A1`) de uma planilha do Google. Os contatos aparecem com uma linha de cabeçalho e uma linha por contato.
+  </Step>
+</Steps>
+
+O Google atualiza a fórmula mais ou menos de hora em hora.
+
+<Warning>
+  O endereço da fórmula é a chave de acesso aos contatos: quem tiver o link consegue ler a lista. Não publique a planilha. Para cortar o acesso, desligue ou exclua a integração; a planilha ligada a ela para de atualizar.
+</Warning>
+
+Para mandar cada contato para um CRM no momento em que ele chega, veja [Integrações](/knowledge-base/automations/integrations).

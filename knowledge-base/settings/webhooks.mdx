@@ -1,0 +1,210 @@
+---
+title: "Webhooks"
+description: "Receba notificações HTTP assinadas quando posts são criados, agendados, publicados, falham ou são excluídos."
+icon: "webhook"
+---
+
+Um webhook manda um `POST` JSON assinado para uma URL sua sempre que um dos eventos de post que você escolheu acontece no workspace. Use para sincronizar um CRM, disparar uma rotina interna ou manter outro sistema em dia com o PostClean.
+
+Só o dono da conta e os administradores do workspace podem gerenciar webhooks. Eles ficam em **Configurações → Webhooks**.
+
+<Note>
+  Esta página trata dos webhooks de **posts**. As [Automações](/knowledge-base/automations/overview) do Instagram têm um webhook próprio, configurado em [Integrações](/knowledge-base/automations/integrations).
+</Note>
+
+## Criar um webhook
+
+<Steps>
+  <Step title="Criar webhook">
+    Em **Configurações → Webhooks**, clique em **Criar webhook**.
+  </Step>
+  <Step title="URL do endpoint">
+    Informe uma URL pública `http://` ou `https://` (até 255 caracteres). Endereços privados, de loopback e link-local são recusados com **Este endpoint não é permitido.**
+  </Step>
+  <Step title="Eventos">
+    Selecione pelo menos um evento. Não existe curinga.
+  </Step>
+  <Step title="Copie o secret de assinatura">
+    A página do webhook abre. Copie o **Secret de assinatura** para verificar as entregas. Você pode mostrar e copiar de novo quando quiser, ou rotacionar.
+  </Step>
+</Steps>
+
+Um webhook novo começa **Ativo**. Criar ou editar um webhook não envia nenhuma requisição; para isso, use **Enviar evento de teste**. Não há limite de webhooks.
+
+## Eventos
+
+| Evento | Nome na tela | Quando dispara | `data` |
+|--------|--------------|----------------|--------|
+| `post.created` | Post criado | Um post novo é criado | [Payload do post](#payload-do-post) |
+| `post.scheduled` | Post agendado | Um post que já existia passa para agendado | Payload do post |
+| `post.unscheduled` | Post desagendado | Um post agendado volta para rascunho, ou volta para aguardando aprovação | Payload do post |
+| `post.published` | Post publicado | Um post foi publicado no canal | Payload do post |
+| `post.failed` | Post falhou | Um post falhou ao publicar | Payload do post |
+| `post.deleted` | Post excluído | Um post é excluído | Só `{ "id", "workspace_id" }` |
+
+Os eventos de status disparam quando o status muda, não a cada salvamento. Um post criado já agendado ou na fila envia `post.created`, com `status` igual a `scheduled`. Edições que mantêm o status (texto, mídia, etiquetas, um horário novo num post agendado) não enviam nada.
+
+Não há evento enquanto um post está sendo publicado, nem para notas, aprovações, mudanças de canal ou de membros. Posts apagados porque o [canal foi desconectado](/knowledge-base/channels/disconnecting) ou o [workspace foi excluído](/knowledge-base/settings/workspaces#excluir-um-workspace) não enviam `post.deleted`.
+
+## Receber uma entrega
+
+Cada entrega é um `POST` com corpo JSON. Responda com qualquer status `2xx` assim que aceitar a entrega. Redirecionamentos não são seguidos: um `3xx` conta como falha. O PostClean espera até 10 segundos pela resposta.
+
+### Cabeçalhos
+
+| Cabeçalho | Valor |
+|-----------|-------|
+| `Content-Type` | `application/json` |
+| `X-Webhook-Signature` | HMAC-SHA256 em hexadecimal do corpo bruto da requisição, com o secret de assinatura como chave |
+| `User-Agent` | Identifica o remetente. Não dependa do valor exato. |
+
+### Envelope
+
+Toda entrega, inclusive o evento de teste, usa o mesmo envelope:
+
+```json
+{
+  "id": "9f1a2b3c-4d5e-6f7a-8b9c-0d1e2f3a4b5c",
+  "type": "post.published",
+  "data": {},
+  "created_at": "2026-10-08T15:04:05+00:00"
+}
+```
+
+| Campo | Descrição |
+|-------|-----------|
+| `id` | Id da entrega. As novas tentativas da mesma entrega mantêm o id; um [reenvio](#entregas-e-reenvio) ganha um novo. Use para eliminar duplicatas. |
+| `type` | O evento, ou `webhook.test` para um evento de teste. |
+| `data` | O conteúdo do evento. Um objeto vazio em `webhook.test`. |
+| `created_at` | Horário ISO 8601 desta tentativa. Muda a cada nova tentativa, e a assinatura também. |
+
+### Verificar a assinatura
+
+Calcule o HMAC-SHA256 dos **bytes brutos do corpo** com o secret de assinatura e compare o resultado em hexadecimal com `X-Webhook-Signature` usando uma comparação de tempo constante. Não serialize de novo o JSON já interpretado.
+
+<CodeGroup>
+
+```javascript Node.js
+import crypto from 'node:crypto';
+
+const expected = crypto
+  .createHmac('sha256', process.env.POSTCLEAN_WEBHOOK_SECRET)
+  .update(rawBody)
+  .digest('hex');
+
+const received = Buffer.from(req.headers['x-webhook-signature'] ?? '', 'utf8');
+const expectedBuf = Buffer.from(expected, 'utf8');
+const valid = received.length === expectedBuf.length
+  && crypto.timingSafeEqual(expectedBuf, received);
+```
+
+```php PHP
+$expected = hash_hmac('sha256', $rawBody, $secret);
+$valid = hash_equals($expected, (string) $request->header('X-Webhook-Signature'));
+```
+
+```python Python
+import hmac
+import hashlib
+
+expected = hmac.new(secret.encode(), raw_body, hashlib.sha256).hexdigest()
+valid = hmac.compare_digest(expected, signature_header)
+```
+
+</CodeGroup>
+
+<Warning>
+  Frameworks que interpretam o JSON antes do seu código rodar costumam descartar o corpo bruto. Leia primeiro o corpo sem interpretar (por exemplo, com `express.raw({ type: 'application/json' })` no Express), verifique e só então interprete.
+</Warning>
+
+## Payload do post
+
+Em todos os eventos, menos `post.deleted`, `data` é o post no momento do evento:
+
+| Campo | Descrição |
+|-------|-----------|
+| `id` | Id do post |
+| `workspace_id` | Id do workspace |
+| `user_id` | Id do usuário autor, ou `null` |
+| `status` | `draft`, `pending_approval`, `scheduled`, `publishing`, `published` ou `failed` |
+| `created_via` | `web`, `api`, `mcp`, `repurpose` ou `null` |
+| `content` | Texto do post. Pode conter HTML do editor, ou estar vazio |
+| `scheduled_at`, `published_at`, `created_at`, `updated_at` | ISO 8601, ou `null`. `published_at` é quando a rede publicou o post; `updated_at` só muda quando o próprio post é editado, não quando ele é publicado |
+| `author` | `{ id, name }`, ou `null` |
+| `workspace` | `{ id, name }` |
+| `labels` | `{ id, name, color }[]` |
+| `media` | Veja a tabela de mídia abaixo |
+| `publish_status` | Estado da publicação na rede: `pending`, `publishing`, `retrying`, `pending_review`, `published`, `failed` ou `rejected` |
+| `social_account_id` | Id do canal |
+| `platform` | Por exemplo `linkedin`, `x`, `instagram-facebook` |
+| `content_type` | Por exemplo `linkedin_post`, `instagram_reel` |
+| `platform_post_id` | Id na rede, ou `null` |
+| `platform_url` | Link para o post publicado, ou `null` |
+| `error_message` | Por que a publicação falhou, ou `null` |
+| `display_name`, `display_username`, `display_avatar` | O canal como estava quando o post foi salvo |
+| `meta` | Configurações do post para a rede (veja [Publicação](/api-reference/guides/posting)) |
+| `social_account` | `{ id, platform, display_name, username, status }`, ou `null`. Nunca inclui tokens |
+
+### Mídia
+
+| Campo | Descrição |
+|-------|-----------|
+| `id` | Id da mídia |
+| `path` | Caminho armazenado, por exemplo `medias/{uuid}.jpg` |
+| `url` | URL pública do arquivo |
+| `type` | `image`, `video`, `document` ou `null` |
+| `mime_type` | Tipo MIME |
+| `original_filename` | Nome do arquivo como foi enviado ou importado |
+| `source` | `ai`, `unsplash`, `google_drive`, `google_photos`, `canva` ou `null` para um envio direto |
+| `source_meta` | Dados extras da origem, ou `null` |
+| `meta` | Metadados do arquivo, como `alt_text` e dimensões |
+
+## Evento de teste
+
+Na página do webhook, abra o menu de ações e clique em **Enviar evento de teste**. O PostClean envia uma entrega `webhook.test` assinada e espera até 5 segundos. O seu endpoint precisa responder `2xx`; senão, o teste falha com o motivo (**O endpoint não está acessível.** ou **O endpoint retornou HTTP 500.**).
+
+O teste funciona mesmo com o webhook desativado ou pausado. Ele não entra em **Entregas** e não muda o status do webhook.
+
+## Status, novas tentativas e pausa
+
+| Status | Significado |
+|--------|-------------|
+| **Ativo** | Os eventos assinados são entregues. |
+| **Desativado** | Você desligou com **Desativar endpoint**. Os eventos são ignorados. |
+| **Pausado** | O PostClean pausou depois de 5 entregas seguidas com falha. Os eventos são ignorados. |
+
+Uma entrega com falha é tentada 3 vezes, com 60 segundos de intervalo. Quando as três tentativas falham, a entrega conta como falha; uma entrega com sucesso zera a contagem. Com 5 entregas seguidas com falha, o webhook fica **Pausado** e o dono da conta recebe um e-mail com um link para ele. Esse e-mail não pode ser desligado em [Notificações](/knowledge-base/settings/notifications).
+
+Corrija o endpoint e clique em **Ativar endpoint** para voltar. Os eventos que aconteceram enquanto o webhook estava desativado ou pausado não são enviados depois.
+
+## Entregas e reenvio
+
+A página do webhook lista as **Entregas**, das mais novas para as mais antigas, com o evento, o **Status HTTP**, as **Tentativas**, a **Resposta** que o seu endpoint devolveu (os primeiros 2.000 caracteres) e o **Payload da mensagem**. As entregas novas aparecem em tempo real.
+
+**Reenviar** manda a entrega de novo com o mesmo `data`, um novo `id` no envelope e uma nova linha em **Entregas**. O reenvio funciona mesmo com o webhook desativado ou pausado, mas um reenvio com sucesso não reativa o webhook.
+
+As entregas ficam guardadas por 7 dias.
+
+## Gerenciar um webhook
+
+No menu de ações do webhook:
+
+- **Editar endpoint**: muda a URL e os eventos.
+- **Ativar endpoint** / **Desativar endpoint**.
+- **Rotacionar secret de assinatura**: cria um secret novo. O atual para de funcionar na hora, inclusive para as novas tentativas que já estão esperando, então atualize o seu endpoint antes.
+- **Enviar evento de teste**.
+- **Excluir**: depois de uma confirmação, as entregas param e o histórico do webhook é apagado.
+
+## Pela API e pelo MCP
+
+| Tarefa | REST | MCP |
+|--------|------|-----|
+| Listar | [List webhooks](/api-reference/webhooks/list-webhooks) | `list-webhooks-tool` |
+| Criar | [Create webhook](/api-reference/webhooks/create-webhook) | `create-webhook-tool` |
+| Ver, com o secret | [Get webhook](/api-reference/webhooks/get-webhook) | `get-webhook-tool` |
+| Atualizar | [Update webhook](/api-reference/webhooks/update-webhook) | `update-webhook-tool` |
+| Excluir | [Delete webhook](/api-reference/webhooks/delete-webhook) | `delete-webhook-tool` |
+| Enviar um teste | [Send webhook test](/api-reference/webhooks/send-webhook-test) | `send-webhook-test-tool` |
+| Rotacionar o secret | [Rotate webhook secret](/api-reference/webhooks/rotate-webhook-secret) | `rotate-webhook-secret-tool` |
+| Listar entregas | [List webhook logs](/api-reference/webhooks/list-webhook-logs) | `list-webhook-logs-tool` |
+| Reenviar uma entrega | [Replay webhook log](/api-reference/webhooks/replay-webhook-log) | `replay-webhook-log-tool` |

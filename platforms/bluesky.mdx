@@ -1,0 +1,45 @@
+---
+title: Bluesky
+description: Conecte sua conta do Bluesky ao PostClean
+icon: "cloud"
+---
+
+O PostClean publica posts e sequências no Bluesky.
+
+## Conectar sua conta
+
+1. Na barra lateral, abra **Canais** e clique em **Conectar canal** (ou use **Novo** > **Conectar um novo canal**)
+2. Escolha **Bluesky** e clique em **Conectar Bluesky**
+3. No formulário **Conectar Bluesky**, informe seu **Usuário ou e-mail** e uma **Senha de app**, e clique em **Conectar Bluesky**
+4. Na página de confirmação, marque a conta e clique em **Concluir conexão**
+
+O PostClean abre a página **Publicar** do novo canal e pergunta quantas vezes por semana você quer postar. Veja o fluxo completo em [Conectar canais](/knowledge-base/channels/connecting).
+
+<Note>
+  O Bluesky não usa OAuth. Crie uma [senha de app](https://bsky.app/settings/app-passwords) nas configurações do Bluesky — não use a sua senha principal.
+</Note>
+
+## Tipos de conteúdo
+
+| Tipo | `content_type` | Descrição |
+|------|----------------|-----------|
+| **Post** | `bluesky_post` | Texto com até 4 imagens opcionais **ou** 1 vídeo |
+
+## Limites de mídia
+
+| `content_type` | Imagem | Vídeo | Duração | Formato |
+|----------------|--------|-------|---------|---------|
+| `bluesky_post` | 10 MB | 300 MB | 10 minutos | Imagens JPEG/PNG/GIF/WebP. Vídeo MP4 ou MOV |
+
+O tamanho do vídeo é o valor decimal do lexicon (300 000 000 bytes). O limite de blob de imagem do Bluesky é 2 MB (2 000 000 bytes), mas o PostClean recodifica toda imagem que não é GIF abaixo desse limite na hora de publicar, então só o teto de 10 MB vale para o arquivo original; um GIF acima de 2 MB falha na publicação. Especificações oficiais: [`app.bsky.embed.video`](https://github.com/bluesky-social/atproto/blob/main/lexicons/app/bsky/embed/video.json), [`app.bsky.embed.images`](https://github.com/bluesky-social/atproto/blob/main/lexicons/app/bsky/embed/images.json). Catálogo completo: [Mídia](/knowledge-base/media#bluesky).
+
+## Texto e opções do post
+
+- **300 caracteres** por post. O PostClean conta code points, então um emoji conta como um.
+- **Sequências** — clique em **Iniciar sequência** para adicionar respostas abaixo do post, até **24**. Cada resposta tem o próprio texto e até 4 mídias, com as mesmas regras de um post.
+- **Prévia do link** — o primeiro link ganha um card de prévia. Remova com o **×** no card (`meta.link_preview: false` na API).
+- **Texto alternativo** — até 2.000 caracteres por imagem.
+
+## Insights
+
+Os posts e os seguidores do Bluesky aparecem em [Insights](/knowledge-base/insights/overview).

@@ -1,0 +1,52 @@
+---
+title: "Posts recorrentes"
+description: "Publique o mesmo post de novo num ritmo que se repete."
+---
+
+Um post recorrente é publicado de novo num ritmo fixo: todo dia, a cada duas semanas, no mesmo dia de cada mês e assim por diante.
+
+## Tornar um post recorrente
+
+<Steps>
+  <Step title="Agende o post">
+    Só posts agendados podem se repetir. Agende para a data e o horário da primeira ocorrência.
+  </Step>
+  <Step title="Abra o menu do post">
+    No cartão do post em [Publicar](/knowledge-base/publish/overview), escolha **Tornar recorrente**.
+  </Step>
+  <Step title="Defina o ritmo">
+    **Repetir a cada** 1 a 365 **Dias**, **Semanas**, **Meses** ou **Anos**, **por** 1 a 100 vezes.
+  </Step>
+  <Step title="Salve">
+    Clique em **Salvar**. O cartão ganha a marca **Recorrente**.
+  </Step>
+</Steps>
+
+"Vamos agendar as próximas ocorrências com base na data e no horário deste post." Depois o post mostra um aviso como "Este post será compartilhado toda segunda-feira às 9:00, até … (3 posts restantes)."
+
+O número de vezes é a quantidade de ocorrências que vêm depois deste post. A última ocorrência precisa ser antes de 2038.
+
+Só membros que publicam direto veem **Tornar recorrente**. Veja [Membros e permissões](/knowledge-base/settings/members-and-permissions).
+
+## Como as ocorrências são criadas
+
+- Quando um post da série é publicado, ou falha, o PostClean cria a próxima ocorrência como um novo post agendado no mesmo canal.
+- Cada ocorrência é contada a partir do início da série, no fuso horário do canal. Assim, o horário local continua o mesmo nas mudanças de horário de verão, e uma série no dia 31 ou em 29 de fevereiro não se desloca.
+- Se o horário de uma ocorrência já passou, o PostClean pula para a próxima que ainda está no futuro.
+- Uma série aprovada continua sendo publicada sem pedir aprovação de novo.
+
+## Mudar ou parar
+
+No menu do post:
+
+- **Editar recorrência** muda o ritmo ou o número de vezes.
+- **Parar recorrência** mantém este post e encerra a série depois dele.
+
+Só a próxima ocorrência existe de cada vez. Depois de criada, ela é um post comum: edite, mova ou exclua como qualquer outro.
+
+## API e MCP
+
+| Tarefa | API REST | Ferramenta MCP |
+| --- | --- | --- |
+| Definir ou mudar | [Set post recurrence](/api-reference/recurrence/set-post-recurrence) | `set-post-recurrence-tool` |
+| Parar | [Remove post recurrence](/api-reference/recurrence/remove-post-recurrence) | `clear-post-recurrence-tool` |

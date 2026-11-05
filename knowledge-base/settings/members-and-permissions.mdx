@@ -1,0 +1,75 @@
+---
+title: "Membros e permissões"
+description: "Convide pessoas da equipe para um workspace, torne-as administradoras e decida quais posts precisam de aprovação."
+icon: "users"
+---
+
+Convide quantas pessoas quiser para um workspace, em qualquer plano. Cada workspace tem os próprios membros: convidar alguém para um workspace não dá acesso aos outros.
+
+## Duas configurações por membro
+
+Não há cargos para escolher. Cada membro tem duas configurações:
+
+- **Administrador**: *Gerencia membros e configurações.* Administradores gerenciam membros, canais, webhooks, chaves de API e as configurações gerais do workspace.
+- **Publicação**: **Publica direto** ou **Precisa de aprovação**. *Posts de membros que precisam de aprovação aguardam um administrador ou um membro que publica direto.*
+
+Administradores sempre publicam direto. O **dono da conta** é sempre administrador, publica direto e é o único que pode gerenciar a cobrança e criar ou excluir workspaces.
+
+A lista de membros mostra cada pessoa como **Proprietário**, **Administrador**, **Membro** (publica direto) ou **Precisa de aprovação**.
+
+## O que cada pessoa pode fazer
+
+| Ação | Precisa de aprovação | Publica direto | Administrador | Proprietário |
+|------|:--:|:--:|:--:|:--:|
+| Escrever posts, ideias e modelos; adicionar notas | ✓ | ✓ | ✓ | ✓ |
+| Usar assinaturas e etiquetas | ✓ | ✓ | ✓ | ✓ |
+| Conectar o próprio assistente de IA pelo [MCP](/knowledge-base/settings/mcp) | ✓ | ✓ | ✓ | ✓ |
+| Agendar, colocar na fila e publicar sem aprovação | | ✓ | ✓ | ✓ |
+| Aprovar ou rejeitar posts de outros membros | | ✓ | ✓ | ✓ |
+| Excluir posts de outros membros | | ✓ | ✓ | ✓ |
+| Tornar um post [recorrente](/knowledge-base/publish/recurring-posts) | | ✓ | ✓ | ✓ |
+| Usar o [Repost](/knowledge-base/repurpose) | | ✓ | ✓ | ✓ |
+| Conectar, configurar e desconectar canais | | | ✓ | ✓ |
+| Convidar, editar e remover membros | | | ✓ | ✓ |
+| Gerenciar webhooks e [chaves de API](/knowledge-base/settings/api-keys) | | | ✓ | ✓ |
+| Renomear o workspace e mudar o logo | | | ✓ | ✓ |
+| Criar e excluir workspaces, gerenciar a cobrança | | | | ✓ |
+
+Membros que precisam de aprovação só podem excluir os posts que escreveram, ou um pedido que fizeram enquanto ele ainda está pendente.
+
+Um membro que precisa de aprovação salva os posts com **Salvar e pedir aprovação**. O post fica **Aguardando aprovação** até alguém que publica direto aprovar. Isso vale também para posts criados pelo MCP. Veja [Aprovações](/knowledge-base/publish/approvals).
+
+## Convidar um membro
+
+<Steps>
+  <Step title="Abra Membros">
+    Vá em **Configurações → Membros**, ou clique em **Novo** → **Convidar um membro da equipe** na barra lateral.
+  </Step>
+  <Step title="Convidar Membro">
+    Informe o **E-mail** da pessoa, defina **Administrador** e **Publicação** e clique em **Enviar Convite**.
+  </Step>
+  <Step title="A pessoa aceita">
+    O e-mail de convite abre a página do convite, onde a pessoa clica em **Aceitar Convite** (entrando ou criando uma conta antes) ou **Recusar Convite**.
+  </Step>
+</Steps>
+
+O e-mail de convite vai no idioma da sua interface. Os convites aguardando resposta aparecem junto com os membros, marcados como **Convites Pendentes**, com o acesso que a pessoa vai ter.
+
+Um e-mail que já pertence a outra conta do PostClean não pode ser convidado: peça um e-mail de trabalho só para isso.
+
+## Mudar o acesso de um membro
+
+Abra o menu do membro (⋮), escolha **Editar acesso**, mude **Administrador** ou **Publicação** e clique em **Salvar**. Você não pode mudar o seu próprio acesso nem o do dono da conta.
+
+## Remover um membro ou cancelar um convite
+
+- **Remover** (no mesmo menu): o membro perde o acesso a todos os recursos deste workspace. Digite o e-mail do membro para confirmar.
+- **Cancelar convite**: o link do convite para de funcionar. Digite o e-mail convidado para confirmar.
+
+Você não pode remover a si mesmo nem o dono da conta.
+
+Remover um membro também revoga as chaves de API e as conexões MCP que ele criou para este workspace. Um membro que não participa mais de nenhum workspace da conta é apagado para sempre. Os posts que ele criou continuam no workspace.
+
+## Aguardando o dono da conta
+
+Se a conta não tem acesso ativo (assinatura, teste ou cortesia), os membros veem **Aguardando o dono da conta** até o dono concluir o checkout. A página se atualiza sozinha quando a assinatura fica ativa. Veja [Planos e cobrança](/knowledge-base/settings/plans-and-billing).

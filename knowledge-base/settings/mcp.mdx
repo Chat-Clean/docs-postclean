@@ -1,0 +1,49 @@
+---
+title: "MCP"
+description: "Conecte o Claude, o ChatGPT, o Cursor e outros assistentes de IA ao seu workspace, e desconecte quando quiser."
+icon: "plug-circle-bolt"
+---
+
+O MCP (Model Context Protocol) deixa um assistente de IA trabalhar no seu workspace: criar e agendar posts, ler métricas, gerenciar ideias, etiquetas e mais. Abra **Configurações → MCP** para conectar um.
+
+Qualquer membro do workspace pode conectar o próprio assistente. Ele age como você, com as suas permissões: se os seus posts precisam de aprovação, os posts criados pelo seu assistente também precisam. Veja [Membros e permissões](/knowledge-base/settings/members-and-permissions).
+
+## Conectar um assistente
+
+<Steps>
+  <Step title="Copie a URL do servidor PostClean">
+    Clique em **Copiar URL**. A URL é:
+
+    ```
+    https://post.chatclean.com.br/mcp/trypost
+    ```
+  </Step>
+  <Step title="Abra seu assistente de IA">
+    - **Claude**: abra Settings → Connectors, adicione um connector customizado e cole a URL.
+    - **ChatGPT**: abra Settings → Apps & Connectors, crie um connector customizado e cole a URL.
+
+    **Conectar Claude** e **Conectar ChatGPT** abrem essas configurações para você. Em **Outros apps**, o PostClean mostra o nome, a URL ou o config para colar no **Cursor**, no **VS Code**, no **Claude Code** ou em qualquer outro cliente que leia um config `mcpServers`. Esse trecho chama o servidor de `PostClean`; os guias de configuração usam `postclean`. Se você colar o trecho, use `PostClean` em comandos como `codex mcp login PostClean`.
+  </Step>
+  <Step title="Autorize">
+    Na primeira vez que o assistente se conecta, o navegador abre **Autorizar** *nome do assistente*. Escolha o **Workspace** e clique em **Autorizar**. Essa conexão só vai acessar o workspace selecionado.
+  </Step>
+</Steps>
+
+Para usar o assistente com outro workspace, conecte de novo e escolha esse workspace.
+
+Os guias passo a passo de cada assistente e a lista de todas as ferramentas estão em [Construa com IA](/ai/introduction).
+
+## Apps conectados
+
+**Apps conectados** lista os assistentes que você conectou a este workspace, com o **Último uso** de cada um. Cada pessoa só vê os próprios.
+
+Para remover um, clique em **Desconectar** e digite o nome do app para confirmar. Isso desconecta o app do PostClean: ele precisa se conectar de novo para usar o MCP.
+
+Remover um membro do workspace também desconecta os apps dele.
+
+## O que um assistente pode e não pode fazer
+
+- Ele pode fazer o que as [ferramentas](/ai/tools-reference) permitem, dentro das suas permissões no workspace.
+- Os recursos de escrita com IA do PostClean (o assistente de IA do editor e do editor de ideias, **Gerar ideias**, texto alternativo) não estão disponíveis pelo MCP; o seu assistente escreve o texto sozinho.
+- A conta precisa ter acesso ativo (assinatura, teste ou cortesia).
+- Chaves de API não funcionam no MCP, e conexões MCP não funcionam na API REST. Para scripts e CI, use [chaves de API](/knowledge-base/settings/api-keys).

@@ -1,0 +1,120 @@
+---
+title: "Automações do Instagram"
+sidebarTitle: "Visão geral"
+description: "Responda comentários e mensagens do direct no Instagram automaticamente, com palavras-chave, botões e fluxos de conversa."
+icon: "robot"
+---
+
+As automações respondem sozinhas quem interage com o seu perfil do Instagram. Alguém comenta "link" num post e recebe o link no direct, responde a um story e ganha uma mensagem, abre o seu link ig.me e cai numa conversa pronta. Você escolhe o **gatilho** (o que dispara a automação) e o que acontece depois: uma resposta pública embaixo do comentário, uma mensagem no direct e, se quiser, uma conversa com botões, perguntas e etiquetas.
+
+**Automações** fica na barra lateral, marcada como **Beta**.
+
+<Note>
+  As automações estão em beta e são liberadas por workspace. Se o item **Automações** não aparece na sua barra lateral, escreva para [contato@chatclean.com.br](mailto:contato@chatclean.com.br).
+</Note>
+
+## Quem pode usar
+
+Só quem gerencia os canais do workspace vê **Automações**: o dono da conta e os administradores. Ativar automações pede ao Instagram permissões novas no canal, por isso fica com quem cuida dos canais. Veja [Membros e permissões](/knowledge-base/settings/members-and-permissions).
+
+## O que você precisa
+
+As automações funcionam só com contas do Instagram conectadas **pelo login do Instagram** (a opção **Conectar ao Instagram**). Uma conta conectada como **Instagram via Facebook** não aparece aqui.
+
+Ao conectar, o PostClean pede, além das permissões de publicação, as permissões para **gerenciar comentários** e **gerenciar mensagens** da conta. Se você conectou o canal antes de ter acesso às automações, ele ainda não tem essas permissões e precisa ser reconectado. Veja [Conectar canais](/knowledge-base/channels/connecting) e a página do [Instagram](/platforms/instagram).
+
+### Ativar as automações no canal
+
+No topo da página **Automações**, o quadro **Canais do Instagram** lista os canais conectados pelo login do Instagram e mostra a situação de cada um:
+
+| O que aparece | O que significa | O que fazer |
+| --- | --- | --- |
+| O @ do perfil e o botão **Agente** | As automações estão ligadas no canal. | Nada. O botão **Agente** abre o [agente externo](/knowledge-base/automations/external-agent). |
+| **Reconectar** | "Reconecte este canal para liberar o acesso a comentários e mensagens." | Clique em **Reconectar** e aceite as permissões no Instagram. |
+| **Ativar** | "As automações ainda não estão ativas neste canal." | Clique em **Ativar**. |
+
+Normalmente você não precisa clicar em nada: quando um canal é conectado (ou reconectado) com as permissões, o PostClean ativa as automações nele sozinho. O botão **Ativar** serve para tentar de novo quando essa ativação automática falhou. Se aparecer "Não conseguimos ativar as automações. Tente de novo ou reconecte o canal.", tente mais uma vez e, se continuar, reconecte o canal.
+
+Sem nenhum canal, o quadro mostra **Conectar Instagram**.
+
+## Criar uma automação
+
+<Steps>
+  <Step title="Nova automação">
+    Em **Automações**, clique em **Nova automação**.
+  </Step>
+  <Step title="Escolha um modelo">
+    Em **Comece por um modelo**, escolha um modelo pronto, **Começar do zero** (o formulário em branco) ou **Editor de blocos**. Tudo o que o modelo preenche continua editável. Veja os [modelos prontos](/knowledge-base/automations/flow-editor#modelos-prontos).
+  </Step>
+  <Step title="Dê um nome e escolha o canal">
+    Preencha **Nome** (por exemplo, "Enviar o link do curso") e escolha a **Conta do Instagram**.
+  </Step>
+  <Step title="Quando">
+    Escolha o **Gatilho** e, conforme o gatilho, os posts, as palavras-chave e as palavras a ignorar. Veja [Gatilhos](/knowledge-base/automations/triggers).
+  </Step>
+  <Step title="Então">
+    Escreva a **Resposta pública** (nos gatilhos de comentário) e monte a **Conversa no direct**: o que a pessoa recebe e o que acontece depois. Veja [Formulário e editor de blocos](/knowledge-base/automations/flow-editor).
+  </Step>
+  <Step title="Salve">
+    Clique em **Salvar**.
+  </Step>
+</Steps>
+
+<Tip>
+  Deixe ligada a opção **Responder cada pessoa uma vez** (ela já vem ligada). Nos comentários, ela vale por post; no direct, a pessoa recebe a resposta uma única vez.
+</Tip>
+
+## Suas automações
+
+A lista **Suas automações** mostra, para cada automação, o canal, o gatilho, as palavras-chave (ou **Qualquer texto**), quantas mensagens foram **Enviadas** e uma chave para ligar ou desligar. Crie quantas precisar.
+
+Quando mais de uma automação ativa combina com o mesmo comentário, só uma responde: a mais específica primeiro (posts escolhidos ou **Próximo post**, depois **Comentário em anúncio**, depois **Qualquer post**) e, entre as do mesmo tipo, a mais antiga.
+
+### Atividade
+
+Na página de uma automação, **Atividade** lista cada vez que ela foi acionada, com quem acionou e a situação do envio:
+
+| Situação | O que significa |
+| --- | --- |
+| **Enviando** | A mensagem está sendo enviada. |
+| **Na fila** | O canal chegou ao limite de mensagens por hora e a mensagem espera a vez. Veja [Limites da Meta](/knowledge-base/automations/meta-limits). |
+| **Enviada** | A mensagem saiu. |
+| **Falhou** | O Instagram recusou o envio. |
+| **Ignorada** | Não houve envio: **Já respondida** (a pessoa já recebeu esta automação) ou **Proteção contra spam** (veja [Proteção contra spam](/knowledge-base/automations/spam-protection)). |
+
+## Canal desconectado
+
+Desconectar um canal não apaga as automações dele: elas são desligadas e ficam sem canal. Para usar de novo, abra a automação, escolha outro canal e ligue a automação na lista. Uma automação sem canal não pode ser ligada ("Escolha um canal para esta automação antes de ligá-la.").
+
+## Agente externo
+
+Se o canal tiver um [agente externo](/knowledge-base/automations/external-agent) ligado, ele responde o direct do canal. Uma automação de **Mensagem no direct** nesse canal é salva desligada ("Automação salva desligada: o agente externo responde o direct deste canal.").
+
+## Próximos passos
+
+<CardGroup cols={2}>
+  <Card title="Gatilhos" icon="bolt" href="/knowledge-base/automations/triggers">
+    Comentários, direct, stories, lives, anúncios e links ig.me.
+  </Card>
+  <Card title="Formulário e editor de blocos" icon="diagram-project" href="/knowledge-base/automations/flow-editor">
+    Mensagens, botões, perguntas, condições e modelos prontos.
+  </Card>
+  <Card title="Verificar se segue" icon="user-check" href="/knowledge-base/automations/follow-gate">
+    Entregue o conteúdo só para quem segue o perfil.
+  </Card>
+  <Card title="Lembrete para quem não clicou" icon="bell" href="/knowledge-base/automations/reminders">
+    Um lembrete para quem não abriu o link.
+  </Card>
+  <Card title="Proteção contra spam" icon="shield" href="/knowledge-base/automations/spam-protection">
+    Menos respostas públicas em posts movimentados.
+  </Card>
+  <Card title="Limites da Meta" icon="gauge" href="/knowledge-base/automations/meta-limits">
+    Janela de 24 horas, resposta privada e limite por hora.
+  </Card>
+  <Card title="Contatos e etiquetas" icon="address-book" href="/knowledge-base/automations/contacts">
+    Quem conversou com as automações.
+  </Card>
+  <Card title="Integrações" icon="plug" href="/knowledge-base/automations/integrations">
+    Mande os contatos para o CRM, um webhook ou uma planilha.
+  </Card>
+</CardGroup>

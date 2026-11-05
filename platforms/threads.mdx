@@ -1,0 +1,48 @@
+---
+title: Threads
+description: Conecte sua conta do Threads ao PostClean
+icon: "threads"
+---
+
+O PostClean publica posts e posts fantasma no Threads.
+
+## Conectar sua conta
+
+1. Na barra lateral, abra **Canais** e clique em **Conectar canal** (ou use **Novo** > **Conectar um novo canal**)
+2. Escolha **Threads** e clique em **Conectar Threads**
+3. Autorize o PostClean no Threads
+4. Na página de confirmação, marque a conta e clique em **Concluir conexão**
+
+O PostClean abre a página **Publicar** do novo canal e pergunta quantas vezes por semana você quer postar. Veja o fluxo completo em [Conectar canais](/knowledge-base/channels/connecting).
+
+## Tipos de conteúdo
+
+| Tipo | `content_type` | Descrição |
+|------|----------------|-----------|
+| **Thread** | `threads_post` | Texto com até 10 imagens e vídeos opcionais (vários formam um carrossel) |
+| **Post fantasma** | `threads_ghost_post` | Só texto, arquivado depois de 24 horas. Sem mídia e sem tópico |
+
+## Limites de mídia
+
+| `content_type` | Imagem | Vídeo | Duração | Formato |
+|----------------|--------|-------|---------|---------|
+| `threads_post` | 8 MB | 1 GB | 5 minutos | JPEG/PNG, proporção de até 10:1 em qualquer sentido; vídeo MOV ou MP4 |
+
+**Editar mídia** oferece os recortes 1:1, 4:5 e 1,91:1. Especificações oficiais: [Overview](https://developers.facebook.com/docs/threads/overview/), [Posts](https://developers.facebook.com/docs/threads/posts/). Catálogo completo: [Mídia](/knowledge-base/media#threads).
+
+## Texto e opções do post
+
+- **500 caracteres** por post.
+- **Tópico** — marque o post com um tópico (`meta.topic_tag`): de 1 a 50 caracteres depois de tirar o `#` inicial, sem `.` nem `&`.
+- **Prévia do link** — o Threads sempre mostra um card de prévia para o primeiro link; não dá para removê-lo.
+- **Texto alternativo** — até 1.000 caracteres por imagem.
+
+## Insights
+
+Os posts e os seguidores do Threads aparecem em [Insights](/knowledge-base/insights/overview).
+
+## Escopos OAuth
+
+`threads_basic`, `threads_content_publish`, `threads_manage_insights`
+
+O `threads_manage_insights` alimenta as métricas dos posts e da conta em Insights.

@@ -1,0 +1,56 @@
+---
+title: "Verificar se segue"
+description: "Entregue o conteúdo só para quem segue o seu perfil, com o botão Já segui para checar de novo."
+icon: "user-check"
+---
+
+O passo **Verificar se segue** pergunta ao Instagram se a pessoa segue o seu perfil antes de entregar o conteúdo. "Quem ainda não segue recebe um pedido para seguir e um botão para checar de novo."
+
+O modelo **Seguir para liberar** já vem com esse passo ligado: "Entrega o link só para quem segue o perfil."
+
+## Como ligar
+
+<Steps>
+  <Step title="Ligue a mensagem de abertura">
+    O Instagram só informa se a pessoa segue depois que ela toca num botão. Por isso, nos gatilhos de comentário, o passo precisa da **Mensagem de abertura** ("Precisa da mensagem de abertura: o Instagram só informa se a pessoa segue depois que ela toca num botão."). Ligar **Verificar se segue** já liga a abertura.
+  </Step>
+  <Step title="Ligue Verificar se segue">
+    Escreva a **Mensagem para quem não segue** (por exemplo, "Para liberar, siga o perfil e toque em "Já segui".") e o **Texto do botão** (por exemplo, **Já segui**).
+  </Step>
+  <Step title="Escolha o que fazer se o Instagram não deixar checar">
+    Em **Se o Instagram não deixar checar**, escolha **Liberar mesmo assim** (o padrão) ou **Pedir para seguir**.
+  </Step>
+</Steps>
+
+## O que a pessoa vive
+
+1. A pessoa comenta e recebe a mensagem de abertura no direct.
+2. Ela toca no botão da abertura. O PostClean pergunta ao Instagram se ela segue o perfil.
+3. **Se segue**, recebe a entrega na hora.
+4. **Se não segue**, recebe a mensagem para quem não segue, com o botão **Já segui**. Ao tocar, o PostClean checa de novo.
+
+### Liberado depois de 3 tentativas
+
+Para ninguém ficar preso tocando no botão, no terceiro toque em **Já segui** o conteúdo é entregue mesmo que a pessoa ainda não siga o perfil.
+
+### Quando o Instagram não deixa checar
+
+Às vezes o Instagram não responde se a pessoa segue (por exemplo, quando ela ainda não deu consentimento para o perfil ver os dados dela). Nesse caso vale o que você escolheu em **Se o Instagram não deixar checar**:
+
+| Opção | O que acontece |
+| --- | --- |
+| **Liberar mesmo assim** | A pessoa recebe a entrega. |
+| **Pedir para seguir** | A pessoa recebe o pedido para seguir, como quem não segue. |
+
+## No editor de blocos
+
+No [editor de blocos](/knowledge-base/automations/flow-editor#editor-de-blocos), a verificação é um bloco **Condição** com a pergunta **Segue o perfil?**, que segue por **Sim** ou **Não**. Nele você também escolhe:
+
+- **Se o Instagram não deixar checar**: **Liberar mesmo assim** ou **Pedir para seguir**.
+- **Liberar depois de tentativas**: **Nunca**, 1, 2, 3 ou 5. Um bloco novo vem com 3.
+
+No caminho **Não**, coloque uma **Mensagem** com um botão **Seguir o fluxo** (o "Já segui") e use **Voltar para um bloco anterior** para levar o toque de volta à condição.
+
+## Na lista de contatos
+
+Cada verificação que o Instagram responde atualiza a coluna **Segue** do contato em [Contatos](/knowledge-base/automations/contacts).

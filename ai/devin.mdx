@@ -1,0 +1,301 @@
+---
+title: "Devin"
+description: "Conecte o PostClean ao Devin como um servidor MCP personalizado"
+icon: "/images/ai/devin.svg"
+---
+
+O [Devin](https://docs.devin.ai/get-started/devin-intro) é o engenheiro de software com IA da Cognition. Adicione o PostClean como um servidor MCP personalizado e você passa a agendar, publicar e gerenciar posts das suas redes sociais pelo [Devin Cloud](https://app.devin.ai), pelo [Devin CLI](https://cli.devin.ai) ou pelo [Devin Desktop](https://docs.devin.ai/desktop/devin-desktop-faq).
+
+Esta página trata do **Devin como cliente MCP**: você aponta o Devin para o PostClean. Ela não cobre o [servidor MCP do Devin](https://docs.devin.ai/work-with-devin/devin-mcp) em `https://mcp.devin.ai/mcp`, que expõe o próprio Devin para outros agentes. Não use `mcp.devin.ai` como URL do PostClean e não cole uma chave de API `cog_` do Devin na configuração do PostClean.
+
+<Note>
+  O PostClean não está no [marketplace de MCP do Devin](https://docs.devin.ai/work-with-devin/mcp). Não procure um card do PostClean. Adicione um servidor **custom HTTP** com **OAuth**.
+</Note>
+
+## Pré-requisitos
+
+- Uma conta no [Devin](https://app.devin.ai)
+- Uma conta no PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+- No Devin Cloud, a permissão **Manage MCP Servers**, necessária tanto para adicionar um servidor personalizado quanto para concluir o OAuth. Se você não tiver, peça a um administrador da organização ou use **Suggest MCP Integration**.
+
+## URL do servidor
+
+Use exatamente esta URL. Não coloque barra no final. Não cole `/api`, uma URL de autorização OAuth ou `https://mcp.devin.ai/mcp`.
+
+```
+https://post.chatclean.com.br/mcp/trypost
+```
+
+O transporte é **HTTP** (Streamable HTTP). Não escolha **SSE** nem **STDIO**.
+
+## Qual superfície do Devin
+
+O Devin tem três configurações de MCP, e elas **não** compartilham tokens OAuth. Configure a superfície que você realmente usa:
+
+| Superfície | Onde | Campo da URL | Como você entra |
+|---------|-------|-----------|-----------------|
+| **Devin Cloud** | Sessões em [app.devin.ai](https://app.devin.ai), inclusive pelo Slack / Teams | Campo **Server URL** do formulário | OAuth no navegador, na primeira sessão que chamar uma tool do PostClean |
+| **Devin CLI / Devin Local** | `devin` no terminal; agente padrão nas novas abas do Devin Desktop | `"url"` | `devin mcp login postclean` |
+| **Cascade** | Agente legado do Devin Desktop | `"serverUrl"` | OAuth no navegador, na primeira chamada de tool |
+
+Usar o nome de campo errado (`url` em vez de `serverUrl`, ou o contrário) faz o Devin **ignorar o servidor sem avisar**.
+
+## Configuração (Devin Cloud)
+
+<Steps>
+  <Step title="Abra os servidores MCP">
+    Acesse **[Settings → Connections → MCP servers](https://app.devin.ai/settings/connections?tab=mcps)** e clique em **Add a custom MCP**.
+  </Step>
+  <Step title="Adicione o servidor do PostClean">
+    Preencha o formulário. Você não cola JSON: o Devin usa o formulário da web.
+
+    | Campo | Valor |
+    |-------|-------|
+    | **Server Name** | `PostClean` |
+    | **Short Description** (opcional) | `Agende e publique posts nas redes sociais com o PostClean` |
+    | **Transport** | **HTTP** |
+    | **Server URL** | `https://post.chatclean.com.br/mcp/trypost` |
+    | **Authentication** | **OAuth** |
+    | **Access** | **Personal** |
+
+    Deixe as **OAuth credentials** (client ID / secret) em branco. O PostClean usa OAuth 2.1 com Dynamic Client Registration: o Devin descobre o `/.well-known` pela URL e se registra sozinho.
+
+    Defina **Access** como **Personal** para cada membro do Devin entrar na própria conta do PostClean. **Organization** compartilha um único login do PostClean entre as sessões de todos os membros; use só se a intenção for mesmo um login compartilhado do workspace. Personal não é uma barreira de segurança: outros membros da organização ainda conseguem abrir as suas sessões do Devin.
+
+    Não escolha **Auth Header** nem **None**. Não cole uma chave de API do PostClean.
+  </Step>
+  <Step title="Salve e comece uma sessão">
+    Clique em **Save**.
+
+    O **Test listing tools** pode falhar até o OAuth ser concluído. Esse fluxo roda na **primeira sessão do Devin**, não na hora de salvar. Comece uma nova sessão no Cloud (ou marque o Devin no Slack / Teams) e peça para ele usar o PostClean. O Devin abre uma janela do navegador. Entre na sua conta, escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar**. Para usar outro workspace, conecte de novo e escolha-o.
+  </Step>
+  <Step title="Confira a conexão">
+    Nessa sessão, peça:
+
+    ```
+    Liste todos os meus posts agendados
+    ```
+
+    O Devin deve chamar as tools do PostClean. Se ele responder sem usar as tools, diga para ele usar o servidor MCP **PostClean**. Veja a [referência de tools](/ai/tools-reference) com todas as tools e o fluxo recomendado (escolher o canal e o tipo de conteúdo, criar com mídia, pré-visualizar, publicar).
+  </Step>
+</Steps>
+
+## Autenticação
+
+O MCP do PostClean aceita **somente OAuth**: um login no navegador com o escopo `mcp:use`. Os Personal Access Tokens criados em **Configurações → API Keys** funcionam na [API REST](/api-reference/introduction), não em `/mcp/trypost`.
+
+<Warning>
+  Se o Devin oferecer **Auth Header**, um bearer token ou um campo de chave de API do PostClean, deixe em branco e escolha **OAuth**. Uma chave de API colada ali retorna `403 MCP OAuth authorization required`.
+</Warning>
+
+Deixe as **OAuth credentials** do Devin em branco. Client ID e secret servem só para provedores que recusam Dynamic Client Registration, e o PostClean não é um deles.
+
+Cloud, CLI e Cascade guardam cada um a própria sessão OAuth. Entrar no Cloud não faz login no CLI.
+
+Depois, você gerencia os assistentes conectados em **Configurações → MCP** do workspace no PostClean.
+
+## O que você pode fazer
+
+Com a conexão autorizada, o Devin consegue:
+
+| Tarefa | Exemplos |
+|------|----------|
+| **Posts** | Listar, criar, editar, agendar, colocar na fila, publicar, pré-visualizar, excluir, aprovar e buscar métricas |
+| **Mídia** | Anexar a partir de uma URL pública, enviar um arquivo local (você roda o comando de upload; agentes de CLI conseguem rodar sozinhos) e reaproveitar um arquivo que já está em outro post |
+| **Contas** | Listar as contas sociais conectadas, definir horários de postagem, gerenciar a fila e encontrar boards do Pinterest e canais do Discord |
+| **Workspace** | Ler o workspace atual; gerenciar ideias, assinaturas, etiquetas, webhooks, reposts e chaves de API; ler análises |
+
+Algumas dessas ações dependem das suas permissões no workspace (aprovar exige publicação direta; horários de postagem, webhooks e chaves de API exigem administrador). Veja as permissões na [introdução](/ai/introduction).
+
+O Pinterest precisa de um `board_id`, o Discord de um `channel_id` e o TikTok de um `privacy_level` antes de publicar. Peça ao Devin para listar os boards ou canais primeiro. Detalhes e nomes das tools: [referência de tools](/ai/tools-reference).
+
+No Cloud, o mesmo servidor personalizado fica disponível nas sessões da web e nas sessões iniciadas pelo [Slack](https://docs.devin.ai/integrations/slack) ou pelo [Microsoft Teams](https://docs.devin.ai/integrations/microsoft-teams).
+
+## Devin CLI e Devin Local
+
+O [Devin CLI](https://docs.devin.ai/cli/extensibility/mcp/configuration) e o [Devin Local](https://docs.devin.ai/desktop/devin-local) (o agente padrão nas novas abas do Devin Desktop) compartilham esta configuração. O campo da URL é `"url"`, e não `"serverUrl"`.
+
+Instale o CLI se ainda não tiver:
+
+```bash
+curl -fsSL https://cli.devin.ai/install.sh | bash
+```
+
+Diferente do Cascade, o Devin Local e o CLI **pedem confirmação antes de cada tool MCP** até você liberar o servidor. Se o PostClean está conectado, mas o Devin nunca chama uma tool, aprove o pedido ou adicione `mcp__postclean__*` em `permissions.allow`.
+
+<Steps>
+  <Step title="Adicione o servidor">
+    ```bash
+    devin mcp add postclean https://post.chatclean.com.br/mcp/trypost
+    ```
+
+    O escopo padrão é **local**: `.devin/mcp_config.local.json` (ignorado pelo git). Mude o escopo com `-s`:
+
+    | Escopo | Comando | Arquivo |
+    |-------|---------|------|
+    | Local (padrão) | `devin mcp add postclean <URL>` | `.devin/mcp_config.local.json` |
+    | Projeto (compartilhado) | `devin mcp add -s project postclean <URL>` | `.devin/mcp_config.json` |
+    | Usuário (todos os projetos) | `devin mcp add -s user postclean <URL>` | `~/.config/devin/mcp_config.json` (Windows: `%APPDATA%\devin\mcp_config.json`) |
+  </Step>
+  <Step title="Entre na conta">
+    ```bash
+    devin mcp login postclean
+    ```
+
+    Conclua o login do PostClean no navegador: escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar**. O primeiro uso também pode abrir esse fluxo. **Não** passe `--scopes`: o PostClean precisa do escopo `mcp:use`, que o Devin descobre pelo servidor. Uma lista de escopos personalizada vai falhar.
+
+    Para entrar de novo depois:
+
+    ```bash
+    devin mcp logout postclean
+    devin mcp login postclean
+    ```
+
+    Para remover o servidor: `devin mcp remove postclean`.
+  </Step>
+  <Step title="Confira">
+    ```bash
+    devin mcp list
+    devin mcp get postclean
+    ```
+
+    Depois peça ao Devin, no CLI ou numa aba do Devin Local:
+
+    ```
+    Liste todos os meus posts agendados
+    ```
+  </Step>
+</Steps>
+
+JSON equivalente (sem cabeçalho `Authorization`, sem `serverUrl`):
+
+```json
+{
+  "mcpServers": {
+    "postclean": {
+      "url": "https://post.chatclean.com.br/mcp/trypost",
+      "transport": "http"
+    }
+  }
+}
+```
+
+O `transport` é opcional: uma URL usa Streamable HTTP por padrão. Não defina `"sse"`. Não adicione `headers`, `oauthClientId` nem `oauthClientSecret`.
+
+Antes do CLI v3000.3 (Local 3.6), os servidores MCP ficavam em `mcpServers` dentro dos arquivos `config.json` principais. As versões atuais usam os arquivos `mcp_config.json` dedicados acima e migram a chave antiga ao iniciar. Parte da documentação do Devin Local ainda mostra `.devin/config.json`: se esse arquivo tiver `mcpServers`, o CLI move a chave na próxima vez que iniciar.
+
+## Devin Desktop (Cascade)
+
+As novas abas do Devin Desktop usam o [Devin Local](#devin-cli-e-devin-local). Configurar só o arquivo do Cascade **não** leva o PostClean para as novas abas: adicione também a configuração do CLI.
+
+O agente legado **Cascade** ainda usa um arquivo separado e `"serverUrl"`. Em organizações Enterprise, um administrador pode precisar ativar o MCP nas configurações. O Cascade carrega no máximo **100 tools** somando todos os servidores MCP; se outros servidores ocuparem esse limite, desative as tools que você não usa na página de configurações do servidor PostClean no Cascade.
+
+<Steps>
+  <Step title="Abra a configuração MCP">
+    No Cascade, clique em **MCPs** (no canto superior direito do painel do Cascade) ou acesse **Devin Settings → Cascade → MCP Servers** e depois **View raw config**. Você também pode editar o arquivo direto:
+
+    - Cascade no Desktop: `~/.codeium/windsurf/mcp_config.json`
+    - Plugin Windsurf para JetBrains: **Settings → Tools → Windsurf Settings → Add Server**, arquivo bruto `~/.codeium/mcp_config.json`
+  </Step>
+  <Step title="Adicione o PostClean">
+    ```json
+    {
+      "mcpServers": {
+        "postclean": {
+          "serverUrl": "https://post.chatclean.com.br/mcp/trypost"
+        }
+      }
+    }
+    ```
+
+    Sem `headers`. Sem chave de API do PostClean. Depois de salvar, atualize o MCP / recarregue a janela.
+  </Step>
+  <Step title="Entre e confira">
+    Dispare uma chamada a uma tool do PostClean. O Cascade abre uma janela do navegador. Escolha o **Workspace** que essa conexão pode usar, clique em **Autorizar** e peça:
+
+    ```
+    Liste todas as minhas contas sociais no PostClean
+    ```
+  </Step>
+</Steps>
+
+<Tip>
+  O Cascade usa `"serverUrl"`. O Devin Local / CLI usam `"url"`. A [documentação oficial do Devin](https://docs.devin.ai/work-with-devin/devin-mcp) diz que o nome de campo errado é ignorado sem nenhum erro.
+</Tip>
+
+## Solução de problemas
+
+<AccordionGroup>
+  <Accordion title="Adicionei mcp.devin.ai ou uma chave cog_">
+    Esse é o [próprio servidor MCP do Devin](https://docs.devin.ai/work-with-devin/devin-mcp) (o Devin como tool para outros clientes). Remova. A URL do PostClean é `https://post.chatclean.com.br/mcp/trypost`, com OAuth: sem chave de API do Devin e sem chave de API do PostClean.
+  </Accordion>
+  <Accordion title="A opção Add a custom MCP não aparece">
+    Você precisa da permissão **Manage MCP Servers**. Peça a um administrador da organização ou use **Suggest MCP Integration**. A mesma permissão é necessária para concluir o OAuth no Cloud.
+  </Accordion>
+  <Accordion title="O Test listing tools falha logo depois de salvar">
+    É o esperado com OAuth. O Devin se autentica na primeira sessão, não na hora de salvar. Comece uma sessão no Cloud, conclua a etapa **Autorizar** no navegador e tente de novo.
+  </Accordion>
+  <Accordion title="O servidor foi adicionado, mas o Devin não chama as tools do PostClean">
+    Conclua o OAuth na superfície que você está usando (sessão no Cloud, `devin mcp login` ou Cascade). Os tokens não são compartilhados entre superfícies. Comece uma sessão **nova** e diga que quer usar o servidor MCP **PostClean**.
+
+    No Devin Local / CLI, aprove também o pedido de permissão do MCP (ou libere `mcp__postclean__*`). O Cascade não pede confirmação do mesmo jeito. Confira os logs da sessão em busca de erros de MCP.
+  </Accordion>
+  <Accordion title="Auth required, AuthRequired ou Needs auth">
+    É a mensagem oficial do Devin CLI/Local quando o OAuth está faltando ou expirou. Rode `devin mcp login postclean` ou clique em **Authenticate** no card MCP do Devin Local. No Cloud: comece uma nova sessão e conclua o **Autorizar**.
+  </Accordion>
+  <Accordion title="Passei --scopes no devin mcp login">
+    Remova a flag e entre de novo. `--scopes read,write` (ou qualquer lista personalizada) deixa de fora o escopo `mcp:use` do PostClean, e as tools nunca são autorizadas.
+  </Accordion>
+  <Accordion title="A configuração parece certa, mas o servidor nunca aparece (Desktop / CLI)">
+    Você usou a chave de URL errada. O Cascade precisa de `"serverUrl"`. O CLI e o Devin Local precisam de `"url"`. A chave errada é ignorada sem erro. Confira também se você editou o arquivo do agente certo: o Cascade não lê `.devin/mcp_config.json`.
+  </Accordion>
+  <Accordion title="O devin mcp add não atualizou o arquivo que eu editei">
+    O escopo padrão é **local** (`.devin/mcp_config.local.json`), e não `~/.config/devin/mcp_config.json`. Use `-s user` ou `-s project`, ou edite o arquivo local.
+  </Accordion>
+  <Accordion title="HTTP 402 — Active subscription required">
+    A autorização OAuth funcionou, mas a conta do PostClean não está ativa. Abra o [PostClean](https://post.chatclean.com.br), escolha um plano e reconecte. Veja a [introdução](/ai/introduction).
+  </Accordion>
+  <Accordion title="HTTP 401 ou preciso entrar de novo">
+    A sessão OAuth expirou ou foi revogada. No Cloud: comece uma nova sessão e aprove de novo. No CLI: `devin mcp logout postclean` e depois `devin mcp login postclean`. No Cascade: dispare uma chamada de tool e conclua o fluxo no navegador.
+  </Accordion>
+  <Accordion title="HTTP 403 — MCP OAuth authorization required">
+    A requisição usou uma chave de API (Personal Access Token) ou um token OAuth sem `mcp:use`. Remova qualquer cabeçalho `Authorization` / Auth Header e entre com OAuth.
+  </Accordion>
+  <Accordion title="O navegador não abre no login pelo CLI">
+    Por SSH ou dentro de um container, o `devin mcp login` mostra a URL de autorização em vez de abrir o navegador. Copie a URL para um navegador local, escolha o workspace, clique em **Autorizar** e o CLI recebe o callback. Se a porta de loopback estiver bloqueada, conclua o OAuth numa máquina que consiga receber o callback ou use a [API REST](/api-reference/introduction) com uma chave de API (só administradores do workspace).
+  </Accordion>
+  <Accordion title="O time Enterprise bloqueou o servidor">
+    Um administrador do Devin pode desativar o MCP, exigir que ele seja ativado nas configurações do time ou liberar só alguns servidores. No Enterprise, o Cascade fica desligado até um administrador ativá-lo. Se o PostClean nunca conectar num plano Teams / Enterprise, peça a um administrador para liberar um servidor custom HTTP em `https://post.chatclean.com.br/mcp/trypost`.
+  </Accordion>
+</AccordionGroup>
+
+## Exemplos de prompts
+
+```
+Mostre todas as minhas contas de redes sociais conectadas
+```
+
+```
+Crie um rascunho de post no LinkedIn para amanhã às 9h, horário de Brasília
+```
+
+```
+Quais posts eu tenho agendados para esta semana?
+```
+
+```
+Anexe a imagem em <uma URL pública de imagem> ao meu rascunho e me mostre o texto exato que cada rede vai receber
+```
+
+```
+Crie uma etiqueta chamada "Campanha" com a cor #f59e0b
+```
+
+## Relacionados
+
+- [Introdução](/ai/introduction): visão geral do MCP, autenticação e solução de problemas em comum
+- [Referência de tools](/ai/tools-reference): todas as tools, parâmetros e o fluxo de publicação
+- [Devin: MCP personalizado](https://docs.devin.ai/work-with-devin/mcp): marketplace do Cloud e Add a custom MCP
+- [Devin CLI: configuração de MCP](https://docs.devin.ai/cli/extensibility/mcp/configuration): `devin mcp add` / `login` / escopos
+- [FAQ do Devin Desktop](https://docs.devin.ai/desktop/devin-desktop-faq): Desktop, Devin Local e Cascade
+- [Devin Local](https://docs.devin.ai/desktop/devin-local): agente padrão do Desktop, permissões de MCP, Needs auth

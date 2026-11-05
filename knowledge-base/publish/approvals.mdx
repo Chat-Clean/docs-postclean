@@ -1,0 +1,67 @@
+---
+title: "Aprovações"
+description: "Revise e aprove os posts dos membros que precisam de aprovação."
+---
+
+As aprovações permitem que a equipe revise os posts antes de eles saírem. Se os posts de um membro precisam de aprovação é definido por membro em Configurações › [Membros](/knowledge-base/settings/members-and-permissions), em **Publicação**:
+
+- **Publica direto**: os posts são agendados, colocados na fila ou publicados assim que a pessoa salva.
+- **Precisa de aprovação**: "Posts de membros que precisam de aprovação aguardam um administrador ou um membro que publica direto."
+
+O dono da conta e os admins sempre publicam direto.
+
+## Pedir aprovação
+
+Um membro que precisa de aprovação escreve o post no [editor de posts](/knowledge-base/publish/composer) normalmente. O botão de salvar fica **Salvar e pedir aprovação**. Em vez de ser agendado ou publicado, o post fica **Aguardando aprovação** e aparece na aba **Aprovações** de [Publicar](/knowledge-base/publish/overview).
+
+O pedido guarda o que o membro pediu: uma data e hora, um horário da fila ou publicar agora.
+
+Enquanto espera, o membro pode:
+
+- editar o post;
+- usar **Desfazer pedido de aprovação**, que transforma o post de volta em rascunho.
+
+Se um membro que precisa de aprovação edita um post que já tinha sido aprovado ou agendado, inclusive de outra pessoa, o post volta para **Aguardando aprovação**. Quem fez essa mudança passa a ser quem pediu a aprovação.
+
+## Aprovar ou rejeitar
+
+Quem aprova são o dono da conta, os admins e os membros que publicam direto. Num post pendente, essas pessoas veem:
+
+| Botão | Quando | O que faz |
+| --- | --- | --- |
+| **Agendar** | O horário pedido ainda não chegou. | Aprova e agenda o post para aquele horário. |
+| **Adicionar à fila** | Foi um pedido de fila. | Aprova o post e mantém o horário dele (veja abaixo). |
+| **Aprovar** | O horário pedido já passou ("O horário já passou") ou foi um pedido de publicar agora. | Pede que você escolha um novo horário ou publique agora. |
+| **Rejeitar** | Sempre. | Devolve o post para **Rascunho**. |
+
+Aprovar ou rejeitar um post que outra pessoa já resolveu falha com "Este post não está mais aguardando aprovação."
+
+## Quem vê o quê
+
+- Quem aprova vê todos os posts pendentes na aba Aprovações e no calendário.
+- Um membro que precisa de aprovação vê só os próprios pedidos.
+- As notas de um post pendente mandam e-mail só para quem aprova e para quem pediu.
+
+## Pedidos de fila reservam o horário
+
+Um pedido de fila reserva o horário enquanto espera, para que nenhum outro post caia ali. Ao aprovar, o post fica naquele horário se o slot ainda existir e estiver livre; senão, vai para o primeiro horário livre. Rejeitar ou excluir o pedido libera o horário. Veja [Fila](/knowledge-base/publish/queue#posts-pendentes).
+
+## E-mails
+
+- Um pedido novo manda e-mail para todos que aprovam, menos quem pediu. O e-mail lista só os posts que ainda estão pendentes quando ele é enviado.
+- As decisões são agrupadas: os posts salvos juntos chegam para quem pediu num e-mail por aprovador, e não num e-mail por canal.
+- Cada pessoa controla esses e-mails com a opção **Colaboração** em [Notificações](/knowledge-base/settings/notifications).
+
+## Posts recorrentes e Repost
+
+- Depois que um [post recorrente](/knowledge-base/publish/recurring-posts) é aprovado e agendado, as próximas ocorrências continuam sendo publicadas sem novas aprovações.
+- Só membros que publicam direto podem tornar um post recorrente ou usar o [Repost](/knowledge-base/repurpose).
+
+## API e MCP
+
+As aprovações valem em todo lugar onde se criam posts, não só no app web.
+
+- **MCP:** qualquer membro do workspace pode se conectar. Um membro que precisa de aprovação recebe posts `pending_approval` de `create-post-tool`, `update-post-tool` e `publish-post-tool`. Quem aprova decide com `approve-post-tool` e `reject-post-tool`.
+- **API REST:** a API só aceita chaves do dono ou de um admin, que publicam direto, então os posts criados pela API não esperam aprovação. Os posts aguardando aprovação, vindos do app web ou do MCP, podem ser decididos com [Approve post](/api-reference/approvals/approve-post) e [Reject post](/api-reference/approvals/reject-post).
+
+Veja a [referência das ferramentas MCP](/ai/tools-reference).

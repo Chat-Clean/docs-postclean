@@ -1,0 +1,83 @@
+---
+title: "Google Business Profile"
+description: "Conecte um local do Google Business Profile ao PostClean e publique posts nele."
+icon: "google"
+---
+
+O PostClean publica posts no seu Google Business Profile — novidades, eventos e ofertas que aparecem no Perfil da Empresa na Busca e no Maps do Google. Cada canal conectado é um **local** da empresa.
+
+## Conectar sua conta
+
+1. Na barra lateral, abra **Canais** e clique em **Conectar canal** (ou use **Novo** > **Conectar um novo canal**)
+2. Escolha **Google Business Profile** e clique em **Conectar Google Business Profile**
+3. Entre com a conta do Google que gerencia a sua empresa e permita todas as permissões
+4. Na página **Selecione as contas**, marque os locais que você quer (cada card vem marcado como **Local**) e clique em **Concluir conexão**
+
+Todos os locais de todas as contas de empresa que esse login gerencia aparecem na lista, exceto os locais em que o Google não permite postar. Se nenhum for encontrado, o PostClean avisa que não achou locais e pede que você verifique a empresa primeiro. Ao concluir, o PostClean abre a página **Publicar** do novo canal e pergunta quantas vezes por semana você quer postar. Veja o fluxo completo em [Conectar canais](/knowledge-base/channels/connecting).
+
+<Tip>
+  Gerencia locais com mais de um login do Google? Use **Trocar conta** na página de confirmação: o Google pergunta de novo qual conta usar.
+</Tip>
+
+## Tipos de conteúdo
+
+| Tipo | `content_type` | Descrição |
+|------|----------------|-----------|
+| **Post** | `google_business_post` | Texto com uma imagem opcional. Aparece no Perfil da Empresa na Busca e no Maps |
+
+## Limites de mídia
+
+| `content_type` | Imagem | Vídeo | Formato |
+|----------------|--------|-------|---------|
+| `google_business_post` | 1 imagem, 10 MB | — | JPEG/PNG/WebP. No mínimo 250 × 250 px. Sem GIF, sem PDF |
+
+O PostClean converte a imagem para JPEG (até 2048 px de largura, abaixo de 5 MB) antes de enviar. **Editar mídia** oferece os recortes 4:3 e 1:1. Catálogo completo: [Mídia](/knowledge-base/media#google-business-profile).
+
+## Tipos de post e opções
+
+**Texto.** Até **1.500 caracteres**, enviados como texto simples. O texto e a imagem são opcionais.
+
+**Tipo de post** (`meta.topic_type`):
+
+| Tipo de post | `topic_type` | O que precisa |
+|--------------|--------------|---------------|
+| **Novidades** (padrão) | `STANDARD` | Nada a mais. Notícias e atualizações sobre a sua empresa |
+| **Evento** | `EVENT` | **Título do evento** (até 58 caracteres), datas de **Início** e **Término**. Horários de início e fim opcionais, no horário local do endereço |
+| **Oferta** | `OFFER` | **Título da oferta** (até 58 caracteres), datas de **Início** e **Término**. Código de cupom, link para resgatar e termos (até 5.000 caracteres) opcionais. O Google adiciona um botão **Ver oferta** |
+
+Na API, as datas vão em `meta.event` (`title`, `start_date`, `end_date` no formato `YYYY-MM-DD`, `start_time`, `end_time` no formato `HH:MM`) e os detalhes da oferta em `meta.offer` (`coupon_code`, `redeem_online_url`, `terms_conditions`). A data de término precisa ser igual ou posterior à de início, e um horário de término no mesmo dia precisa ser depois do de início.
+
+**Botão** (`meta.call_to_action`, não disponível em ofertas):
+
+| Botão | `action_type` | Precisa de link |
+|-------|---------------|-----------------|
+| **Nenhum** (padrão) | `NONE` | — |
+| **Reservar** | `BOOK` | Sim |
+| **Pedir online** | `ORDER` | Sim |
+| **Comprar** | `SHOP` | Sim |
+| **Saiba mais** | `LEARN_MORE` | Sim |
+| **Inscreva-se** | `SIGN_UP` | Sim |
+| **Ligar agora** | `CALL` | Não — o Google usa o telefone do local |
+
+O **Link do botão** (`meta.call_to_action.url`, http ou https, até 2.048 caracteres) é obrigatório para todos os botões, menos **Nenhum** e **Ligar agora**. Um evento ou uma oferta sem título e datas, ou um botão sem link, não pode ser agendado nem publicado.
+
+**Idioma.** O Google recebe o post no idioma da interface do PostClean de quem escreveu o post.
+
+## Revisão pelo Google
+
+O Google revisa todo post antes de colocá-lo no ar. Enquanto isso, o post mostra **Em revisão pelo Google**; o PostClean confere a cada 5 minutos e marca o post como publicado assim que o Google o coloca no ar.
+
+- Se o Google recusar, o post falha avisando que foi recusado na revisão do Google, para você ajustar o conteúdo ou a imagem. Um post recusado não pode ser tentado de novo — duplique, corrija e agende a cópia.
+- Se o Google não confirmar o post em 24 horas, ele falha pedindo que você confira o Perfil da Empresa e tente de novo.
+
+O PostClean não consegue editar nem apagar um post no Google depois de publicado. Apagar o post no PostClean o mantém no seu Perfil da Empresa.
+
+## Insights
+
+O Google Business Profile não entra em [Insights](/knowledge-base/insights/overview) e não pode ser destino de um [Repost](/knowledge-base/repurpose).
+
+## Escopos OAuth
+
+`https://www.googleapis.com/auth/userinfo.profile`, `https://www.googleapis.com/auth/userinfo.email`, `https://www.googleapis.com/auth/business.manage`
+
+O `business.manage` é o escopo de que o PostClean precisa para publicar.

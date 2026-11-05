@@ -1,0 +1,51 @@
+---
+title: X (Twitter)
+description: Conecte sua conta do X (antigo Twitter) ao PostClean
+icon: "x-twitter"
+---
+
+O PostClean publica posts e sequências em contas do X (antigo Twitter).
+
+## Conectar sua conta
+
+1. Na barra lateral, abra **Canais** e clique em **Conectar canal** (ou use **Novo** > **Conectar um novo canal**)
+2. Escolha **X** e clique em **Conectar X**
+3. Autorize o PostClean no X
+4. Na página de confirmação, marque a conta e clique em **Concluir conexão**
+
+O PostClean abre a página **Publicar** do novo canal e pergunta quantas vezes por semana você quer postar. Veja o fluxo completo em [Conectar canais](/knowledge-base/channels/connecting).
+
+<Tip>
+  O X não tem como pedir um login diferente. Para conectar uma segunda conta do X, saia do X (ou troque de conta no x.com) antes de clicar em **Conectar X** — ou use **Trocar conta** na página de confirmação.
+</Tip>
+
+## Tipos de conteúdo
+
+| Tipo | `content_type` | Descrição |
+|------|----------------|-----------|
+| **Post** | `x_post` | Texto com até 4 mídias (imagens, GIFs ou vídeos, que podem ser combinados) |
+
+## Limites de mídia
+
+| `content_type` | Imagem | Vídeo | Duração | Formato |
+|----------------|--------|-------|---------|---------|
+| `x_post` | 5 MB | 1 GB (limite do PostClean; o X aceita 8 GB) | 20 minutos | JPG/PNG/GIF/WebP; vídeo H.264 (MP4 ou MOV) |
+
+Esses são os limites de Post (`tweet_video`) — 8 GB / 20 minutos por padrão, 16 GB / 125 minutos no X Premium —, não os limites de DM ou de anúncios (`amplify_video`). Especificações oficiais: [Media best practices](https://docs.x.com/x-api/media/quickstart/best-practices). Catálogo completo: [Mídia](/knowledge-base/media#x-twitter).
+
+## Texto e opções do post
+
+- **280 caracteres** por post. Contas com posts longos — assinatura X Basic, Premium ou Premium+, ou empresa verificada — têm **25.000**. O PostClean lê a assinatura quando você conecta a conta e confere de novo todos os dias.
+- **Sequências** — clique em **Iniciar sequência** para adicionar respostas abaixo do post, até **24**. Cada resposta tem o próprio texto e até 4 mídias, e segue o mesmo limite de caracteres do post. O X cobra cada resposta como um post e, pela API, só permite respostas ao seu próprio post.
+- **Gerado por IA** — marque o post como feito com IA (`meta.is_ai_generated`).
+- **Texto alternativo** — até 1.000 caracteres por imagem.
+
+## Insights
+
+Os posts e os seguidores do X aparecem em [Insights](/knowledge-base/insights/overview). Como o X cobra cada leitura, o PostClean procura posts novos no X uma vez por dia, lê as métricas de um post cerca de uma hora depois da publicação e depois só 2, 3, 7, 14 e 28 dias depois, e os posts feitos direto no X só são importados para **Enviados** se forem dos últimos 30 dias.
+
+## Escopos OAuth
+
+`tweet.read`, `tweet.write`, `users.read`, `media.write`, `offline.access`
+
+O `offline.access` é necessário para o PostClean renovar o token de acesso em segundo plano — sem ele, você teria que autorizar de novo com frequência.

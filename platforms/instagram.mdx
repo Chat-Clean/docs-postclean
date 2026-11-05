@@ -1,0 +1,91 @@
+---
+title: Instagram
+description: Conecte uma conta Empresa ou Criador de conteúdo do Instagram ao PostClean
+icon: "instagram"
+---
+
+O PostClean publica posts no feed, reels e stories em **contas profissionais** do Instagram (Empresa ou Criador de conteúdo). Há duas formas de conectar uma conta:
+
+| Conexão | Identificador | Quando usar |
+|---------|---------------|-------------|
+| **Instagram** | `instagram` | Sua conta Empresa ou Criador de conteúdo entra direto com o login do Instagram. Necessária para as [Automações do Instagram](/knowledge-base/automations/overview). |
+| **Instagram pelo Facebook** | `instagram-facebook` | Sua conta Empresa ou Criador de conteúdo está vinculada a uma página do Facebook e você a gerencia pelo Facebook. |
+
+As duas começam pelo mesmo card **Instagram** na janela **Conectar um novo canal**, que pergunta: "Como você quer conectar sua conta do Instagram?" As duas oferecem publicação automática e métricas dos posts enviados.
+
+<Note>
+  Você pode conectar quantas contas do Instagram quiser num workspace. As duas formas de conexão levam à mesma identidade, então uma conta do Instagram só pode ser conectada de um jeito. Conectar pelo outro jeito não oferece a conta de novo; para renovar a conexão, use **Reconectar** no canal que já existe. Veja [Conectar canais](/knowledge-base/channels/connecting).
+</Note>
+
+## Conectar sua conta
+
+### Instagram (direto)
+
+1. Na barra lateral, abra **Canais** e clique em **Conectar canal** (ou use **Novo** > **Conectar um novo canal**)
+2. Escolha **Instagram** e clique em **Conectar Instagram**
+3. No card **Profissional (Empresa e Criador de conteúdo)**, clique em **Conectar ao Instagram**
+4. Entre no instagram.com e autorize o PostClean. Se a sua conta ainda for pessoal, o Instagram oferece convertê-la em conta profissional
+5. Na página de confirmação, marque a conta e clique em **Concluir conexão**
+
+### Instagram pelo Facebook
+
+1. Abra o card **Instagram** como acima e clique em **Conecte o Instagram pelo Facebook**. Confira os **Requisitos**:
+   - A conta do Instagram é **Empresa ou Criador de conteúdo**, não um perfil pessoal
+   - Ela está **vinculada a uma página do Facebook**, não a um perfil do Facebook
+   - Você está conectado como **administrador da página do Facebook com "controle total"**
+   - Você seleciona **todas as permissões para todas as páginas e contas do Instagram** quando o Facebook pedir, inclusive as que não vai conectar
+2. Clique em **Conectar pelo Facebook** e autorize o PostClean
+3. Na página **Selecione as contas**, marque as contas do Instagram que você quer e clique em **Concluir conexão**
+
+Nos dois casos, o PostClean abre a página **Publicar** do novo canal e pergunta quantas vezes por semana você quer postar.
+
+## Tipos de conteúdo
+
+| Tipo | `content_type` | Mídia | Descrição |
+|------|----------------|-------|-----------|
+| **Post do Feed** | `instagram_feed` | Até 10 imagens e vídeos (obrigatório) | Uma imagem, um carrossel de até 10 imagens e vídeos, ou um vídeo sozinho (publicado como Reel) |
+| **Reels** | `instagram_reel` | 1 vídeo (obrigatório) | Vídeo vertical curto |
+| **Story** | `instagram_story` | 1 imagem ou vídeo (obrigatório) | Visível por 24 horas. Stories não têm legenda, então o texto do post não é enviado |
+
+Não há um tipo separado para carrossel: um post com várias imagens é um `instagram_feed`. Os três tipos funcionam nas duas formas de conexão.
+
+## Limites de mídia
+
+| `content_type` | Imagem | Vídeo | Duração | Proporção | Formato |
+|----------------|--------|-------|---------|-----------|---------|
+| `instagram_feed` | 8 MB | 100 MB | 60 segundos | Imagens de 3:4 a 1,91:1 | JPEG depois do upload. Vídeo MP4 ou MOV |
+| `instagram_reel` | — | 300 MB | 15 minutos | — | MOV ou MP4 |
+| `instagram_story` | 8 MB | 100 MB | 60 segundos | Imagens ajustadas para 9:16 | Igual ao feed |
+
+Uma imagem de feed fora de 3:4 a 1,91:1 impede o agendamento e a publicação; use os recortes prontos (3:4, 4:5, 1:1, 1,91:1) em **Editar mídia**. GIFs não são aceitos. Um vídeo sozinho em `instagram_feed` é publicado pelo contêiner de Reels; os 100 MB / 60 segundos de `instagram_feed` são uma regra conservadora do PostClean (a Meta só documenta a especificação de Reels) — use `instagram_reel` para vídeos mais longos. Especificações oficiais: [IG User Media](https://developers.facebook.com/docs/instagram-platform/instagram-graph-api/reference/ig-user/media/). Catálogo completo: [Mídia](/knowledge-base/media#instagram).
+
+## Texto e opções do post
+
+- **2.200 caracteres** por legenda.
+- **No máximo 5 hashtags.** Um post com mais não pode ser agendado nem publicado (no app, na API e no MCP); um rascunho ainda pode ser salvo. Stories ficam de fora porque não enviam legenda.
+- **Enviar ao feed** — um Reel também aparece na grade do seu perfil por padrão; desligue em **Enviar ao feed** (`meta.share_to_feed`). Vale só para o tipo **Reels**: um **Post do Feed** com um vídeo sozinho também é publicado como Reel, mas sem essa opção.
+- **Gerado por IA** — identifique o post como feito com IA (`meta.is_ai_generated`).
+- **Marcar pessoas** — marque até 20 contas em cada imagem do feed em **Editar mídia** > **Marcar pessoas** (`media[].meta.user_tags`).
+- **Capa do vídeo** — escolha o quadro exibido como capa de um vídeo do feed ou de um reel em **Editar mídia** > **Miniatura**.
+- **Texto alternativo** — até 1.000 caracteres por imagem.
+
+## Insights
+
+As métricas, os seguidores e as contas seguidas do Instagram aparecem em [Insights](/knowledge-base/insights/overview), nas duas formas de conexão. Os canais do Instagram também ganham uma visão de **Grade** na página Publicar, que aproxima a grade do seu perfil.
+
+As duas conexões podem ser a origem de um [Repost](/knowledge-base/repurpose): o PostClean acompanha a conta e, quando você publica Reels, vídeos no feed ou Stories fora do PostClean, republica nos canais que você escolher.
+
+## Automações do Instagram
+
+O PostClean também responde automaticamente quem comenta nos seus posts e reels ou manda mensagem no direct: envia a mensagem certa, faz perguntas, aplica etiquetas e manda os contatos para o seu CRM.
+
+As automações funcionam em contas conectadas pela opção **Instagram** (login do Instagram), não pela conexão via Facebook. Quando as automações estão disponíveis no seu workspace, a conexão pelo Instagram pede também as permissões de comentários e de mensagens. Veja como ativar em [Automações do Instagram](/knowledge-base/automations/overview).
+
+## Escopos OAuth
+
+| Conexão | Escopos solicitados |
+|---------|---------------------|
+| Instagram (`instagram`) | `instagram_business_basic`, `instagram_business_content_publish`, `instagram_business_manage_insights` |
+| Instagram pelo Facebook (`instagram-facebook`) | `public_profile`, `pages_show_list`, `pages_read_engagement`, `business_management`, `instagram_basic`, `instagram_content_publish`, `instagram_manage_insights` |
+
+Os escopos `*_manage_insights` alimentam as métricas do Instagram em Insights. Nos workspaces com automações, a conexão `instagram` pede também `instagram_business_manage_comments` e `instagram_business_manage_messages`.

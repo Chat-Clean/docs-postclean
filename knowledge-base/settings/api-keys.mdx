@@ -1,0 +1,66 @@
+---
+title: "Chaves de API"
+description: "Crie, gere novamente e exclua as chaves que autenticam as requisições à API REST do PostClean."
+icon: "key"
+---
+
+Uma chave de API dá a um script, integração ou job de CI acesso a um workspace pela [API REST](/api-reference/introduction). Elas ficam em **Configurações → API Keys**.
+
+Só o dono da conta e os administradores do workspace podem criar e usar chaves de API. Uma chave age como a pessoa que a criou, no workspace em que foi criada: se essa pessoa deixar de ser administradora do workspace, ou for removida dele, a chave para de funcionar.
+
+Cada pessoa só vê as chaves que criou para o workspace atual.
+
+<Note>
+  Chaves de API não funcionam com o servidor MCP. Assistentes de IA se conectam por **Configurações → MCP**, que faz o login pelo navegador. Veja [MCP](/knowledge-base/settings/mcp).
+</Note>
+
+## Gerar uma chave
+
+<Steps>
+  <Step title="Gerar chave API">
+    Em **Configurações → API Keys**, clique em **Gerar chave API**.
+  </Step>
+  <Step title="Nome e validade">
+    Informe um **Nome** (por exemplo, "Chave API de Produção") e, se quiser, uma **Data de expiração (opcional)**. Sem data, a chave não expira.
+  </Step>
+  <Step title="Copie a chave">
+    A janela **Chave de API gerada** mostra a chave uma única vez. Copie e guarde num lugar seguro: você não vai conseguir vê-la de novo.
+  </Step>
+</Steps>
+
+Trate a chave como uma senha: não compartilhe publicamente, não adicione ao Git e não coloque em código que roda no navegador.
+
+## Usar uma chave
+
+Envie a chave como Bearer token no cabeçalho `Authorization`:
+
+```bash
+curl https://post.chatclean.com.br/api/workspace \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+As requisições exigem que a conta tenha acesso ativo (assinatura, teste ou cortesia); sem isso, a API responde `402`. Veja a [referência da API](/api-reference/introduction) para endpoints, erros e limites de requisições.
+
+A API não inclui os recursos de IA do PostClean; eles existem só no app web.
+
+## A lista de chaves
+
+Cada chave mostra quando expira (**Não expira**, **Expira em** *data* ou **Expirou em** *data*), quando foi usada pela última vez e quando foi criada. Um ponto indica o status: ativa, expirando em até 7 dias ou expirada. Uma chave expirada responde `401` até você gerar de novo ou excluir.
+
+## Gerar uma chave novamente
+
+**Gerar novamente** cria uma chave nova com o mesmo nome. Ela mantém a data de expiração se essa data ainda estiver no futuro; uma chave expirada volta sem expiração. A chave atual para de funcionar na hora, então atualize todos os aplicativos que a usam. Digite `REGENERAR` para confirmar.
+
+## Excluir uma chave
+
+**Excluir** revoga a chave; qualquer aplicativo que a use perde o acesso na hora. Digite `EXCLUIR` para confirmar.
+
+Em outro idioma da interface, as duas palavras são traduzidas e continuam em letras maiúsculas; digite a palavra que a janela mostra.
+
+## Pela API e pelo MCP
+
+| Tarefa | REST | MCP |
+|--------|------|-----|
+| Listar | [List API keys](/api-reference/api-keys/list-api-keys) | `list-api-keys-tool` |
+| Criar | [Create API key](/api-reference/api-keys/create-api-key) | `create-api-key-tool` |
+| Excluir | [Delete API key](/api-reference/api-keys/delete-api-key) | `delete-api-key-tool` |

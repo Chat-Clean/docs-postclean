@@ -1,0 +1,77 @@
+---
+title: "ChatGPT"
+description: "Conecte o PostClean ao ChatGPT para cuidar das suas redes sociais com IA"
+icon: "/images/ai/chatgpt.svg"
+---
+
+O [ChatGPT](https://chatgpt.com) pode se conectar ao servidor MCP do PostClean como um app do modo desenvolvedor. Assim você cuida do agendamento das redes sociais em linguagem natural, na própria conversa.
+
+## Pré-requisitos
+
+- Uma conta do ChatGPT **Pro, Plus, Business, Enterprise ou Education** na **web** ([Developer mode](https://developers.openai.com/api/docs/guides/developer-mode); não existe no plano Free e não é garantido no celular)
+- Uma conta do PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+
+## Configuração
+
+<Steps>
+  <Step title="Ative o Developer mode">
+    No ChatGPT na web, abra **Settings → Security and login** e ative o **Developer mode**.
+
+    Se a opção não aparecer, tente **Settings → Apps → Advanced settings**. Em workspaces Business, Enterprise ou Education, talvez um admin precise liberar o Developer mode antes.
+  </Step>
+  <Step title="Crie um app do modo desenvolvedor">
+    Com o Developer mode ativo, abra o fluxo de conectores (ou vá direto em [chatgpt.com/plugins#settings/Connectors?create-connector=true&redirectAfter=%2Fplugins](https://chatgpt.com/plugins#settings/Connectors?create-connector=true&redirectAfter=%2Fplugins)). Você também pode ir em **Settings → Plugins** / **Settings → Apps** e clicar em **+**.
+
+    Preencha:
+
+    | Campo | Valor |
+    |-------|-------|
+    | **Name** | `PostClean` |
+    | **Description** | `Agende e publique posts nas redes sociais com o PostClean` |
+    | **MCP server URL** | `https://post.chatclean.com.br/mcp/trypost` |
+
+    Na autenticação, escolha **OAuth**. Se aparecerem os campos Client ID / Secret, deixe em branco: o PostClean aceita Dynamic Client Registration e o OAuth é descoberto pela URL.
+  </Step>
+  <Step title="Autorize e revise as ferramentas">
+    Crie a conexão. O ChatGPT pode deixar você terminar sem entrar na conta; nesse caso, ele pede o login dentro da conversa na primeira vez que você usar o PostClean, e de novo sempre que o login expirar. Quando pedir, conclua o login OAuth do PostClean: escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar**. Para usar outro workspace, conecte de novo e escolha esse workspace. Abra a página de detalhes do app para revisar as ferramentas encontradas; você pode ligar ou desligar cada uma e clicar em **Refresh** depois, quando o servidor MCP mudar.
+  </Step>
+  <Step title="Use o PostClean numa conversa">
+    Abra uma conversa nova. No menu **+** / Plus do campo de mensagem, escolha **Developer mode**, ative o app **PostClean** nessa conversa e peça:
+
+    ```
+    Liste todos os meus posts agendados
+    ```
+
+    O ChatGPT vai chamar as ferramentas do PostClean para buscar os seus posts.
+  </Step>
+</Steps>
+
+<Note>
+  O ChatGPT só se conecta a servidores MCP remotos em HTTPS (pela infraestrutura da OpenAI). O endereço `https://post.chatclean.com.br/mcp/trypost` funciona direto.
+</Note>
+
+<Note>
+  No Developer mode, ações de escrita (criar, editar, publicar, excluir) pedem confirmação por padrão. Revise o conteúdo de cada chamada antes de aprovar. Ferramentas marcadas como somente leitura não pedem essa confirmação.
+</Note>
+
+<Tip>
+  Quando o servidor MCP mudar, abra o app em **Settings → Plugins** (ou **Apps**), clique em **Refresh** e comece uma conversa nova para o ChatGPT carregar as ferramentas e descrições atualizadas.
+</Tip>
+
+## Exemplos de pedidos
+
+```
+Mostre todas as minhas contas de redes sociais conectadas
+```
+
+```
+Crie um rascunho de post no LinkedIn para amanhã às 9h no horário de São Paulo
+```
+
+```
+Quais posts eu tenho agendados para esta semana?
+```
+
+```
+Crie uma etiqueta chamada "Campanha" com a cor #f59e0b
+```

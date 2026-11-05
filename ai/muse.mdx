@@ -1,0 +1,48 @@
+---
+title: "Muse"
+sidebarTitle: "Muse AI Agent"
+description: "Conecte o PostClean ao Muse AI Agent, o agente pessoal da Meta, e ao Muse Code no terminal"
+icon: "/images/ai/muse.svg"
+---
+
+O [Muse AI Agent](https://muse.ai) é o agente pessoal da Meta (o personagem do app Muse). O [Muse Code](https://dev.meta.ai/docs/muse-code) é a mesma família de modelos no terminal. São dois produtos diferentes.
+
+A conexão MCP que verificamos é pelo **[Muse Code](/ai/muse-code)**: você passa a URL do PostClean, ele grava o servidor como `postclean` e você roda `muse mcp login postclean`.
+
+```
+https://post.chatclean.com.br/mcp/trypost
+```
+
+## Muse AI Agent
+
+O Muse AI Agent é o agente pessoal disponível em [muse.ai](https://muse.ai), no iOS e no Android. O app para consumidores foi lançado nos EUA (maiores de 18 anos). Peça ao agente para conectar o PostClean do mesmo jeito que pediria para conectar o Gmail. Por exemplo:
+
+```
+Connect PostClean using https://post.chatclean.com.br/mcp/trypost
+```
+
+A lista de **Connectors** da própria Meta (Settings → Connectors) traz Gmail, Google Calendar / Workspace, Ticketmaster, OpenTable, Spotify, Apple Health, Peloton, Plaid e Function Health, além de Facebook, Instagram e Threads pela Central de Contas. Esse catálogo não é um diretório MCP. Se o agente não conseguir adicionar sozinho uma URL MCP remota, termine a configuração no [Muse Code](/ai/muse-code).
+
+## Muse Code (verificado)
+
+Instale, peça ao Muse para adicionar a URL e depois autorize:
+
+```bash
+curl -fsSL https://dev.meta.ai/install.sh | bash
+muse
+```
+
+```
+Add the PostClean MCP server at https://post.chatclean.com.br/mcp/trypost
+```
+
+```bash
+muse mcp login postclean
+```
+
+Conclua o login do PostClean no navegador: escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar**. Para usar outro workspace, conecte de novo e escolha-o. Passo a passo completo, configuração manual em `~/.config/muse/settings.json` e exemplos de prompts: [Muse Code](/ai/muse-code).
+
+## Guias relacionados
+
+- [Muse Code](/ai/muse-code): configuração MCP no terminal (verificada)
+- [Introdução](/ai/introduction): protocolo, tools e solução de problemas

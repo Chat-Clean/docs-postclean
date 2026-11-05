@@ -1,0 +1,204 @@
+---
+title: "Integrações"
+description: "Mande os contatos das automações para o CRM da ChatClean, para qualquer CRM por webhook ou para uma planilha do Google."
+icon: "plug"
+---
+
+As integrações levam os contatos das automações para fora do PostClean. Elas ficam em **Automações → Integrações**, valem para o workspace inteiro e só o dono da conta e os admins podem gerenciá-las.
+
+| Tipo | Para que serve |
+|------|----------------|
+| **CRM ChatClean** | Cria o contato e o atendimento no CRM da ChatClean pelo WhatsApp que a pessoa deixou |
+| **Outro CRM (webhook)** | Manda um JSON assinado para qualquer CRM ou ferramenta (n8n, Make, Zapier, RD Station) |
+| **Google Planilhas** | Uma planilha do Google que puxa os contatos sozinha. Veja [Contatos e etiquetas](/knowledge-base/automations/contacts#planilha-do-google-ao-vivo) |
+
+## Quando um contato é enviado
+
+O CRM ChatClean e o webhook recebem o contato quando o fluxo chega no passo **Enviar para o CRM** (no formulário) ou no bloco **Enviar para o CRM** (no editor de blocos). Escolha ali para quais integrações o contato vai. Veja [Editor de fluxo](/knowledge-base/automations/flow-editor).
+
+Coloque esse passo depois das perguntas, para o contato chegar ao CRM com e-mail, telefone e as outras respostas.
+
+Cada integração tem uma chave **Ligada**. Desligada, ela para de receber contatos.
+
+## CRM ChatClean
+
+O CRM da ChatClean usa o número do WhatsApp como chave. Por isso **só vão contatos com telefone**: peça o telefone no fluxo com uma pergunta do tipo **Telefone (WhatsApp)**. O modelo **WhatsApp para o CRM** já vem montado assim. Um contato sem telefone aparece no histórico como **Sem telefone**.
+
+<Steps>
+  <Step title="Crie o push no CRM">
+    No CRM da ChatClean, vá em **Configurações → API/Webhook** e crie um push na caixa de WhatsApp que vai receber os leads. Anote o endereço da API, o ID do push e o token.
+  </Step>
+  <Step title="Crie a integração">
+    No PostClean, em **Automações → Integrações**, clique em **Nova integração** e escolha **CRM ChatClean**.
+  </Step>
+  <Step title="Preencha a conexão">
+    - **Nome:** como a integração aparece nas automações.
+    - **Endereço da API:** o endereço `https://` da API do CRM, por exemplo `https://beta2api.chatclean.com.br`.
+    - **ID do push:** o ID do push criado em **Configurações → API/Webhook**.
+    - **Token:** o token da API. Depois de salvo, ele não aparece de novo; deixe em branco numa edição para manter o atual.
+  </Step>
+  <Step title="Escolha o que criar no CRM">
+    Em **O que criar no CRM**:
+    - **Só uma nota interna:** cria o contato e o atendimento com uma nota para a equipe, sem mandar nada para a pessoa.
+    - **Mensagem no WhatsApp:** manda a **Mensagem no WhatsApp** que você escrever (até 1000 caracteres) e guarda a nota no atendimento. Use `{first_name}`, `{name}`, `{username}`, `{email}` e `{phone}` para personalizar.
+  </Step>
+  <Step title="Ajustes opcionais">
+    - **ID do departamento:** manda o atendimento para um departamento (em **Configurações → Departamentos** do CRM).
+    - **ID do atendente:** manda o atendimento para um atendente.
+    - **ID do chatbot:** liga um chatbot do CRM para o contato. Só vale no modo **Mensagem no WhatsApp**.
+    - **Etiquetas no CRM:** até 10 etiquetas que o contato recebe no CRM. Digite e aperte Enter.
+    - **Levar também as etiquetas do contato:** junta as etiquetas que o contato tem no PostClean.
+  </Step>
+</Steps>
+
+A nota que a equipe vê no atendimento traz a origem do lead:
+
+```
+Lead do Instagram (PostClean)
+Instagram: @usuario
+Automação: Comente e receba o link
+E-mail: pessoa@exemplo.com
+cidade: Natal
+Etiquetas: lead-curso
+```
+
+As linhas de automação, e-mail, campos e etiquetas só aparecem quando existem.
+
+## Outro CRM (webhook)
+
+O webhook manda um `POST` com o contato em JSON para a URL que você escolher. Funciona com n8n, Make, Zapier, RD Station e qualquer sistema que receba webhooks.
+
+<Steps>
+  <Step title="Crie a integração">
+    Em **Automações → Integrações**, clique em **Nova integração** e escolha **Outro CRM (webhook)**.
+  </Step>
+  <Step title="Informe a URL">
+    Em **URL do webhook**, cole um endereço `https://`.
+  </Step>
+  <Step title="Defina o segredo">
+    Em **Segredo de assinatura**, digite um segredo seu. Ele assina cada envio no cabeçalho `X-PostClean-Signature`. Se deixar em branco, o PostClean gera um.
+  </Step>
+  <Step title="Teste">
+    Salve e clique em **Enviar teste**. O PostClean manda um contato de exemplo e mostra **Teste enviado.** ou o erro que a URL devolveu.
+  </Step>
+</Steps>
+
+<Warning>
+  O segredo não aparece de novo depois de salvo. Se você deixar o PostClean gerar um, não vai conseguir lê-lo para validar a assinatura. Prefira digitar o seu e guardar num lugar seguro. Para trocar, digite um novo segredo e salve.
+</Warning>
+
+### Requisição
+
+```http
+POST /sua-url HTTP/1.1
+Content-Type: application/json
+X-PostClean-Event: contact.captured
+X-PostClean-Signature: sha256=5f1c...
+```
+
+```json
+{
+  "event": "contact.captured",
+  "sent_at": "2026-11-05T14:30:00+00:00",
+  "integration": {
+    "id": "9d3f...",
+    "name": "Meu CRM"
+  },
+  "contact": {
+    "id": "9d40...",
+    "instagram_id": "17841400000000000",
+    "username": "maria.silva",
+    "profile_url": "https://www.instagram.com/maria.silva",
+    "name": "Maria Silva",
+    "email": "maria@exemplo.com",
+    "phone": "5584999990000",
+    "follows_account": true,
+    "fields": {
+      "cidade": "Natal"
+    },
+    "tags": ["lead-curso"],
+    "channel": "seuperfil",
+    "source_automation": "Comente e receba o link",
+    "last_interaction_at": "2026-11-05T14:29:51+00:00",
+    "created_at": "2026-11-05T14:20:03+00:00",
+    "updated_at": "2026-11-05T14:29:51+00:00"
+  }
+}
+```
+
+| Campo | Descrição |
+|-------|-----------|
+| `event` | Sempre `contact.captured` |
+| `sent_at` | Quando o envio saiu (ISO 8601) |
+| `integration` | `id` e `name` da integração |
+| `contact.id` | ID do contato no PostClean |
+| `contact.instagram_id` | ID da pessoa no Instagram, como a Meta informa |
+| `contact.username` | @ sem o arroba, ou `null` |
+| `contact.profile_url` | Link do perfil, ou `null` sem @ |
+| `contact.name`, `contact.email`, `contact.phone` | Dados do contato, ou `null`. O telefone vai só com dígitos, com o código do país |
+| `contact.follows_account` | `true`, `false` ou `null` quando nunca foi verificado |
+| `contact.fields` | As respostas de **Outra resposta**, pelo nome do campo. Objeto vazio quando não há |
+| `contact.tags` | Nomes das etiquetas do contato |
+| `contact.channel` | O @ do canal do Instagram, ou `null` |
+| `contact.source_automation` | Nome da automação de origem, ou `null` |
+| `contact.last_interaction_at`, `contact.created_at`, `contact.updated_at` | Datas em ISO 8601, ou `null` |
+
+O teste manda um contato de exemplo com o nome **Contato de teste**, o @ `postclean` e o campo `"example": "true"`.
+
+### Validar a assinatura
+
+`X-PostClean-Signature` é `sha256=` seguido do HMAC SHA-256, em hexadecimal, do **corpo bruto** da requisição, usando o segredo de assinatura como chave. Calcule sobre os bytes exatos que chegaram, antes de converter o JSON, e compare em tempo constante.
+
+<CodeGroup>
+```php PHP
+$body = file_get_contents('php://input');
+$expected = 'sha256='.hash_hmac('sha256', $body, $secret);
+$received = $_SERVER['HTTP_X_POSTCLEAN_SIGNATURE'] ?? '';
+
+if (! hash_equals($expected, $received)) {
+    http_response_code(401);
+    exit;
+}
+
+$payload = json_decode($body, true);
+```
+
+```javascript Node.js
+import crypto from 'node:crypto';
+import express from 'express';
+
+const app = express();
+
+app.post('/postclean', express.raw({ type: 'application/json' }), (req, res) => {
+  const expected = 'sha256=' + crypto
+    .createHmac('sha256', process.env.POSTCLEAN_SECRET)
+    .update(req.body)
+    .digest('hex');
+  const received = req.get('X-PostClean-Signature') ?? '';
+
+  const valid = expected.length === received.length
+    && crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(received));
+
+  if (!valid) {
+    return res.sendStatus(401);
+  }
+
+  const payload = JSON.parse(req.body.toString('utf8'));
+  res.sendStatus(200);
+});
+```
+</CodeGroup>
+
+### Respostas e novas tentativas
+
+- Responda com um status `2xx` em até 15 segundos.
+- Um erro `5xx`, um `429`, um tempo esgotado ou uma falha de conexão é tentado de novo: são até 3 tentativas, a segunda 1 minuto depois e a terceira 5 minutos depois.
+- Um erro `4xx` (exceto `429`) não é tentado de novo e fica como **Falhou**.
+
+## Histórico de envios
+
+Cada integração mostra os **Últimos envios** (os 10 mais recentes), com o contato, o status (**Enviado**, **Falhou** ou **Sem telefone**) e o erro, quando houver. O **Último erro** fica em destaque até o próximo envio dar certo.
+
+## Excluir uma integração
+
+Ao excluir, as automações deixam de mandar contatos para ela, e uma planilha do Google ligada a ela para de atualizar.

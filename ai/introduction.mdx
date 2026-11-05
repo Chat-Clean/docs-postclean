@@ -1,0 +1,169 @@
+---
+title: "Introdução"
+description: "Conecte assistentes de IA à sua conta do PostClean pelo Model Context Protocol"
+icon: "book-open"
+---
+
+O PostClean tem um servidor [MCP (Model Context Protocol)](https://modelcontextprotocol.io) próprio, que deixa assistentes de IA cuidarem do agendamento das suas redes sociais. O assistente pode criar, agendar, colocar na fila e publicar posts, cuidar das aprovações, organizar ideias, ler as análises e o relatório de tráfego pago, e gerenciar assinaturas, etiquetas, horários de postagem, webhooks, reposts e chaves de API, tudo em linguagem natural.
+
+## O que é MCP?
+
+MCP é um protocolo aberto que conecta assistentes de IA a ferramentas e fontes de dados externas. Em vez de você copiar e colar chamadas de API, o assistente conversa direto com o PostClean.
+
+## Ferramentas disponíveis
+
+O servidor oferece 82 ferramentas. Veja a [referência de ferramentas](/ai/tools-reference) para conhecer cada argumento e o fluxo recomendado.
+
+| Categoria | O que o assistente pode fazer |
+|----------|----------------------------|
+| **Posts** | Listar, ver, criar (em um canal ou em vários de uma vez), editar, pré-visualizar, publicar e excluir; agendar num horário ou na fila do canal; threads no X, no Bluesky e no Mastodon; anexar mídia por URL ou por upload local; notas; aprovações; recorrência; métricas |
+| **Ideias** | Listar, criar, editar, duplicar, mover e excluir ideias; gerenciar as etapas do quadro |
+| **Análises** | Relatório do workspace, métricas de uma publicação, insights do canal e os melhores posts de um canal |
+| **Tráfego pago** | Relatório dos anúncios da Meta: investimento, resultados, campanhas, públicos e posts impulsionados (beta) |
+| **Contas sociais e fila** | Listar canais; ver e definir horários de postagem; listar horários livres da fila, reordenar a fila e mover um post para um horário; pastas do Pinterest, canais do Discord e dados de criador do TikTok |
+| **Repost** | Acompanhar o Instagram ou o Facebook e republicar os vídeos novos em outras redes |
+| **Etiquetas e assinaturas** | Gerenciar etiquetas coloridas e blocos de texto reutilizáveis |
+| **Webhooks** | Assinar eventos de posts, testar, trocar o segredo, ler e reenviar entregas |
+| **Chaves de API** | Listar, criar e revogar chaves da API REST |
+| **Workspace e plataformas** | Ver o workspace e as suas permissões nele; listar os tipos de conteúdo e as regras de cada rede |
+
+### O que o MCP não faz
+
+- **Gerar conteúdo com IA.** Não existe ferramenta MCP para gerar ou reescrever conteúdo. O próprio assistente escreve o texto e envia para o PostClean; o assistente de escrita com IA fica no app web. O Repost pode encurtar legendas com IA em segundo plano, inclusive nas regras criadas pelo MCP.
+- Conectar, reconectar ou desconectar canais, transformar ideias em posts, gerenciar modelos, membros, convites, cobrança ou as automações do Instagram. Para isso, use o [app web](https://post.chatclean.com.br).
+
+## Como funciona
+
+<Note>
+  O MCP precisa de uma conta com acesso ao app (assinatura ativa). Veja [Planos e cobrança](/knowledge-base/settings/plans-and-billing).
+</Note>
+
+<Steps>
+  <Step title="Adicione o servidor MCP do PostClean no seu assistente">
+    Na configuração de MCP do assistente, adicione um servidor HTTP remoto apontando para `https://post.chatclean.com.br/mcp/trypost`. Cada guia de cliente, no fim desta página, traz o comando ou o arquivo de configuração exato.
+  </Step>
+  <Step title="Entre na sua conta e escolha um workspace">
+    Na primeira conexão, o PostClean abre uma janela do navegador. Entre na sua conta, escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar**. A partir daí o assistente guarda o token OAuth e o renova sozinho.
+  </Step>
+  <Step title="Comece a usar em linguagem natural">
+    Peça ao assistente para cuidar da sua conta do PostClean. Por exemplo: "Coloque um post do LinkedIn no próximo horário livre da fila" ou "Liste os meus posts aguardando aprovação".
+  </Step>
+</Steps>
+
+## URL do servidor
+
+```
+https://post.chatclean.com.br/mcp/trypost
+```
+
+<Note>
+  O caminho termina mesmo em `/mcp/trypost`. O PostClean é construído sobre o TryPost, de código aberto, e mantém o mesmo caminho do servidor.
+</Note>
+
+## Autenticação
+
+O servidor MCP do PostClean usa **OAuth 2.1** com Dynamic Client Registration (DCR), PKCE e o escopo `mcp:use`. Os clientes MCP atuais detectam isso sozinhos pelos endpoints de descoberta `.well-known`: você só informa a URL e o login no navegador resolve o resto.
+
+Cada conexão fica presa ao workspace escolhido na tela de consentimento ("Esta conexão terá acesso somente ao workspace selecionado."). Para trabalhar em outro workspace, conecte de novo e escolha esse workspace. Os assistentes conectados ficam em **Configurações → MCP** do workspace, onde você também pode desconectá-los.
+
+<Warning>
+  As chaves de **Configurações → API Keys** autenticam apenas a [API REST](/api-reference/introduction). Elas **não** são aceitas em `/mcp/trypost`. O MCP exige uma autorização OAuth com o escopo `mcp:use` (login no navegador a partir de um cliente compatível).
+</Warning>
+
+## Permissões
+
+Qualquer membro do workspace pode conectar um assistente, não só os admins (a API REST aceita apenas chaves de admins). O assistente pode fazer o que você faz no app:
+
+- **Qualquer membro** pode escrever posts, notas, ideias, etiquetas e assinaturas e ler as análises.
+- **Membros que precisam de aprovação**: os posts que eles agendam, colocam na fila ou publicam ficam como `pending_approval` até alguém que publica direto aprovar. Peça ao assistente para chamar `get-workspace-tool` e saber qual é o seu caso.
+- **Membros que publicam direto** também podem aprovar e rejeitar posts, mudar a ordem da fila, definir recorrência e usar o Repost.
+- **Admins** também podem mudar os horários de postagem e gerenciar webhooks e chaves de API.
+
+Veja [Membros e permissões](/knowledge-base/settings/members-and-permissions) e [Aprovações](/knowledge-base/publish/approvals).
+
+## Solução de problemas
+
+<AccordionGroup>
+  <Accordion title="HTTP 402: Active subscription required">
+    A autorização OAuth é válida e a configuração está certa, mas a conta não tem assinatura ativa. Abra o [PostClean](https://post.chatclean.com.br), escolha um plano e conecte o servidor MCP de novo.
+  </Accordion>
+  <Accordion title="HTTP 401: Unauthenticated">
+    A sessão OAuth expirou e a renovação falhou; o token de acesso está faltando, malformado ou foi revogado (sair do workspace revoga o token); ou o workspace ligado a ele foi excluído (`No workspace selected.`). Rode de novo o fluxo de conexão do assistente para entrar outra vez.
+  </Accordion>
+  <Accordion title="HTTP 403: MCP OAuth authorization required">
+    A requisição usou uma chave de API (Personal Access Token) ou um token OAuth sem o escopo `mcp:use`. Tire qualquer chave de API `Authorization: Bearer …` da configuração do MCP e conecte com OAuth. Para scripts e CI, use a [API REST](/api-reference/introduction) com uma chave de API (só admins do workspace), não o endpoint do MCP.
+  </Accordion>
+  <Accordion title="HTTP 403: Workspace access denied">
+    A conexão está ligada a um workspace ao qual você não tem mais acesso. Conecte de novo e escolha um workspace do qual você faz parte.
+  </Accordion>
+  <Accordion title="O servidor aparece como “Failed to connect”">
+    Rode o teste de conexão que o seu assistente oferece (por exemplo `claude mcp list` ou `devin mcp list`). O status HTTP do teste mostra qual é o caso: `402` → veja acima; `401` → autentique de novo; `403` → veja os dois itens de 403 acima (use OAuth, não chave de API; ou conecte de novo a um workspace do qual você faz parte); qualquer outro → escreva para [contato@chatclean.com.br](mailto:contato@chatclean.com.br).
+  </Accordion>
+  <Accordion title="O navegador não abre durante o login">
+    Alguns clientes imprimem a URL de autorização no terminal em vez de abrir o navegador quando rodam por SSH ou dentro de um container. Copie a URL para um navegador local, conclua o fluxo e o assistente recebe o retorno sozinho. Se a porta de retorno estiver bloqueada, use um cliente que conclua o OAuth localmente ou use o PostClean pela [API REST](/api-reference/introduction) com uma chave de API (só admins do workspace).
+  </Accordion>
+</AccordionGroup>
+
+## Próximos passos
+
+Todas as páginas de Construa com IA estão aqui: a referência de ferramentas e os 18 guias de configuração.
+
+<CardGroup cols={3}>
+  <Card title="Referência de ferramentas" icon="wrench" href="/ai/tools-reference">
+    Todas as ferramentas MCP, os parâmetros e o fluxo de publicação.
+  </Card>
+  <Card title="Claude web" icon="/images/ai/claude.svg" href="/ai/claude">
+    Claude na web (claude.ai).
+  </Card>
+  <Card title="Claude Code" icon="/images/ai/claude.svg" href="/ai/claude-code">
+    Assistente de terminal da Anthropic.
+  </Card>
+  <Card title="Claude Desktop" icon="/images/ai/claude.svg" href="/ai/claude-desktop">
+    App de desktop da Anthropic.
+  </Card>
+  <Card title="ChatGPT" icon="/images/ai/chatgpt.svg" href="/ai/chatgpt">
+    ChatGPT da OpenAI com apps MCP.
+  </Card>
+  <Card title="Muse AI Agent" icon="/images/ai/muse.svg" href="/ai/muse">
+    Agente pessoal da Meta.
+  </Card>
+  <Card title="Muse Code" icon="/images/ai/muse.svg" href="/ai/muse-code">
+    Assistente de terminal da Meta.
+  </Card>
+  <Card title="Perplexity" icon="/images/ai/perplexity.svg" href="/ai/perplexity">
+    Chat e Computer do Perplexity.
+  </Card>
+  <Card title="Grok" icon="/images/ai/grok.svg" href="/ai/grok">
+    Grok na web, no iOS e no Android.
+  </Card>
+  <Card title="Cursor" icon="/images/ai/cursor.svg" href="/ai/cursor">
+    Editor de código com IA.
+  </Card>
+  <Card title="Devin" icon="/images/ai/devin.svg" href="/ai/devin">
+    Engenheiro de software com IA da Cognition.
+  </Card>
+  <Card title="VS Code" icon="/images/ai/vscode.svg" href="/ai/vs-code">
+    Suporte nativo a MCP no Copilot Chat.
+  </Card>
+  <Card title="GitHub Copilot" icon="/images/ai/github-copilot.svg" href="/ai/github-copilot">
+    Modo agente do Copilot.
+  </Card>
+  <Card title="Gemini CLI" icon="/images/ai/gemini.svg" href="/ai/gemini-cli">
+    Assistente de terminal do Google.
+  </Card>
+  <Card title="OpenCode" icon="/images/ai/opencode.svg" href="/ai/opencode">
+    Assistente de terminal de código aberto.
+  </Card>
+  <Card title="OpenClaw" icon="/images/ai/openclaw.svg" href="/ai/openclaw">
+    Gateway de assistente pessoal de IA.
+  </Card>
+  <Card title="Hermes" icon="/images/ai/hermes.png" href="/ai/hermes">
+    Hermes Agent da Nous Research.
+  </Card>
+  <Card title="Codex" icon="/images/ai/codex.svg" href="/ai/codex">
+    Agente de terminal da OpenAI.
+  </Card>
+  <Card title="Antigravity" icon="/images/ai/antigravity.svg" href="/ai/antigravity">
+    Agente de IA do Google.
+  </Card>
+</CardGroup>

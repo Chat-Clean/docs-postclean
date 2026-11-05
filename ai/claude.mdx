@@ -1,0 +1,81 @@
+---
+title: "Claude"
+sidebarTitle: "Claude web"
+description: "Conecte o PostClean ao Claude na web para cuidar das suas redes sociais com IA"
+icon: "/images/ai/claude.svg"
+---
+
+O [Claude](https://claude.ai) é o app web da Anthropic para conversar com o Claude. Você pode conectá-lo ao servidor MCP do PostClean e cuidar do agendamento das suas redes sociais pela conversa, sem instalar nada no computador. O mesmo conector personalizado também funciona no **Claude Cowork** e no **Claude Desktop** quando você usa conectores remotos (eles conectam pela nuvem da Anthropic, pela sua conta do Claude).
+
+## Pré-requisitos
+
+- Uma conta do [Claude](https://claude.ai) nos planos Free, Pro, Max, Team ou Enterprise (todos aceitam conectores personalizados; o Free aceita só um)
+- Uma conta do PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+
+## Configuração
+
+<Steps>
+  <Step title="Abra as configurações de conectores">
+    Vá em **[Customize → Connectors](https://claude.ai/customize/connectors)** (algumas telas do Claude ainda mostram **Settings → Connectors**) e clique em **+** → **Add custom connector**.
+
+    Os planos Free, Pro e Max usam esse caminho. No Team e no Enterprise, os Owners adicionam o conector na organização primeiro; veja o item abaixo.
+  </Step>
+  <Step title="Adicione o conector do PostClean">
+    Informe um **nome** (por exemplo `PostClean`) e a URL do servidor MCP:
+
+    ```
+    https://post.chatclean.com.br/mcp/trypost
+    ```
+
+    Deixe as **Advanced settings** (OAuth Client ID / Client Secret) em branco. O PostClean aceita Dynamic Client Registration, então o Claude se registra sozinho. Clique em **Add**.
+  </Step>
+  <Step title="Autorize o PostClean">
+    Conclua o login OAuth no navegador. Entre no PostClean, escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar**. Volte ao Claude: o conector deve aparecer como conectado. Para usar outro workspace, conecte de novo e escolha esse workspace.
+  </Step>
+  <Step title="Ative o conector numa conversa">
+    Abra uma conversa nova, clique em **+** (canto inferior esquerdo) → **Connectors** e ative o **PostClean** nessa conversa. Depois peça:
+
+    ```
+    Liste todos os meus posts agendados
+    ```
+
+    O Claude vai usar as ferramentas do PostClean para buscar os seus posts.
+  </Step>
+</Steps>
+
+<Note>
+  O Claude acessa servidores MCP remotos pela nuvem da Anthropic, não pelo seu navegador ou computador. A URL `https://post.chatclean.com.br/mcp/trypost` é pública, então funciona sem nenhum ajuste.
+</Note>
+
+<Accordion title="Planos Team e Enterprise">
+  Só um Owner (ou Primary Owner) pode adicionar um conector personalizado à organização:
+
+  1. Abra **[Organization settings → Connectors](https://claude.ai/admin-settings/connectors)**
+  2. Clique em **Add** → **Custom** → **Web**
+  3. Cole `https://post.chatclean.com.br/mcp/trypost` (Client ID / Secret são opcionais; deixe em branco para usar DCR)
+  4. Clique em **Add**
+
+  Depois, cada membro abre **[Customize → Connectors](https://claude.ai/customize/connectors)**, encontra o conector marcado como **Custom** e clica em **Connect** para autorizar a própria conta do PostClean.
+</Accordion>
+
+## Exemplos de pedidos
+
+```
+Mostre todas as minhas contas de redes sociais conectadas
+```
+
+```
+Crie uma assinatura chamada "Marketing de conteúdo"
+```
+
+```
+Quais posts eu tenho agendados para esta semana?
+```
+
+```
+Crie uma etiqueta chamada "Urgente" na cor vermelha
+```
+
+## Guias relacionados
+
+Prefere o app de desktop ou o terminal? Veja [Claude Desktop](/ai/claude-desktop) e [Claude Code](/ai/claude-code).

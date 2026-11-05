@@ -1,0 +1,63 @@
+---
+title: "Workspaces"
+description: "Crie, troque, renomeie e exclua workspaces: um para cada marca ou cliente."
+icon: "building"
+---
+
+Um workspace é uma marca ou um cliente, separado dos demais: com os próprios canais, posts, ideias, assinaturas, etiquetas, métricas, membros e permissões, chaves de API, webhooks e conexões MCP.
+
+Todo workspace pertence a uma **conta**. Quem criou a conta é o **dono** dela; as outras pessoas entram nos workspaces por convite. Veja [Membros e permissões](/knowledge-base/settings/members-and-permissions).
+
+## Trocar de workspace
+
+Abra o menu do workspace no rodapé da barra lateral e escolha um workspace em **Espaços de trabalho**.
+
+Você só vê os workspaces de que é membro. O dono da conta vê todos.
+
+## Criar um workspace
+
+Só o dono da conta pode criar workspaces.
+
+<Steps>
+  <Step title="Abra o menu do workspace">
+    No menu do workspace, clique em **Criar workspace**.
+  </Step>
+  <Step title="Dê um nome">
+    Em **Configure seu workspace**, preencha o **Nome do workspace** e clique em **Criar workspace**. Dá para renomear depois.
+  </Step>
+  <Step title="Conecte canais">
+    O workspace novo começa vazio. [Conecte um canal](/knowledge-base/channels/connecting) para começar a postar.
+  </Step>
+</Steps>
+
+Quantos workspaces você pode ter depende do seu plano: um plano inclui um workspace e o outro, workspaces ilimitados. No limite, criar um workspace abre **Faça upgrade para criar mais workspaces**. Veja [Planos e cobrança](/knowledge-base/settings/plans-and-billing).
+
+## Configurações gerais
+
+**Configurações → Geral** guarda a identidade do workspace. O dono da conta e os administradores do workspace podem mudar:
+
+- **Logo do workspace**: envie uma imagem (quadrada fica melhor, até 2 MB), recorte e clique em **Salvar**; ou remova o logo atual.
+- **Nome do workspace**: renomeie o workspace e clique em **Salvar**.
+
+## Excluir um workspace
+
+Só o dono da conta pode excluir um workspace, em **Configurações → Geral** → **Excluir este workspace**.
+
+<Steps>
+  <Step title="Excluir workspace">
+    Clique em **Excluir workspace**. A janela mostra quantos outros membros vão perder o acesso.
+  </Step>
+  <Step title="Digite o nome do workspace">
+    Digite o nome exato do workspace para confirmar e confirme a exclusão.
+  </Step>
+</Steps>
+
+Excluir um workspace apaga para sempre o workspace e tudo o que há nele: posts, ideias, canais conectados, mídias, etiquetas, assinaturas e webhooks. As chaves de API e as conexões MCP dele param de funcionar. Os posts já publicados nas redes continuam lá.
+
+Os membros perdem o acesso ao workspace excluído. Um membro convidado que fica sem nenhum workspace na conta é apagado para sempre; quem ainda participa de outro workspace da conta mantém o usuário.
+
+Você não pode excluir o seu único workspace: **Você não pode excluir seu único workspace. Cancele a assinatura na cobrança para parar de pagar, ou exclua sua conta em Autenticação para cancelar a cobrança e remover tudo permanentemente.** Veja [Planos e cobrança](/knowledge-base/settings/plans-and-billing) e [Excluir conta](/knowledge-base/settings/authentication#excluir-conta).
+
+## Pela API e pelo MCP
+
+As chaves de API e as conexões MCP ficam presas a um workspace. [`GET /workspace`](/api-reference/workspace/get-workspace) e `get-workspace-tool` devolvem o workspace a que elas pertencem. Criar, renomear e excluir workspaces só é possível no app web.

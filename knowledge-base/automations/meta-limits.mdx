@@ -1,0 +1,59 @@
+---
+title: "Limites da Meta"
+description: "As regras do Instagram para mensagens automáticas e o que o PostClean faz quando um limite é atingido."
+icon: "gauge"
+---
+
+As automações do PostClean conversam pelo Instagram usando a API oficial da Meta. A Meta define quando e quantas mensagens uma conta pode mandar. O PostClean segue essas regras para nenhuma mensagem se perder e para a sua conta não ser bloqueada.
+
+## Resumo
+
+| Regra | Limite | O que o PostClean faz |
+|-------|--------|-----------------------|
+| Resposta privada a um comentário | 1 por comentário, em até 7 dias depois do comentário | Manda a primeira mensagem do fluxo como resposta privada. O resto do fluxo espera a pessoa tocar num botão ou responder |
+| Janela de conversa | 24 horas depois da última ação da pessoa | Só manda mensagens dentro da janela. Fora dela, a conversa é encerrada |
+| Respostas privadas por hora | 750 por conta, em posts e reels | Envia até 700 por hora e coloca o restante na fila |
+
+## Uma resposta privada por comentário
+
+Quando alguém comenta, a Meta deixa a conta mandar **uma** mensagem privada para essa pessoa em resposta ao comentário, em até **7 dias**. É a primeira mensagem do fluxo.
+
+Depois dela, o fluxo só continua quando a pessoa **toca num botão** ou **responde** a mensagem. Esse toque abre a janela de 24 horas, e aí dá para checar se ela segue o perfil, pedir dados e mandar lembrete. Por isso os modelos de comentário começam com uma **Mensagem de abertura** com botão. Veja [Editor de fluxo](/knowledge-base/automations/flow-editor).
+
+A opção **Responder também os comentários dos últimos 7 dias** usa o mesmo prazo: ela alcança só os comentários que ainda estão dentro dos 7 dias e respeita o limite por hora.
+
+## Janela de 24 horas
+
+Fora da resposta a um comentário, a Meta só aceita mensagens até **24 horas depois da última ação da pessoa** (uma mensagem, uma resposta ou um toque num botão). Cada nova ação reabre a janela.
+
+- Os blocos **Esperar** aceitam de 1 minuto a 23 horas, e o **Lembrete para quem não clicou** pode sair até 20 horas depois, para caber na janela.
+- O PostClean deixa uma margem de 10 minutos antes do fim da janela.
+- Se a janela fechar antes de uma mensagem sair, a conversa termina com o status **Encerrada**.
+- Uma conversa que espera um toque ou uma resposta há mais de 7 dias também é **Encerrada**.
+
+## Respostas privadas por hora
+
+A Meta aceita até **750 respostas privadas por hora** em cada conta, em posts e reels. O PostClean manda até **700 por hora**, deixando uma folga. Num post que viraliza, as respostas que passam disso não se perdem: elas ficam **Na fila** e saem assim que houver espaço, dentro dos 7 dias que a Meta dá para responder.
+
+## Status na atividade
+
+Cada vez que uma automação é acionada, um item aparece na **Atividade** dela, com um destes status:
+
+| Status | Significado |
+|--------|-------------|
+| **Enviando** | O PostClean está processando o comentário ou a mensagem |
+| **Na fila** | O limite por hora foi atingido. A mensagem sai assim que houver espaço |
+| **Enviada** | A resposta foi entregue |
+| **Ignorada** | A automação não respondeu de propósito. O motivo aparece ao lado |
+| **Falhou** | A Meta recusou o envio ou o canal perdeu a conexão. O erro aparece no item |
+
+Os motivos de **Ignorada** são:
+
+- **Já respondida:** a pessoa já recebeu a resposta desta automação no mesmo post, com **Responder cada pessoa uma vez** ligado.
+- **Proteção contra spam:** num post movimentado, a resposta pública foi pulada. Veja [Proteção contra spam](/knowledge-base/automations/spam-protection).
+
+Os envios para integrações (CRM, webhook) têm um histórico à parte, com os status **Enviado**, **Falhou** e **Sem telefone**. Veja [Integrações](/knowledge-base/automations/integrations).
+
+<Note>
+  Se uma automação começar a falhar porque o canal perdeu as permissões de comentários e mensagens, reconecte o Instagram e clique em **Ativar** de novo em **Automações**. Veja [Visão geral das automações](/knowledge-base/automations/overview).
+</Note>

@@ -1,0 +1,63 @@
+---
+title: "Gemini CLI"
+description: "Conecte o PostClean ao Gemini CLI para gerenciar suas redes sociais com IA pelo terminal"
+icon: "/images/ai/gemini.svg"
+---
+
+O [Gemini CLI](https://github.com/google-gemini/gemini-cli) é o assistente de IA de linha de comando do Google. Você pode conectá-lo ao servidor MCP do PostClean para gerenciar seus agendamentos em linguagem natural.
+
+## Pré-requisitos
+
+- Gemini CLI instalado
+- Uma conta no PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+
+## Configuração
+
+<Steps>
+  <Step title="Abra o arquivo de configurações">
+    Edite as configurações do Gemini CLI em `~/.gemini/settings.json`:
+
+    ```json
+    {
+      "mcpServers": {
+        "postclean": {
+          "httpUrl": "https://post.chatclean.com.br/mcp/trypost",
+          "oauth": {
+            "enabled": true
+          }
+        }
+      }
+    }
+    ```
+
+    Com `oauth.enabled`, o Gemini CLI descobre os metadados OAuth do PostClean pela URL e se registra sozinho. Para configurar só um projeto, crie `.gemini/settings.json` na raiz do projeto.
+  </Step>
+  <Step title="Reinicie o Gemini CLI e entre na conta">
+    Feche e abra o Gemini CLI de novo. A primeira chamada ao PostClean pede login: o Gemini CLI mostra a URL de autorização ou abre o navegador. Entre na sua conta, escolha o **Workspace** que essa conexão pode usar, clique em **Autorizar** e volte ao terminal. Para usar outro workspace, conecte de novo e escolha-o.
+  </Step>
+  <Step title="Confira a conexão">
+    Peça ao Gemini para acessar sua conta no PostClean:
+
+    ```
+    Liste todos os meus posts no PostClean
+    ```
+  </Step>
+</Steps>
+
+<Tip>
+  O Gemini CLI usa `"httpUrl"` para servidores HTTP com streaming (e não `"url"`). O campo `"url"` serve só para o transporte SSE.
+</Tip>
+
+## Exemplos de prompts
+
+```
+Crie uma nova assinatura chamada "Growth Hacking"
+```
+
+```
+A qual workspace eu estou conectado?
+```
+
+```
+Mostre todas as minhas etiquetas
+```

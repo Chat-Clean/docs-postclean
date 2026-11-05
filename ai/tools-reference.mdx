@@ -1,0 +1,274 @@
+---
+title: "Referência de ferramentas"
+description: "Todas as ferramentas do servidor MCP do PostClean, com os argumentos, quem pode chamar cada uma e o equivalente na API REST"
+icon: "wrench"
+---
+
+O servidor MCP do PostClean oferece **82 ferramentas**. Esta página lista todas, agrupadas como no app: posts, ideias, análises, tráfego pago, contas sociais e fila, Repost, etiquetas, assinaturas, webhooks, chaves de API, workspace e regras das plataformas.
+
+Os nomes das ferramentas são exatamente o que o assistente vê (kebab-case com o sufixo `-tool`). Toda ferramenta age no workspace que você escolheu ao autorizar a conexão. Horários nos argumentos seguem o ISO 8601 (sem fuso, são lidos como UTC). Nas respostas, os horários de posts, ideias, etiquetas, assinaturas, notas e workspace vêm em UTC no formato `Y-m-d H:i:s`; os de webhooks, chaves de API, reposts, horários livres e o `expires_at` do upload vêm em ISO 8601 com fuso.
+
+<Note>
+  Nenhuma ferramenta MCP escreve legenda, cria imagem ou vídeo por você. O próprio assistente escreve o texto e envia com `create-post-tool`; o assistente de escrita com IA fica no app web. O Repost pode encurtar legendas com IA em segundo plano, inclusive nas regras criadas pelo MCP.
+</Note>
+
+## Fluxo recomendado
+
+### Criar e publicar um post
+
+1. **`get-workspace-tool`**: confira `me.requires_approval`. Se for `true`, tudo o que você agendar, colocar na fila ou publicar espera aprovação (veja a seção Aprovações, abaixo).
+2. **`list-social-accounts-tool`**: escolha o canal. Anote o `max_content_length`, o `timezone` e o `has_posting_schedule`.
+3. **Acerte o fuso horário.** Os horários que você fala na conversa ("amanhã às 9h") são locais, mas toda ferramenta recebe UTC e nenhuma devolve o seu fuso. Diga ao assistente qual é o seu fuso ou deixe que ele use o `timezone` do canal, do passo anterior. Ele precisa enviar `scheduled_at` com fuso ou em UTC.
+4. **`list-content-types-tool`**: escolha um `content_type` e leia as regras de mídia, o limite de hashtags e o `required_meta`.
+5. Resolva as configurações obrigatórias: **`get-tiktok-creator-info-tool`** (`privacy_level` do TikTok), **`list-pinterest-boards-tool`** ou **`create-pinterest-board-tool`** (`board_id` do Pinterest), **`list-discord-channels-tool`** (`channel_id` do Discord).
+6. Envie a mídia: uma URL pública vai direto em `media[]`. Para um arquivo local, chame **`request-media-upload-tool`**, envie o arquivo com `curl -F media=@arquivo "<upload_url>"` em até 15 minutos (um agente de terminal pode rodar o comando; num chat web ou no celular, você mesmo roda) e depois passe o `upload_token`. Apps de chat que rodam na nuvem só usam arquivos em URL pública ou o `id` de uma mídia que já está no PostClean.
+7. **`create-post-tool`** (um canal) ou **`create-posts-tool`** (vários canais, um post em cada). Envie `status: draft` para revisar antes, ou `scheduled` / `publishing` para sair direto.
+8. **`preview-post-tool`**: veja o texto exato que cada rede recebe.
+9. **`publish-post-tool`**: publique um rascunho agora, num horário ou na fila.
+10. **`get-post-metrics-tool`**: leia as análises salvas depois da publicação.
+
+### Usar a fila
+
+1. **`get-posting-schedule-tool`**: veja os horários de postagem do canal (defina com `update-posting-schedule-tool`, `generate-posting-schedule-tool` ou `copy-posting-schedule-tool` se ele não tiver).
+2. Crie com `status: scheduled` e `queue: next` (primeiro horário livre) ou `queue: top` (primeiro horário, empurrando os posts da fila para trás).
+3. Para ocupar um horário exato: **`list-free-slots-tool`** e depois `create-post-tool` com `queue_slot`, ou **`move-post-to-slot-tool`** para um post que já existe.
+4. **`reorder-queue-tool`**: troca os posts da fila de lugar entre os horários que eles já ocupam.
+
+Como a fila guarda os horários está explicado em [Fila](/knowledge-base/publish/queue).
+
+## Acesso e permissões
+
+O MCP aceita qualquer membro do workspace, não só admins (a [API REST](/api-reference/introduction) só aceita chaves de admins). Cada ferramenta confere a mesma permissão da página correspondente no app:
+
+| Quem | Pode chamar |
+|-----|----------|
+| **Qualquer membro** | Todas as ferramentas de posts, menos aprovar, rejeitar e definir recorrência (notas e mídia incluídas); ideias e etapas de ideias; análises; etiquetas; assinaturas; `list-social-accounts-tool`, `get-posting-schedule-tool`, `list-free-slots-tool`, pastas do Pinterest, canais do Discord, dados de criador do TikTok; `get-workspace-tool`; `list-content-types-tool`; `get-paid-traffic-report-tool` (quando o tráfego pago está liberado no workspace) |
+| **Membros que publicam direto** (dono, admins e membros que não precisam de aprovação) | `approve-post-tool`, `reject-post-tool`, `set-post-recurrence-tool`, `reorder-queue-tool`, `move-post-to-slot-tool`, todas as ferramentas de Repost (inclusive as de leitura) |
+| **Admins** (e o dono da conta) | `update-posting-schedule-tool`, `generate-posting-schedule-tool`, `copy-posting-schedule-tool`, todas as ferramentas de webhook e de chave de API (inclusive as de leitura) |
+
+Uma chamada recusada devolve um erro de ferramenta como `This action is unauthorized.` Itens de outro workspace respondem como não encontrados (`Post not found.`, `Repurpose not found.`, …). Veja [Membros e permissões](/knowledge-base/settings/members-and-permissions).
+
+### Aprovações
+
+Um membro que precisa de aprovação pode criar e editar posts. Quando ele agenda, coloca na fila ou publica, o PostClean guarda o post com o status `pending_approval`, e o post espera `approve-post-tool` ou `reject-post-tool` de alguém que publica direto. O mesmo acontece quando esse membro edita um post agendado já aprovado ou anexa mídia a ele. Um post pendente só aparece para quem aprova e para o membro que pediu. Um membro que precisa de aprovação só pode excluir os posts que ele escreveu ou os próprios pedidos ainda pendentes. Veja [Aprovações](/knowledge-base/publish/approvals).
+
+## Posts
+
+| Ferramenta | O que faz | Principais argumentos |
+|------|--------------|---------------|
+| `list-posts-tool` | Lista os posts, da data agendada mais recente para a mais antiga. Somente leitura. REST: [List posts](/api-reference/posts/list-posts) | `status` (`draft` \| `scheduled` \| `pending_approval` \| `published` \| `failed`), `search` (trecho do texto), `channels[]`, `labels[]`, `untagged`, `page` |
+| `get-post-tool` | Mostra um post: texto, mídia, etiquetas, status, `schedule_mode`, `scheduled_at`, `published_at`, recorrência, campos de aprovação (`approval_requested_by`, `approved_by` e os horários), `origin`, `post_group_id` e, do canal, `content_type`, `meta` (com `thread_replies`), status, `error_message` e `platform_url`. Somente leitura. REST: [Get post](/api-reference/posts/get-post) | `post_id` (obrigatório) |
+| `create-post-tool` | Cria um post em um canal: rascunho, post num horário personalizado, post na fila (próximo ou topo, ou um horário livre exato) ou post publicado agora. Devolve o post. REST: [Create post](/api-reference/posts/create-post) | `social_account_id` (obrigatório), `content_type`, `meta`, `content`, `media[]`, `status` (`draft` padrão \| `scheduled` \| `publishing`), `scheduled_at`, `queue` (`next` \| `top`), `queue_slot`, `label_ids[]` |
+| `create-posts-tool` | Cria um post independente por destino, como o editor faz com vários canais; os posts compartilham um `post_group_id`. Cada destino pode trocar texto, mídia, tipo e meta. Aqui não tem `queue_slot`. Devolve `{posts}`. REST: [Create posts in batch](/api-reference/posts/create-posts-in-batch) | `status` (obrigatório), `destinations[]` (obrigatório: `{social_account_id, content_type?, content?, media?, meta?}`), `content`, `media[]`, `scheduled_at`, `queue`, `label_ids[]` |
+| `update-post-tool` | Muda o texto, a mídia (substitui a lista), o `content_type`, o `meta` (mesclado; `null` limpa uma chave, `thread_replies` substitui a lista), o status, o agendamento, a fila ou as etiquetas de um post. O canal não muda. Para colocar o post num horário livre exato, use `move-post-to-slot-tool`. REST: [Update post](/api-reference/posts/update-post) | `post_id` (obrigatório), `content`, `media[]`, `content_type`, `meta`, `status` (`draft` \| `scheduled` \| `publishing`), `scheduled_at`, `queue`, `label_ids[]` |
+| `publish-post-tool` | Publica um rascunho ou post agendado agora, em `scheduled_at` ou na fila. É validado como um post agendado (limites de texto, meta obrigatório, regras de mídia, respostas da thread); se falhar, a mensagem diz a plataforma e o campo, e nada é publicado. Destrutiva. Não há uma operação REST única: na REST, use [Update post](/api-reference/posts/update-post) com um status | `post_id` (obrigatório), `scheduled_at`, `queue` |
+| `approve-post-tool` | Aprova um post `pending_approval`. Por padrão, ele é agendado como o autor pediu (fila ou horário pedido); você pode passar um novo horário ou publicar agora. Um dos dois é obrigatório quando o horário pedido já passou ou quando o autor pediu para publicar agora. Passe `scheduled_at` (no futuro, antes de 2038-01-19) ou `publish_now`, não os dois. Destrutiva. REST: [Approve post](/api-reference/approvals/approve-post) | `post_id` (obrigatório), `scheduled_at`, `publish_now` |
+| `reject-post-tool` | Rejeita um post `pending_approval`. Ele volta para os rascunhos e o membro que pediu recebe um e-mail; nenhum motivo é guardado. REST: [Reject post](/api-reference/approvals/reject-post) | `post_id` (obrigatório) |
+| `preview-post-tool` | Mostra o texto exato que a rede do post recebe (links do X desativados quando essa opção está ligada), ao lado do original, com contagem de caracteres. Nada é cortado. Somente leitura. REST: [Get post preview](/api-reference/posts/get-post-preview) | `post_id` (obrigatório) |
+| `delete-post-tool` | Exclui um post do PostClean para sempre. Ele nunca é apagado da rede. Devolve `{deleted: true}`. Destrutiva. REST: [Delete post](/api-reference/posts/delete-post) | `post_id` (obrigatório) |
+| `attach-media-from-url-tool` | Baixa arquivos de URLs públicas e acrescenta ao post. Devolve `post`, `attached_count`, `failed_urls` e `failures[]` com o motivo (`unreachable`, `type_not_allowed`, `too_large`, `host_not_allowed`). REST: [Attach media from URL](/api-reference/media-and-uploads/attach-media-from-url) | `post_id` (obrigatório), `urls[]` (obrigatório, 1 a 10 `{url, alt?}`) |
+| `request-media-upload-tool` | Gera uma URL assinada de uso único para enviar um arquivo local. Devolve `upload_token`, `upload_url`, `expires_at`, `max_bytes`, `max_bytes_by_type` e `field_name` (`media`). Envie com `curl -F media=@arquivo "<upload_url>"`. REST: [Upload to signed URL](/api-reference/media-and-uploads/upload-to-signed-url) | nenhum |
+| `attach-media-from-upload-tool` | Acrescenta um arquivo enviado a um post. Devolve `{post}`. REST: [Attach media from upload](/api-reference/media-and-uploads/attach-media-from-upload) | `post_id` (obrigatório), `upload_token` (obrigatório), `alt` |
+| `get-post-metrics-tool` | Lê as análises mais recentes salvas de um post publicado (reações, comentários, salvamentos, alcance, visualizações e tempo assistido, quando a rede informa). Os valores podem ficar atrás da rede até a próxima coleta de análises; um post não publicado ou uma rede sem análises responde `unsupported`. Somente leitura. REST: [Get post metrics](/api-reference/posts/get-post-metrics) | `post_id` (obrigatório) |
+| `list-post-notes-tool` | Lista as notas de um post (comentários internos da equipe, nunca publicados), da mais nova para a mais antiga. Somente leitura. REST: [List post notes](/api-reference/post-notes/list-post-notes) | `post_id` (obrigatório), `page` |
+| `create-post-note-tool` | Adiciona uma nota. Os outros membros com e-mails de notas ligados recebem um e-mail; num post pendente, só quem aprova e o membro que pediu. REST: [Create post note](/api-reference/post-notes/create-post-note) | `post_id` (obrigatório), `body` (obrigatório, até 2000) |
+| `update-post-note-tool` | Edita uma nota. Só o autor pode. Nenhum e-mail é enviado. REST: [Update post note](/api-reference/post-notes/update-post-note) | `post_id`, `note_id`, `body` (todos obrigatórios) |
+| `delete-post-note-tool` | Exclui uma nota. Só o autor pode. Destrutiva. REST: [Delete post note](/api-reference/post-notes/delete-post-note) | `post_id`, `note_id` (ambos obrigatórios) |
+| `set-post-recurrence-tool` | Faz um post agendado se repetir a cada `interval` dias, semanas, meses ou anos, `times` vezes a mais, no mesmo horário local do fuso do canal. A última repetição precisa cair até 2037-12-31 23:59:59 UTC. Só membros que publicam direto. REST: [Set post recurrence](/api-reference/recurrence/set-post-recurrence) | `post_id`, `interval` (1 a 365), `frequency` (`day` \| `week` \| `month` \| `year`), `times` (1 a 100), todos obrigatórios |
+| `clear-post-recurrence-tool` | Para a repetição de um post. O post e o próximo horário dele continuam. REST: [Remove post recurrence](/api-reference/recurrence/remove-post-recurrence) | `post_id` (obrigatório) |
+
+Posts com status `publishing`, `published`, `partially_published` ou `failed` não podem ser alterados nem excluídos. Notas e recorrência seguem [Posts recorrentes](/knowledge-base/publish/recurring-posts).
+
+### Antes de agendar ou publicar um post
+
+Rascunhos podem estar incompletos. Para agendar, colocar na fila ou publicar, o post precisa de:
+
+- Texto ou mídia.
+- `meta.privacy_level` no TikTok, um dos `privacy_level_options` de `get-tiktok-creator-info-tool`.
+- `meta.board_id` no Pinterest e `meta.channel_id` no Discord.
+- Google Business: `meta.event` com título e datas de início e fim em `EVENT` e `OFFER` (o fim não pode vir antes do início). Um `call_to_action` precisa de `url`, a não ser que o `action_type` seja `NONE` ou `CALL`, e ofertas não aceitam chamada para ação.
+- Respostas da thread (X, Bluesky, Mastodon): cada resposta tem texto ou mídia e cabe no limite da conta.
+- YouTube: um título (`meta.title` ou a primeira linha do texto).
+
+`list-content-types-tool` lista por plataforma, como `required_meta`, os que valem sempre (TikTok, Pinterest, Discord). As regras de mídia (quantidade, tamanho, duração, proporção, GIF e MOV) são conferidas nesse mesmo momento, nunca num rascunho.
+
+### Mídia
+
+Cada item de `media[]` traz exatamente um destes:
+
+| Chave | Uso |
+|-----|-----|
+| `url` | Uma URL pública `http(s)` que entrega o próprio arquivo. Redirecionamentos não são seguidos e páginas web são recusadas; o download precisa terminar em 20 segundos. |
+| `upload_token` | Um arquivo enviado com `request-media-upload-tool`. O token é gasto pelo primeiro post que o usar; os uploads ficam guardados por 24 horas. |
+| `id` | Uma mídia que já está neste workspace (do `media` de um post). Ela é copiada para o post. Na edição, envie os ids atuais numa nova ordem para reordenar, e deixe um de fora para removê-lo. |
+
+Opcionais por item: `alt` (imagens) e `meta` com `alt_text` (até 2000; vale mais que `alt`), `user_tags` (imagens do feed do Instagram, até 20 `{username, x, y}`) e `cover_offset_ms` (quadro de capa do vídeo, onde houver `supports_video_cover`). `attach-media-from-upload-tool` e `attach-media-from-url-tool` aceitam só o `alt`. Um PDF precisa ser o único anexo. O primeiro item é a capa de um carrossel.
+
+Arquivos aceitos: imagens JPEG, PNG, GIF e WebP (HEIC e HEIF quando o servidor consegue converter), vídeos MP4 e MOV, e PDF. Tetos do servidor: **10 MB** e 67 megapixels por imagem, **1 GB** por vídeo, **100 MB** por PDF. Os limites de cada rede, geralmente menores, valem quando o post é agendado ou publicado. A URL assinada de upload funciona uma vez e expira em 15 minutos. Mais em [Uploads de mídia](/api-reference/guides/media-uploads).
+
+### `meta` por plataforma
+
+`meta` guarda as configurações do canal do post. As mesmas chaves funcionam na API REST ([guia de publicação](/api-reference/guides/posting)). Chaves desconhecidas são descartadas. Os valores de enum são strings JSON exatas.
+
+| Plataforma | Chaves | Obrigatório para agendar ou publicar |
+|----------|------|---------------------------------|
+| X, Bluesky, Mastodon | `thread_replies`: até 24 respostas publicadas abaixo do post, cada uma `{text, media}` (até 4 mídias por resposta) ou uma string simples. Cada resposta cabe no limite de texto da conta (Bluesky 300, Mastodon 500 com o aviso de conteúdo, X 280 ou 25000 para contas com posts longos). O X também aceita `is_ai_generated` | — |
+| Mastodon | `spoiler_text` (aviso de conteúdo, até 500; conta dentro dos 500 caracteres e se repete em cada resposta) | — |
+| TikTok | `privacy_level` (`PUBLIC_TO_EVERYONE` \| `MUTUAL_FOLLOW_FRIENDS` \| `FOLLOWER_OF_CREATOR` \| `SELF_ONLY`); `allow_comments`, `disclose`, `brand_content_toggle`, `brand_organic_toggle`; em `tiktok_video` também `allow_duet`, `allow_stitch`, `is_aigc`; em `tiktok_photo` também `auto_add_music`. `SELF_ONLY` não pode ser combinado com `brand_content_toggle` | `privacy_level` |
+| Pinterest | `board_id`, `title` (até 100), `link` | `board_id` |
+| Discord | `channel_id`, `channel_name` (o nome do canal mostrado no app), `mentions` (`[{token, label}]`), `embeds` (até 10 `{title, description, url, image, color}`) | `channel_id` |
+| YouTube | `title` (até 100, sem `<` nem `>`), `description` (até 5000 bytes), `category_id` (padrão `22`), `privacy_status` (`public` \| `unlisted` \| `private`), `license`, `notify_subscribers`, `embeddable`, `made_for_kids`, `is_ai_generated` | Um título, ou texto de onde tirar o título |
+| Instagram | `is_ai_generated` (feed, reels, stories e carrosséis); em `instagram_reel` também `share_to_feed` (padrão `true`). Um post `instagram_feed` com um único vídeo é publicado como Reel. As marcações de pessoas e a capa do vídeo ficam em cada item de mídia (veja a seção Mídia, acima). No máximo 5 hashtags | — |
+| Threads | `topic_tag` (1 a 50 caracteres, sem `.` nem `&`). O tipo `threads_ghost_post` é um post só de texto arquivado depois de 24 horas | — |
+| Facebook, Bluesky, LinkedIn | `link_preview` (padrão `true`; `false` publica o link sem o cartão de prévia) | — |
+| LinkedIn, LinkedIn Page | `document_title` (até 300, para posts de documento PDF) | — |
+| Google Business | `topic_type` (`STANDARD` \| `EVENT` \| `OFFER`), `call_to_action` `{action_type, url}`, `event` `{title, start_date, end_date, start_time, end_time}`, `offer` `{coupon_code, redeem_online_url, terms_conditions}` | `event` em `EVENT`/`OFFER`; `call_to_action.url` exceto em `NONE`/`CALL`. `action_type` é um de `NONE`, `BOOK`, `ORDER`, `SHOP`, `LEARN_MORE`, `SIGN_UP`, `CALL`; ofertas não aceitam chamada para ação |
+| Telegram, reels e stories do Facebook | nenhuma | — |
+
+Stories do Instagram e do Facebook não publicam texto.
+
+## Ideias
+
+Qualquer membro pode usar as ferramentas de ideias. Não dá para transformar ideias em posts pelo MCP: crie um post com o texto da ideia. Veja [Ideias](/knowledge-base/create/ideas).
+
+| Ferramenta | O que faz | Principais argumentos |
+|------|--------------|---------------|
+| `list-ideas-tool` | Lista as ideias, da mais nova para a mais antiga. Os filtros se combinam como no quadro de ideias. Somente leitura. REST: [List ideas](/api-reference/ideas/list-ideas) | `stages[]`, `unassigned`, `labels[]`, `untagged`, `page` |
+| `get-idea-tool` | Mostra uma ideia com título, corpo, etapa, mídia e etiquetas. Somente leitura. REST: [Get idea](/api-reference/ideas/get-idea) | `idea_id` (obrigatório) |
+| `create-idea-tool` | Cria uma ideia. Ela precisa de título, corpo ou mídia. REST: [Create idea](/api-reference/ideas/create-idea) | `title` (até 255), `body` (até 10000), `idea_stage_id`, `media_ids[]` (até 10, mídias que já estão no workspace), `label_ids[]` |
+| `update-idea-tool` | Edita uma ideia. Só os campos enviados mudam; `media_ids` e `label_ids` substituem as listas. Uma etapa nova coloca a ideia no fim. Para tirar a ideia de qualquer etapa, use `move-ideas-tool`. REST: [Update idea](/api-reference/ideas/update-idea) | `idea_id` (obrigatório), `title`, `body`, `idea_stage_id`, `media_ids[]`, `label_ids[]` |
+| `delete-ideas-tool` | Exclui até 500 ideias com as mídias delas. Ids de outros workspaces são ignorados. Destrutiva. REST: [Delete ideas](/api-reference/ideas/delete-ideas) | `idea_ids[]` (obrigatório) |
+| `duplicate-idea-tool` | Copia uma ideia com mídia e etiquetas, logo depois da original. REST: [Duplicate idea](/api-reference/ideas/duplicate-idea) | `idea_id` (obrigatório) |
+| `move-ideas-tool` | Move uma ideia para uma etapa (ou nenhuma) e define a ordem daquela coluna. Uma lista desatualizada é recusada. REST: [Move idea](/api-reference/ideas/move-idea) | `idea_id` (obrigatório), `idea_ids[]` (obrigatório: todas as ideias da coluna de destino na nova ordem), `idea_stage_id` (omita para nenhuma etapa) |
+| `list-idea-stages-tool` | Lista as etapas do quadro em ordem, com o número de ideias em cada uma. Somente leitura. REST: [List idea stages](/api-reference/idea-stages/list-idea-stages) | nenhum |
+| `create-idea-stage-tool` | Adiciona uma etapa no fim do quadro. REST: [Create idea stage](/api-reference/idea-stages/create-idea-stage) | `name` (obrigatório, até 60) |
+| `update-idea-stage-tool` | Renomeia uma etapa. REST: [Update idea stage](/api-reference/idea-stages/update-idea-stage) | `idea_stage_id`, `name` (ambos obrigatórios) |
+| `delete-idea-stage-tool` | Exclui uma etapa. As ideias dela vão para a coluna sem etapa. Destrutiva. REST: [Delete idea stage](/api-reference/idea-stages/delete-idea-stage) | `idea_stage_id` (obrigatório) |
+| `reorder-idea-stages-tool` | Reordena as etapas. Devolve `{stages}`. REST: [Reorder idea stages](/api-reference/idea-stages/reorder-idea-stages) | `stage_ids[]` (obrigatório: todas as etapas, na nova ordem) |
+
+## Análises
+
+Qualquer membro pode ler as análises. Os períodos são dias de calendário no seu fuso: `range` é `7d`, `30d` (padrão), `mtd` ou `custom` (com `start` e `end` no formato `YYYY-MM-DD`). Veja [Insights](/knowledge-base/insights/overview).
+
+| Ferramenta | O que faz | Principais argumentos |
+|------|--------------|---------------|
+| `get-analytics-report-tool` | O relatório do workspace: resumo, gráficos de seguidores e de posts, melhores posts, desempenho por conta, limites dos dados e cobertura da sincronização. Ids de canal desconhecidos são ignorados. Somente leitura. REST: [Get workspace analytics](/api-reference/analytics/get-workspace-analytics) | `range`, `start`, `end`, `channels[]` |
+| `get-analytics-publication-tool` | Todas as métricas salvas e os metadados de uma publicação do relatório, inclusive posts importados da rede. Somente leitura. REST: [Get publication analytics](/api-reference/analytics/get-publication-analytics) | `publication_id` (obrigatório) |
+| `get-channel-insights-tool` | Resumo, métricas e séries de um canal no período e no período anterior de mesmo tamanho, mais `growth` (crescimento mensal de seguidores em 12 meses). Não existe para LinkedIn, LinkedIn Page, Telegram, Discord e Google Business. Somente leitura. REST: [Get channel insights](/api-reference/analytics/get-channel-insights) | `account_id` (obrigatório), `range`, `start`, `end`, `period`, `sort`, `labels[]`, `untagged`, `types[]` |
+| `list-channel-publications-tool` | Os melhores posts de um canal no período, ordenados por `sort` (top 50). Não existe para LinkedIn, LinkedIn Page, Telegram, Discord e Google Business. Somente leitura. REST: [List channel post performance](/api-reference/analytics/list-channel-post-performance) | `account_id` (obrigatório), `range`, `start`, `end`, `period` (`current` \| `previous`), `sort` (`reactions` \| `comments` \| `engagement_rate` \| `views` \| `impressions` \| `shares` \| `saves` \| `reach`), `labels[]`, `untagged`, `types[]`, `page` |
+
+## Tráfego pago
+
+O lado pago dos Insights: o mesmo relatório que a aba **Tráfego pago** carrega da Meta. Precisa de uma conta de anúncios da Meta conectada em **Insights → Tráfego pago** e de o recurso (beta) estar liberado no workspace. Qualquer membro do workspace pode ler. Não há equivalente na API REST. Veja [Tráfego pago](/knowledge-base/insights/paid-traffic).
+
+| Ferramenta | O que faz | Principais argumentos |
+|------|--------------|---------------|
+| `get-paid-traffic-report-tool` | Relatório dos anúncios da Meta do workspace: investimento, impressões, alcance, cliques, conversas iniciadas, leads e os custos no período, comparados com o período anterior de mesmo tamanho, mais a série diária (`overview`); resultados por destino, como WhatsApp, Direct do Instagram ou formulários de lead (`lead_sources`); campanhas (`campaigns`); públicos por plataforma, posicionamento, idade, gênero, região e dispositivo (`breakdowns`); e os posts impulsionados (`posts`). Com `campaign_id`, lista os conjuntos de anúncios da campanha em `drilldown` e filtra os `breakdowns` por ela; com `adset_id`, lista os anúncios do conjunto. Cada seção é uma chamada à Meta: se a Meta recusar uma, ela volta com o erro e as outras respondem normalmente. Valores na moeda da conta de anúncios. Somente leitura | `range` (`7d` \| `30d` padrão \| `mtd` \| `custom`), `start`, `end`, `account_id` (padrão: a primeira conta conectada), `sections[]`, `campaign_id`, `adset_id` |
+
+Sem conta de anúncios conectada, a ferramenta responde com erro pedindo para conectar uma em **Insights → Tráfego pago**; se a conta precisar ser reconectada, o erro também avisa. Para resultados orgânicos, use `get-analytics-report-tool`.
+
+## Contas sociais e fila
+
+O MCP não conecta, desconecta nem reconecta canais; faça isso no app ([Conectar canais](/knowledge-base/channels/connecting)).
+
+| Ferramenta | O que faz | Principais argumentos |
+|------|--------------|---------------|
+| `list-social-accounts-tool` | Lista os canais conectados: `id`, `platform`, `display_name`, `username`, `status` (`connected` \| `token_expired` \| `disconnected`), `timezone`, `posting_goal`, `has_posting_schedule`, `max_content_length`, `long_posts`, `verified_badge`. Uma conta do X com `long_posts` pode postar 25000 caracteres; as outras, 280. Somente leitura. REST: [List social accounts](/api-reference/social-accounts/list-social-accounts) | `page` |
+| `get-posting-schedule-tool` | O fuso do canal, a meta semanal e os sete dias com os horários locais de postagem (o dia `0` é domingo). Somente leitura. REST: [Get posting schedule](/api-reference/channels/get-posting-schedule) | `account_id` (obrigatório) |
+| `update-posting-schedule-tool` | Substitui os horários de um canal. No máximo 4 horários `HH:mm` diferentes por dia. `null` limpa tudo. Posts da fila cujo horário sumiu são recolocados; uma troca de fuso mantém cada post da fila no mesmo horário local. Só admins. REST: [Update posting schedule](/api-reference/channels/update-posting-schedule) | `account_id` (obrigatório), `timezone` (obrigatório, IANA), `posting_goal` (1 a 28 ou `null`), `posting_schedule` (exatamente 7 `{day, enabled, times[]}` ou `null`) |
+| `generate-posting-schedule-tool` | Gera os horários a partir das janelas recomendadas da rede para uma meta semanal, substituindo os atuais. Também salva `goal` como a meta semanal do canal. `mode` não tem efeito hoje. Só admins. REST: [Generate posting schedule](/api-reference/channels/generate-posting-schedule) | `account_id` (obrigatório), `mode` (obrigatório, `goal` \| `recommended`), `goal` (1 a 28; padrão: a meta do canal, senão 3) |
+| `copy-posting-schedule-tool` | Copia os horários de outro canal para este. O canal de origem precisa ter horários. Só admins. REST: [Copy posting schedule](/api-reference/channels/copy-posting-schedule) | `account_id` (obrigatório), `from` (obrigatório) |
+| `list-free-slots-tool` | Os próximos horários livres da fila do canal em UTC, do mais próximo ao mais distante: até 30, nos próximos 90 dias. Somente leitura. REST: [List free queue slots](/api-reference/channels/list-free-queue-slots) | `account_id` (obrigatório) |
+| `reorder-queue-tool` | Reordena a fila de um canal: os posts trocam de lugar entre os horários que já ocupam. Os ids precisam ser exatamente os primeiros posts reordenáveis da fila; senão a chamada é recusada. Devolve `{post_ids}`. Só membros que publicam direto. REST: [Reorder queue](/api-reference/channels/reorder-queue) | `account_id` (obrigatório), `post_ids[]` (obrigatório, até 500) |
+| `move-post-to-slot-tool` | Move um post agendado para um horário livre; lá ele vira um post da fila. Horários ocupados, fora da programação ou reservados por um pedido pendente são recusados. Só membros que publicam direto. REST: [Move post to queue slot](/api-reference/channels/move-post-to-queue-slot) | `account_id`, `post_id`, `slot_at` (todos obrigatórios) |
+| `list-pinterest-boards-tool` | Lista as pastas de uma conta do Pinterest: `{boards: [{id, name, cover_url}], truncated}`. Use o `id` de uma pasta como `meta.board_id`. REST: [List Pinterest boards](/api-reference/social-accounts/list-pinterest-boards) | `account_id` (obrigatório) |
+| `create-pinterest-board-tool` | Cria uma pasta numa conta do Pinterest. Devolve `id`, `name`, `cover_url`. REST: [Create Pinterest board](/api-reference/social-accounts/create-pinterest-board) | `account_id` (obrigatório), `name` (obrigatório, até 50) |
+| `list-discord-channels-tool` | Lista os canais de texto e de anúncios em que o bot pode postar: `{channels: [{id, name}]}`. Use um `id` como `meta.channel_id`. REST: [List Discord channels](/api-reference/social-accounts/list-discord-channels) | `account_id` (obrigatório) |
+| `get-tiktok-creator-info-tool` | O que o TikTok deixa esse criador publicar agora: `privacy_level_options`, `comment_disabled` / `duet_disabled` / `stitch_disabled`, `max_video_post_duration_sec`, `can_post`. O `max_video_post_duration_sec` não é conferido no agendamento, então compare a duração do vídeo você mesmo. Um limite de postagem ou instabilidade do TikTok devolve erro. Somente leitura. REST: [Get TikTok creator info](/api-reference/social-accounts/get-tiktok-creator-info) | `account_id` (obrigatório) |
+
+## Repost
+
+Um repost acompanha uma conta do Instagram ou do Facebook num formato de vídeo e republica cada vídeo novo nos destinos. Membros que publicam direto podem usar estas ferramentas. Veja [Repost](/knowledge-base/repurpose).
+
+| Ferramenta | O que faz | Principais argumentos |
+|------|--------------|---------------|
+| `list-repurpose-source-formats-tool` | Lista os formatos que um repost pode acompanhar (`reel`, `video`, `story`) com os rótulos. Devolve `{source_formats}`. Somente leitura. REST: [List repurpose source formats](/api-reference/repurposes/list-repurpose-source-formats) | nenhum |
+| `list-repurposes-tool` | Lista os reposts do workspace. Somente leitura. REST: [List repurposes](/api-reference/repurposes/list-repurposes) | `page` |
+| `get-repurpose-tool` | Mostra um repost: formato, destinos, status e o último erro de verificação. Somente leitura. REST: [Get repurpose](/api-reference/repurposes/get-repurpose) | `repurpose_id` (obrigatório) |
+| `create-repurpose-tool` | Cria um repost como rascunho. Um repost por origem e formato; a origem não pode ser também destino; o Google Business não pode ser destino. Cada destino escolhe um tipo de conteúdo que aceite vídeo. O meta obrigatório é conferido na ativação e em toda edição de um repost ativo. REST: [Create repurpose](/api-reference/repurposes/create-repurpose) | `source_social_account_id` (obrigatório), `source_format` (padrão `reel`), `publish_mode` (`publish` padrão \| `draft`), `destinations[]` (`{social_account_id, content_type, meta?}`) |
+| `update-repurpose-tool` | Edita um repost. Trocar a origem ou o formato reinicia a marca d'água (o ponto a partir do qual os vídeos são replicados). `destinations` substitui a lista. O meta obrigatório é conferido em toda edição de um repost ativo. REST: [Update repurpose](/api-reference/repurposes/update-repurpose) | `repurpose_id` (obrigatório), `source_social_account_id`, `source_format`, `publish_mode`, `destinations[]` |
+| `activate-repurpose-tool` | Começa a acompanhar. Precisa de uma origem utilizável, de pelo menos um destino e do meta obrigatório dos destinos. Só os vídeos publicados dali em diante são replicados. REST: [Activate repurpose](/api-reference/repurposes/activate-repurpose) | `repurpose_id` (obrigatório) |
+| `pause-repurpose-tool` | Pausa um repost ativo; a marca d'água é mantida. REST: [Pause repurpose](/api-reference/repurposes/pause-repurpose) | `repurpose_id` (obrigatório) |
+| `resume-repurpose-tool` | Retoma um repost pausado, com as mesmas verificações da ativação. Depois de uma pausa feita por você, ele continua de onde parou; depois de uma pausa feita pelo PostClean (por exemplo, quando a origem precisou ser reconectada), ele começa do momento atual, e os vídeos postados nesse meio-tempo não são replicados. REST: [Resume repurpose](/api-reference/repurposes/resume-repurpose) | `repurpose_id` (obrigatório) |
+| `disable-repurpose-tool` | Desliga um repost e limpa a marca d'água. REST: [Disable repurpose](/api-reference/repurposes/disable-repurpose) | `repurpose_id` (obrigatório) |
+| `list-repurpose-items-tool` | Todos os vídeos de origem que o repost já viu, com o motivo de cada um ter sido pulado. Somente leitura. REST: [List repurpose items](/api-reference/repurposes/list-repurpose-items) | `repurpose_id` (obrigatório), `page` |
+| `delete-repurpose-tool` | Exclui um repost. A verificação para; os posts que ele criou continuam. Devolve `{deleted: true}`. REST: [Delete repurpose](/api-reference/repurposes/delete-repurpose) | `repurpose_id` (obrigatório) |
+
+Vídeos já publicados pelo PostClean nunca são replicados.
+
+## Etiquetas
+
+Qualquer membro pode gerenciar etiquetas. Veja [Etiquetas](/knowledge-base/settings/labels).
+
+| Ferramenta | O que faz | Principais argumentos |
+|------|--------------|---------------|
+| `list-labels-tool` | Lista as etiquetas do workspace. Somente leitura. REST: [List labels](/api-reference/labels/list-labels) | `page` |
+| `create-label-tool` | Cria uma etiqueta. REST: [Create label](/api-reference/labels/create-label) | `name` (obrigatório, até 255), `color` (obrigatório, `#RRGGBB`) |
+| `update-label-tool` | Muda o nome e a cor de uma etiqueta. REST: [Update label](/api-reference/labels/update-label) | `label_id`, `name`, `color` (todos obrigatórios) |
+| `delete-label-tool` | Exclui uma etiqueta e a tira de todos os posts. Destrutiva. REST: [Delete label](/api-reference/labels/delete-label) | `label_id` (obrigatório) |
+
+## Assinaturas
+
+Qualquer membro pode gerenciar assinaturas. Uma assinatura nunca entra num post sozinha: acrescente o conteúdo dela ao texto do post. Veja [Assinaturas](/knowledge-base/settings/signatures).
+
+| Ferramenta | O que faz | Principais argumentos |
+|------|--------------|---------------|
+| `list-signatures-tool` | Lista as assinaturas do workspace. Somente leitura. REST: [List signatures](/api-reference/signatures/list-signatures) | `page` |
+| `create-signature-tool` | Cria uma assinatura. REST: [Create signature](/api-reference/signatures/create-signature) | `name` (obrigatório, até 255), `content` (obrigatório) |
+| `update-signature-tool` | Edita uma assinatura. REST: [Update signature](/api-reference/signatures/update-signature) | `signature_id`, `name`, `content` (todos obrigatórios) |
+| `delete-signature-tool` | Exclui uma assinatura. Destrutiva. REST: [Delete signature](/api-reference/signatures/delete-signature) | `signature_id` (obrigatório) |
+
+## Webhooks
+
+Só admins. Cada entrega é um `POST` em JSON assinado com HMAC-SHA256 do corpo; o resultado em hexadecimal vai no cabeçalho `X-Webhook-Signature`. Depois de 5 falhas seguidas, o webhook é pausado e o dono da conta recebe um e-mail. Eventos: `post.created`, `post.scheduled`, `post.unscheduled`, `post.published`, `post.failed`, `post.deleted`. Veja [Webhooks](/knowledge-base/settings/webhooks).
+
+| Ferramenta | O que faz | Principais argumentos |
+|------|--------------|---------------|
+| `list-webhooks-tool` | Lista os webhooks sem os segredos. Somente leitura. REST: [List webhooks](/api-reference/webhooks/list-webhooks) | `page` |
+| `get-webhook-tool` | Mostra um webhook, com o `signing_secret`. Somente leitura. REST: [Get webhook](/api-reference/webhooks/get-webhook) | `webhook_id` (obrigatório) |
+| `create-webhook-tool` | Cria um webhook (sempre `enabled`). Devolve o webhook com o `signing_secret`. Endpoints privados ou locais são recusados; nenhuma requisição de teste é enviada. REST: [Create webhook](/api-reference/webhooks/create-webhook) | `endpoint` (obrigatório, até 255), `events[]` (obrigatório, pelo menos um) |
+| `update-webhook-tool` | Muda o endpoint, os eventos ou o status. Reativar um webhook pausado zera as falhas. REST: [Update webhook](/api-reference/webhooks/update-webhook) | `webhook_id` (obrigatório), `endpoint`, `events[]`, `status` (`enabled` \| `disabled`) |
+| `delete-webhook-tool` | Exclui um webhook e os registros dele. Destrutiva. REST: [Delete webhook](/api-reference/webhooks/delete-webhook) | `webhook_id` (obrigatório) |
+| `send-webhook-test-tool` | Envia um ping `webhook.test` assinado. Não grava registro de entrega. Devolve `{tested: true}`. REST: [Send webhook test](/api-reference/webhooks/send-webhook-test) | `webhook_id` (obrigatório) |
+| `rotate-webhook-secret-tool` | Troca o segredo de assinatura; o antigo para de funcionar na hora. Devolve o novo `signing_secret`. Destrutiva. REST: [Rotate webhook secret](/api-reference/webhooks/rotate-webhook-secret) | `webhook_id` (obrigatório) |
+| `list-webhook-logs-tool` | Lista os registros de entrega, do mais novo para o mais antigo, com o conteúdo enviado e o corpo da resposta. Somente leitura. REST: [List webhook logs](/api-reference/webhooks/list-webhook-logs) | `webhook_id` (obrigatório), `page` |
+| `replay-webhook-log-tool` | Coloca na fila uma nova entrega assinada com o conteúdo de um registro, mesmo com o webhook pausado ou desativado. Devolve `{replayed: true}`. REST: [Replay webhook log](/api-reference/webhooks/replay-webhook-log) | `webhook_id`, `log_id` (ambos obrigatórios) |
+
+## Chaves de API
+
+Só admins. Estas ferramentas gerenciam os Personal Access Tokens usados pela API REST; conexões OAuth como esta não aparecem na lista. Cada admin vê e revoga só as chaves que ele criou neste workspace. Veja [Chaves de API](/knowledge-base/settings/api-keys).
+
+| Ferramenta | O que faz | Principais argumentos |
+|------|--------------|---------------|
+| `list-api-keys-tool` | Lista as chaves de API (só os dados, nunca o segredo). Somente leitura. REST: [List API keys](/api-reference/api-keys/list-api-keys) | `page` |
+| `create-api-key-tool` | Cria uma chave de API. Devolve `{token, plain_token}`: `token` são os dados e `plain_token` é o segredo, mostrado uma única vez. REST: [Create API key](/api-reference/api-keys/create-api-key) | `name` (obrigatório, até 255), `expires_at` (hoje ou depois; omita para não expirar) |
+| `delete-api-key-tool` | Revoga uma chave de API. As integrações que a usam param de funcionar. Destrutiva. REST: [Delete API key](/api-reference/api-keys/delete-api-key) | `api_key_id` (obrigatório) |
+
+## Workspace
+
+| Ferramenta | O que faz | Principais argumentos |
+|------|--------------|---------------|
+| `get-workspace-tool` | O workspace em que esta conexão age (`id`, `name`, horários) e o que você pode fazer nele: `me.is_admin`, `me.requires_approval`, `me.publishes_directly`. Somente leitura. REST: [Get workspace](/api-reference/workspace/get-workspace) | nenhum |
+
+## Plataforma
+
+| Ferramenta | O que faz | Principais argumentos |
+|------|--------------|---------------|
+| `list-content-types-tool` | Todas as plataformas com os tipos de conteúdo e as regras. Por plataforma: `label`, `allowed_media_types`, `default_content_type`, `max_content_length` (o padrão da rede; o limite da conta está em `list-social-accounts-tool`), `recommended_content_length`, `max_hashtags`, `alt_text_max_length`, `required_meta`. Por tipo de conteúdo: `value`, `label`, `description`, quantidade de mídias (`min_media_count`, `requires_media`), `forbids_mixed_media`, `auto_fits_image`, tipos aceitos, GIF e MOV, limites de bytes, duração de vídeo, proporções, tamanhos de imagem, texto alternativo, marcações de pessoas, capa de vídeo, `captionless`, `document_must_be_alone`, `supports_thread_replies`, `max_thread_replies`. Chame antes de escolher um `content_type` ou anexar mídia. Somente leitura. REST: [List content types](/api-reference/platform/list-content-types) | nenhum |
+
+## Observações
+
+- **As listas são paginadas** com o tamanho de página do app (25 hoje; leia `per_page` em vez de supor). Passe `page`; as respostas trazem `total`, `per_page`, `current_page` e `last_page` junto com os itens.
+- **Erros** voltam como erros de ferramenta com uma mensagem (`Post not found.`, `This action is unauthorized.` ou a mensagem de validação). Quando a fila de um canal está ocupada, tente de novo em instantes.
+- **Confirmações**: cada ferramenta informa ao cliente se só lê, se altera ou remove dados existentes e se acessa algo fora do PostClean. As de somente leitura rodam sem perguntar na maioria dos clientes. As que alteram ou removem dados, publicam, aprovam ou rejeitam, enviam e-mail ou reenviam um webhook são marcadas como destrutivas, então o cliente pergunta antes; as que só acrescentam (criar ideia, etapa de ideia, etiqueta, assinatura, chave de API, repost, webhook ou pasta do Pinterest, e pedir um upload) não são. As que podem publicar em redes públicas, baixar uma URL ou chamar um endpoint de webhook são marcadas como acessando algo fora do PostClean.
+- **Fora do MCP**: geração com IA, conectar ou desconectar canais, transformar ideias em posts, modelos, membros e convites, cobrança e automações do Instagram. Use o app web para isso.

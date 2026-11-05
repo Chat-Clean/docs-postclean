@@ -1,0 +1,207 @@
+---
+title: "Mídia"
+description: "Adicione, edite e descreva imagens, vídeos e PDFs no editor de posts, e veja o que cada rede aceita."
+icon: "image"
+---
+
+A mídia é adicionada e editada dentro do [editor de posts](/knowledge-base/publish/composer). Não existe uma biblioteca de mídia separada: cada post guarda a própria cópia dos arquivos, e excluir um post exclui a mídia dele.
+
+## Arquivos aceitos
+
+| Tipo | Formatos |
+| --- | --- |
+| Imagem | JPG, PNG, GIF, WebP. Fotos HEIC do iPhone são convertidas para JPEG. |
+| Vídeo | MP4, MOV |
+| Documento | PDF (só no LinkedIn) |
+
+Tamanho máximo por arquivo no PostClean:
+
+| Tipo | Limite |
+| --- | --- |
+| Imagem | 10 MB, e no máximo 8192 × 8192 pixels (cerca de 67 megapixels) |
+| Vídeo | 1 GB |
+| PDF | 100 MB |
+
+Muitas redes aceitam menos do que isso. O editor confere cada arquivo com as redes e os tipos de post selecionados; veja [Limites por rede](#limites-por-rede).
+
+## Adicionar mídia
+
+- **Enviar do computador**, arraste os arquivos para o editor ou cole-os.
+- **Mais fontes de mídia** abre as outras fontes disponíveis no seu workspace: **Unsplash** (fotos gratuitas), **Google Drive**, **Google Fotos** e **Canva**. Só as fontes configuradas aparecem no menu.
+
+Com o Canva, escolha um formato (**Quadrado 1:1**, **Retrato 4:5**, **Retrato 3:4**, **Paisagem 1.91:1**, **Story 9:16**) para começar um design. Quando você termina, ele volta para o post. Depois, **Editar no Canva** reabre o design e traz a versão nova.
+
+Arquivos que falham no envio mostram **Tentar de novo** e **Remover**. Você só consegue salvar o post quando todos os envios terminam ou são removidos.
+
+### Reordenar
+
+Arraste um arquivo pela alça para mudar a ordem, ou selecione-o e use as setas para a esquerda e para a direita. A ordem no editor é a ordem na rede, o que importa em carrosséis e posts com várias imagens.
+
+## Editar mídia
+
+Clique em **Editar** num arquivo para abrir **Editar mídia**: "Recorte, ajuste, descreva e marque as imagens deste post." As abas dependem do arquivo e do tipo de post.
+
+### Recorte
+
+- **Recorte e transformação**: **Livre**, **Original** e formatos retrato, quadrado e paisagem.
+- **Girar e espelhar**: girar para a esquerda ou para a direita, espelhar horizontal ou verticalmente.
+- **Endireitar** com um controle deslizante.
+
+### Aparência
+
+- **Filtros**: **Original**, **Vívido**, **Mono**, **Sépia**, com **Intensidade do filtro**.
+- **Ajustes**: **Brilho**, **Contraste**, **Saturação**, **Temperatura**.
+
+**Aplicar** salva as imagens editadas no post. Se a edição não puder ser enviada, a imagem original continua selecionada.
+
+### Texto alternativo
+
+**Texto alternativo** adiciona uma descrição para pessoas com deficiência visual. Ele também aparece se a imagem não carregar.
+
+**Gerar com IA** escreve uma descrição da imagem para você, no idioma da sua interface. Funciona só com imagens e só no app web; não está disponível pela API nem pelo MCP.
+
+TikTok, YouTube, Telegram e Google Business não aceitam texto alternativo. As outras redes limitam o tamanho dele (por exemplo, 500 caracteres no Pinterest e 1.000 no X).
+
+### Marcar pessoas
+
+Nos posts do feed do Instagram, **Marcar pessoas** permite clicar na imagem onde uma pessoa aparece e digitar o usuário dela no Instagram. Até 20 marcações por imagem. Na API e no MCP elas ficam em `meta.user_tags` do item de mídia, inclusive quando você anexa mídia a um post existente. A API do Instagram não permite buscar usuários nem marcar perfis privados.
+
+### Miniatura
+
+Nos vídeos do feed e Reels do Instagram, nos vídeos do TikTok e nos pins de vídeo do Pinterest, **Miniatura** permite arrastar um controle para escolher o quadro que aparece como capa do vídeo.
+
+## O que o PostClean faz com os seus arquivos
+
+- As imagens que você edita são salvas como imagens novas; as edições não mexem nos originais.
+- As imagens de Stories do Instagram e do Facebook são encaixadas numa tela vertical 9:16.
+- Algumas redes recebem uma cópia redimensionada da imagem quando ela passa do limite delas (por exemplo, as imagens do Bluesky são recodificadas para ficar abaixo do limite de 2 MB do Bluesky).
+- Os vídeos são enviados como você subiu. O PostClean não converte vídeos.
+
+## Limites por rede
+
+O editor mostra um aviso num canal quando a mídia não cabe e leva à seção correspondente abaixo. Os números são os do PostClean: o limite da própria rede, limitado aos tamanhos máximos por arquivo acima. Os valores atualizados de cada tipo de post estão em [List content types](/api-reference/platform/list-content-types).
+
+As respostas de sequências no X, no Bluesky e no Mastodon seguem as mesmas regras de um post naquela rede, resposta por resposta.
+
+### Instagram
+
+| Tipo de post | Mídia |
+| --- | --- |
+| **Post do Feed** | Até 10 arquivos: imagens de até 8 MB, vídeos de até 100 MB e 60 segundos |
+| **Reels** | 1 vídeo, de até 300 MB e 15 minutos |
+| **Story** | 1 imagem (8 MB) ou 1 vídeo (100 MB, 60 segundos). Stories não têm legenda. |
+
+Sem GIFs. Texto alternativo de até 1.000 caracteres. **Marcar pessoas** nos posts do feed. Veja [Instagram](/platforms/instagram).
+
+### Facebook
+
+| Tipo de post | Mídia |
+| --- | --- |
+| **Post** | Até 10 imagens (4 MB cada) **ou** 1 vídeo (1 GB, 240 minutos) |
+| **Reels** | 1 vídeo, de até 1 GB e 90 segundos |
+| **Story** | 1 imagem (10 MB) ou 1 vídeo (1 GB, 60 segundos). Stories não têm legenda. |
+
+Sem GIFs. Texto alternativo de até 1.000 caracteres. Veja [Facebook](/platforms/facebook).
+
+### Threads
+
+| Tipo de post | Mídia |
+| --- | --- |
+| **Thread** | Até 10 arquivos: imagens de até 8 MB, vídeos de até 1 GB e 5 minutos |
+| **Post fantasma** | Só texto, sem mídia |
+
+Sem GIFs. Texto alternativo de até 1.000 caracteres. Veja [Threads](/platforms/threads).
+
+### X (Twitter)
+
+| Tipo de post | Mídia |
+| --- | --- |
+| **Post** | Até 4 arquivos: imagens de até 5 MB, vídeos de até 1 GB e 20 minutos |
+
+GIFs são aceitos. Texto alternativo de até 1.000 caracteres. Veja [X (Twitter)](/platforms/x-twitter).
+
+### LinkedIn
+
+| Tipo de post | Mídia |
+| --- | --- |
+| **Post** (perfil e Página) | Até 10 imagens (5 MB cada), **ou** 1 vídeo (1 GB, 10 minutos), **ou** 1 PDF (100 MB) sozinho |
+
+Imagens, vídeo e PDF não podem ser misturados. Sem GIFs. Um post com PDF pode ter um **Título do documento**. Texto alternativo de até 4.086 caracteres. Veja [LinkedIn](/platforms/linkedin).
+
+### TikTok
+
+| Tipo de post | Mídia |
+| --- | --- |
+| **Vídeo** | 1 vídeo, de até 1 GB e 10 minutos (o TikTok pode definir um limite menor para a sua conta) |
+| **Carrossel de fotos** | De 1 a 35 imagens, de até 10 MB cada |
+
+A mídia anexada decide o tipo: fotos e vídeo nunca se misturam. Sem GIFs e sem texto alternativo. Veja [TikTok](/platforms/tiktok).
+
+### YouTube
+
+| Tipo de post | Mídia |
+| --- | --- |
+| **Short** | 1 vídeo, de até 1 GB e 3 minutos |
+
+O vídeo é obrigatório. Sem imagens e sem texto alternativo. Veja [YouTube](/platforms/youtube).
+
+### Pinterest
+
+| Tipo de post | Mídia |
+| --- | --- |
+| **Foto** | 1 imagem, de até 10 MB |
+| **Vídeo** | 1 vídeo, de até 1 GB e 15 minutos |
+| **Carrossel** | De 2 a 5 imagens, de até 10 MB cada |
+
+Sem GIFs. Texto alternativo de até 500 caracteres. Veja [Pinterest](/platforms/pinterest).
+
+### Bluesky
+
+| Tipo de post | Mídia |
+| --- | --- |
+| **Post** | Até 4 imagens (10 MB cada) **ou** 1 vídeo (300 MB, 10 minutos) |
+
+Imagens e vídeo não podem ser misturados. GIFs são aceitos. Na publicação, as imagens são recodificadas para ficar abaixo do limite de 2 MB do Bluesky; um GIF acima de 2 MB falha. Texto alternativo de até 2.000 caracteres. Veja [Bluesky](/platforms/bluesky).
+
+### Mastodon
+
+| Tipo de post | Mídia |
+| --- | --- |
+| **Post** | Até 4 imagens (10 MB cada) **ou** 1 vídeo (40 MB) |
+
+GIFs são aceitos. Texto alternativo de até 1.500 caracteres. Veja [Mastodon](/platforms/mastodon).
+
+### Discord
+
+| Tipo de post | Mídia |
+| --- | --- |
+| **Mensagem** | Até 10 arquivos: imagens de até 10 MB, vídeos de até 20 MB |
+
+GIFs são aceitos. Texto alternativo de até 1.024 caracteres. Veja [Discord](/platforms/discord).
+
+### Telegram
+
+| Tipo de post | Mídia |
+| --- | --- |
+| **Post** | Até 10 arquivos: imagens de até 5 MB, vídeos de até 20 MB, enviados como álbum |
+
+GIFs são aceitos. Sem texto alternativo. Veja [Telegram](/platforms/telegram).
+
+### Google Business Profile
+
+| Tipo de post | Mídia |
+| --- | --- |
+| **Publicação** | 1 imagem, com pelo menos 250 px no lado menor |
+
+Sem vídeos, sem GIFs e sem texto alternativo. Veja [Google Business](/platforms/google-business).
+
+## API e MCP
+
+| Tarefa | API REST | Ferramenta MCP |
+| --- | --- | --- |
+| Enviar um arquivo para um post | [Upload media](/api-reference/media-and-uploads/upload-media) | — |
+| Enviar primeiro e anexar depois | [Create upload](/api-reference/media-and-uploads/create-upload), [Upload to signed URL](/api-reference/media-and-uploads/upload-to-signed-url), [Attach media from upload](/api-reference/media-and-uploads/attach-media-from-upload) | `request-media-upload-tool`, `attach-media-from-upload-tool` |
+| Anexar de uma URL pública | [Attach media from URL](/api-reference/media-and-uploads/attach-media-from-url) | `attach-media-from-url-tool` |
+| Limites por tipo de post | [List content types](/api-reference/platform/list-content-types) | `list-content-types-tool` |
+
+O [guia de envio de mídia](/api-reference/guides/media-uploads) explica cada fluxo passo a passo. Envios que nunca são anexados são apagados depois de 24 horas.

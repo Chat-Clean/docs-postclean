@@ -1,0 +1,49 @@
+---
+title: "Lembrete para quem não clicou"
+sidebarTitle: "Lembrete"
+description: "Mande um lembrete no direct para quem recebeu o link e não abriu, usando os links rastreados da entrega."
+icon: "bell"
+---
+
+O passo **Lembrete para quem não clicou** manda uma segunda mensagem para quem recebeu a entrega e não abriu o link. "Se a pessoa não abrir o link, ela recebe um lembrete. Só sai até 24 horas depois do último toque dela."
+
+O modelo **Comente e receba o link** já vem com o lembrete ligado, para 2 horas depois, com o texto "Passando para lembrar do seu link 😉".
+
+## Como o PostClean sabe quem clicou
+
+Todo botão **Abrir um link** enviado por uma automação passa por um endereço curto do PostClean. Quando a pessoa toca, o PostClean conta o clique e leva a pessoa direto ao seu link. As prévias de link e os robôs que abrem endereços (como o do próprio Instagram ou do WhatsApp) não contam como clique.
+
+## Como ligar
+
+<Steps>
+  <Step title="Adicione um botão de link na entrega">
+    O lembrete precisa de pelo menos um botão **Abrir um link** na **Entrega** ("O lembrete precisa de um botão de link na entrega.").
+  </Step>
+  <Step title="Ligue a abertura ou o pedido de dado">
+    Nos gatilhos de comentário, ligue a **Mensagem de abertura** ou **Pedir um dado**: "o lembrete só sai depois que a pessoa toca ou responde." Veja [por que a mensagem de abertura importa](/knowledge-base/automations/flow-editor#por-que-a-mensagem-de-abertura-importa).
+  </Step>
+  <Step title="Ligue o lembrete">
+    Em **Enviar depois de**, escolha 30 minutos, 1, 2, 4, 8, 12 ou 20 horas, e escreva o **Texto do lembrete**.
+  </Step>
+</Steps>
+
+## O que acontece
+
+1. A pessoa recebe a entrega com o botão de link.
+2. O PostClean espera o tempo de **Enviar depois de**.
+3. Se ela abriu algum link da entrega nesse tempo, nada mais é enviado.
+4. Se não abriu, ela recebe o **Texto do lembrete** com os mesmos botões de link da entrega.
+
+O lembrete sai uma vez só. Se o tempo escolhido passar das 24 horas desde a última ação da pessoa na conversa, o Instagram não aceita mais a mensagem e o lembrete não é enviado. Veja [Limites da Meta](/knowledge-base/automations/meta-limits).
+
+<Tip>
+  Prefira um tempo curto, como 1 ou 2 horas. Quanto mais perto da última ação da pessoa, mais chance o lembrete tem de sair dentro da janela de 24 horas.
+</Tip>
+
+## No editor de blocos
+
+No [editor de blocos](/knowledge-base/automations/flow-editor#editor-de-blocos), monte o mesmo lembrete com três blocos depois da mensagem com o link:
+
+1. **Esperar** pelo tempo que quiser.
+2. **Condição** com a pergunta **Clicou no link?**.
+3. No caminho **Não**, uma **Mensagem** com o lembrete e o botão de link.

@@ -1,0 +1,165 @@
+---
+title: "Editor de posts"
+description: "Escreva um post uma vez, personalize para cada rede e escolha quando ele será publicado."
+---
+
+O editor de posts é onde você escreve os posts. Abra com:
+
+- **Novo** → **Post** na barra lateral;
+- **Novo post** na página [Publicar](/knowledge-base/publish/overview);
+- **Novo** num [horário livre da fila](/knowledge-base/publish/queue), ou um clique no calendário, que abre o editor naquele horário.
+
+## Escrever o post
+
+<Steps>
+  <Step title="Escolha os canais">
+    Selecione um ou mais canais conectados. Ao salvar, o PostClean cria um post por canal. **Usados recentemente** seleciona os canais do último post que você salvou neste navegador. A busca de canais procura cada palavra digitada e ignora acentos.
+  </Step>
+  <Step title="Escreva e adicione mídia">
+    Escreva o texto no editor compartilhado e adicione imagens, vídeos ou um PDF. Veja [Mídia](/knowledge-base/media).
+  </Step>
+  <Step title="Escolha quando">
+    Escolha uma opção de agendamento (veja [Quando publicar](#quando-publicar)).
+  </Step>
+  <Step title="Personalize por rede">
+    Com mais de uma rede selecionada, clique em **Personalizar por rede** para revisar cada uma. Com uma rede só, você já está nessa etapa.
+  </Step>
+  <Step title="Salve">
+    Clique em **Agendar posts**, **Adicionar à fila** ou **Publicar posts**, ou em **Salvar rascunho** (**Salvar rascunhos**) a qualquer momento.
+  </Step>
+</Steps>
+
+Marque **Criar outro** para manter o editor aberto para o próximo post.
+
+### Etapa 1: um editor compartilhado
+
+A primeira etapa é um editor só para todas as redes selecionadas. O texto, a mídia e os links vão para todas elas.
+
+### Etapa 2: um cartão por rede
+
+**Personalizar por rede** abre um cartão por rede, na mesma ordem da sua lista de canais. Cada cartão começa como uma cópia do texto compartilhado, e você pode mudar o texto, a mídia, o tipo de post e as configurações só daquela rede.
+
+<Warning>
+  Voltar para a etapa 1 descarta todas as mudanças feitas por rede, inclusive os tipos de post e as configurações. O PostClean avisa antes: "Você pode perder suas alterações."
+</Warning>
+
+As configurações de Pinterest, Discord e TikTok (quadro, canal, privacidade) ficam por conta. Todas as outras valem para todas as contas daquela rede.
+
+### Tipos de post e configurações da rede
+
+Cada rede oferece os próprios tipos de post, como **Post do Feed**, **Reels** e **Story** no Instagram, ou **Post**, **Reels** e **Story** no Facebook. No Pinterest e no TikTok não há escolha de tipo: a mídia anexada decide (um vídeo vira um pin de vídeo ou um vídeo do TikTok, várias imagens viram um carrossel do Pinterest, só imagens viram um carrossel de fotos do TikTok). Algumas redes têm configurações extras:
+
+| Rede | Configurações |
+| --- | --- |
+| TikTok | **Visibilidade** (obrigatória), **Permitir comentários**, **Permitir Dueto**, **Permitir Stitch**, **Adicionar música automaticamente**, **Divulgar conteúdo do vídeo**, **Sua marca**, **Conteúdo patrocinado** |
+| Pinterest | Quadro (obrigatório), **Título**, **Link de destino** |
+| Discord | **Canal** (obrigatório), **Menções**, **Embeds** |
+| YouTube | **Título**, **Descrição**, **Categoria**, **Visibilidade**, **Licença**, **Notificar inscritos**, **Permitir incorporar**, **Para crianças** |
+| Google Business | **Tipo de Post** (Novidades, Evento, Oferta), **Botão** |
+| Mastodon | **Aviso de conteúdo** |
+| Threads | **Tópico**, e o tipo **Post fantasma** (só texto, arquivado depois de 24 horas) |
+| LinkedIn | **Título do documento** para posts com PDF |
+| Instagram | **Enviar ao feed** nos Reels |
+
+Instagram, vídeos do TikTok, X e YouTube também oferecem a opção **Gerado por IA**: "Avise aos espectadores que o conteúdo foi gerado ou editado com IA."
+
+Cada rede tem a própria página em **Plataformas**, por exemplo [TikTok](/platforms/tiktok) e [Google Business](/platforms/google-business).
+
+**YouTube:** sem **Título**, a primeira linha não vazia do seu texto vira o título (até 100 caracteres, sem `<` nem `>`). Um post sem título e sem texto não pode ser agendado nem publicado no YouTube.
+
+## Limites de caracteres
+
+O editor conta os caracteres de cada canal e avisa antes de você salvar.
+
+- Os limites são por conta. Uma conta do X com posts longos (assinatura Basic, Premium ou Premium+, ou empresa verificada) tem 25.000 caracteres em vez de 280.
+- Nenhum post pode passar de 25.000 caracteres, nem mesmo um rascunho.
+- Cada caractere conta uma vez, emoji incluído.
+- O aviso de conteúdo do Mastodon conta nos 500 caracteres.
+- O Instagram permite até 5 hashtags. O contador mostra quantas hashtags ainda cabem.
+- Os Stories do Instagram e do Facebook não levam legenda, então o texto deles não é medido.
+
+Os limites das redes são conferidos quando você agenda ou publica, não quando salva um rascunho. O limite de cada rede está na página dela, na seção **Plataformas** da documentação, por exemplo [X (Twitter)](/platforms/x-twitter) ou [Instagram](/platforms/instagram).
+
+## Sequências de posts
+
+No X, no Bluesky e no Mastodon você pode publicar uma sequência (thread):
+
+- **Iniciar sequência** adiciona uma resposta abaixo do primeiro post; **Adicionar à sequência** adiciona outra.
+- Uma sequência tem até 24 respostas.
+- Cada resposta tem o próprio texto e a própria mídia, e precisa de pelo menos um dos dois. A mídia aparece só embaixo daquela resposta.
+- Cada resposta é medida pelo limite de caracteres da conta.
+- Pressione <kbd>Shift</kbd> <kbd>Enter</kbd> para começar o próximo post da sequência e <kbd>Backspace</kbd> num post vazio para removê-lo. Numa resposta, quando a sequência já tem 24 respostas, <kbd>Shift</kbd> <kbd>Enter</kbd> só quebra a linha.
+
+As outras redes mostram "Sequências de posts não estão disponíveis nesta rede."
+
+## Prévia de links
+
+Quando o texto tem um link, o editor mostra um cartão de prévia do link.
+
+- O × (**Remover prévia do link**) publica o post sem o cartão. Posts do Facebook, Bluesky e LinkedIn respeitam essa escolha.
+- O Threads sempre mostra um cartão para o primeiro link, então não tem ×.
+- **Trocar prévia do link por mídia** adiciona a imagem do cartão ao post como mídia.
+
+## Quando publicar
+
+| Opção | O que acontece |
+| --- | --- |
+| **Agora** | "Publique imediatamente." |
+| **Próximo horário livre** | "Vai depois dos posts que já estão na fila." Ocupa o primeiro horário livre da fila. |
+| **Priorizar** | "Coloca este post no topo da fila." |
+| **Definir data e hora** | "Escolha um horário específico para publicar." |
+
+As opções de fila exigem horários de postagem em todos os canais selecionados. Se algum não tiver, o editor diz qual ("Sem horários:" seguido dos nomes dos canais) e leva a **Gerenciar horários**. Veja [Fila](/knowledge-base/publish/queue).
+
+A opção com que o editor começa é a sua **Ação padrão de publicação**, em [Preferências](/knowledge-base/settings/preferences).
+
+### Fuso horário
+
+Os horários no editor aparecem no fuso do editor, indicado ao lado do horário:
+
+- se todos os canais selecionados têm o mesmo fuso, esse fuso;
+- caso contrário, o seu fuso das Preferências.
+
+Com um canal só selecionado, o seletor de data e hora oferece os horários de postagem daquele canal no dia e deixa desativados os que outro post já ocupa.
+
+## Membros que precisam de aprovação
+
+Se o seu acesso é **Precisa de aprovação**, o botão de salvar fica **Salvar e pedir aprovação**. O post espera em [Aprovações](/knowledge-base/publish/approvals) em vez de ser agendado ou publicado.
+
+## Assistente de IA
+
+O **Assistente de IA** ajuda você a escrever:
+
+- **Gerar** escreve um post a partir de um pedido ("Sobre o que você quer escrever?").
+- **Reescrever**, **Encurtar**, **Expandir**, **Mais casual** e **Mais formal** reescrevem o texto atual.
+
+Depois escolha **Inserir**, **Substituir** o seu texto ou **Gerar outra versão**. A sugestão respeita o limite de caracteres do canal. Textos novos são escritos no idioma da sua interface; as reescritas mantêm o idioma do seu texto.
+
+O assistente só existe no app web; ele não está disponível pela API nem pelo MCP.
+
+## Também no editor de posts
+
+- **Modelos** abre os seus [modelos](/knowledge-base/create/templates); escolher um insere o texto dele.
+- Insira uma [assinatura](/knowledge-base/settings/signatures) pelo seletor de assinaturas.
+- Adicione [etiquetas](/knowledge-base/settings/labels) ao post.
+- Adicione emoji pelo seletor de emoji da barra de ferramentas.
+- **Expandir diálogo** abre o editor em tela cheia; **Sair da tela cheia** volta ao normal.
+- Sem nenhum canal escolhido, **Usados recentemente** seleciona os canais que você usou da última vez; **Selecionar todos** marca todos os canais (**Desmarcar todos** limpa a seleção).
+- Um arquivo que você remove fica em **Mídia sugerida** até você fechar o editor, para você adicionar de volta com um clique.
+- Um editor vazio mostra "Comece a escrever ou se inspire com **Modelos**"; o link abre os seus modelos.
+- As **Pré-visualizações** mostram a versão de cada rede. "As pré-visualizações são uma aproximação. Cada rede define a aparência final do seu post."
+- Se você fechar o editor sem salvar, na próxima vez que abrir o PostClean pergunta **Retomar post não finalizado?** Escolha **Retomar post** ou **Descartar**.
+
+## API e MCP
+
+| Tarefa | API REST | Ferramenta MCP |
+| --- | --- | --- |
+| Criar um post | [Create post](/api-reference/posts/create-post), [Create posts in batch](/api-reference/posts/create-posts-in-batch) | `create-post-tool`, `create-posts-tool` |
+| Editar um post | [Update post](/api-reference/posts/update-post) | `update-post-tool` |
+| Publicar, agendar ou pôr na fila um post salvo | [Update post](/api-reference/posts/update-post) | `publish-post-tool` |
+| Pré-visualizar | [Get post preview](/api-reference/posts/get-post-preview) | `preview-post-tool` |
+| Quadros do Pinterest | [List Pinterest boards](/api-reference/social-accounts/list-pinterest-boards), [Create Pinterest board](/api-reference/social-accounts/create-pinterest-board) | `list-pinterest-boards-tool`, `create-pinterest-board-tool` |
+| Canais do Discord | [List Discord channels](/api-reference/social-accounts/list-discord-channels) | `list-discord-channels-tool` |
+| Opções do TikTok (visibilidade e interações permitidas) | [Get TikTok creator info](/api-reference/social-accounts/get-tiktok-creator-info) | `get-tiktok-creator-info-tool` |
+
+O [guia de publicação](/api-reference/guides/posting) explica as configurações por rede, as sequências e os modos de agendamento pela API. Veja também a [referência das ferramentas MCP](/ai/tools-reference).

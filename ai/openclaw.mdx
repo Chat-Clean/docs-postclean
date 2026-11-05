@@ -1,0 +1,108 @@
+---
+title: "OpenClaw"
+description: "Conecte o PostClean ao OpenClaw para gerenciar suas redes sociais com IA"
+icon: "/images/ai/openclaw.svg"
+---
+
+O [OpenClaw](https://openclaw.ai) é um assistente pessoal de IA de código aberto que roda na sua máquina e conversa por vários canais de chat. Você pode conectá-lo ao servidor MCP do PostClean para o agente gerenciar seus agendamentos em linguagem natural.
+
+## Pré-requisitos
+
+- OpenClaw instalado ([primeiros passos](https://docs.openclaw.ai/start/getting-started))
+- Uma conta no PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+
+## Configuração
+
+<Steps>
+  <Step title="Adicione o servidor MCP do PostClean">
+    Registre o servidor remoto com OAuth (Streamable HTTP):
+
+    ```bash
+    openclaw mcp add postclean \
+      --url https://post.chatclean.com.br/mcp/trypost \
+      --transport streamable-http \
+      --auth oauth \
+      --oauth-scope mcp:use
+    ```
+
+    Isso salva a definição em `mcp.servers` no `~/.openclaw/openclaw.json`. Ainda não conecta nem faz login.
+  </Step>
+  <Step title="Entre com OAuth">
+    Inicie o fluxo de login:
+
+    ```bash
+    openclaw mcp login postclean
+    ```
+
+    O OpenClaw mostra uma URL de autorização e guarda um verificador PKCE temporário. Abra a URL no navegador, entre no PostClean, escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar** (para usar outro workspace, conecte de novo e escolha-o). Depois de aprovar, informe o código recebido:
+
+    ```bash
+    openclaw mcp login postclean --code SEU_CODIGO
+    ```
+  </Step>
+  <Step title="Recarregue e confira">
+    Processos de agente ou do Gateway que já estão rodando podem guardar uma lista de tools antiga. Recarregue os clientes MCP neste processo da CLI (ou reinicie o Gateway / use **Save & Publish** na Control UI) e teste:
+
+    ```bash
+    openclaw mcp reload
+    openclaw mcp doctor postclean --probe
+    ```
+
+    Ou:
+
+    ```bash
+    openclaw mcp probe postclean
+    ```
+
+    Depois peça ao seu agente OpenClaw (Control UI, Telegram, Discord etc.):
+
+    ```
+    Liste todos os meus posts agendados
+    ```
+  </Step>
+</Steps>
+
+<Tip>
+  Gerencie os servidores na Control UI em **Settings → MCP** (`openclaw dashboard`, caminho `/settings/mcp`). Use `openclaw mcp logout postclean` para apagar as credenciais OAuth guardadas sem remover a definição do servidor. Se `openclaw mcp status --verbose` mostrar `authorization-required`, rode `openclaw mcp login postclean` de novo.
+</Tip>
+
+## Configuração manual
+
+Configuração equivalente à que o `openclaw mcp add` grava:
+
+```json5
+{
+  mcp: {
+    servers: {
+      postclean: {
+        url: "https://post.chatclean.com.br/mcp/trypost",
+        transport: "streamable-http",
+        auth: "oauth",
+        oauth: {
+          scope: "mcp:use",
+        },
+      },
+    },
+  },
+}
+```
+
+Salve em `~/.openclaw/openclaw.json`, rode `openclaw mcp login postclean` e conclua a etapa do `--code`.
+
+## Exemplos de prompts
+
+```
+Mostre todas as minhas contas de redes sociais conectadas
+```
+
+```
+Crie um rascunho de post no LinkedIn para amanhã às 9h, horário de Brasília
+```
+
+```
+Quais posts eu tenho agendados para esta semana?
+```
+
+```
+Crie uma etiqueta chamada "Campanha" com a cor #f59e0b
+```

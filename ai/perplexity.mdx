@@ -1,0 +1,78 @@
+---
+title: "Perplexity"
+description: "Conecte o PostClean ao Perplexity para gerenciar suas redes sociais com IA"
+icon: "/images/ai/perplexity.svg"
+---
+
+O [Perplexity](https://www.perplexity.ai) aceita conectores MCP remotos personalizados nos planos pagos. Assim, você conecta o PostClean e gerencia seus agendamentos pelo chat do Perplexity e pelos fluxos do [Computer](https://www.perplexity.ai/changelog/what-we-shipped---march-13-2026).
+
+<Note>
+  Este guia conecta o **PostClean ao Perplexity** como um conector remoto personalizado. O Perplexity também tem o próprio MCP de busca, para usar *dentro* de outros clientes (Claude, Cursor etc.). Esse é outro produto: [Perplexity MCP Server](https://docs.perplexity.ai/docs/getting-started/integrations/mcp-server).
+</Note>
+
+## Pré-requisitos
+
+- Uma conta Perplexity **Pro, Max ou Enterprise** ([conectores remotos personalizados](https://www.perplexity.ai/help-center/en/articles/13915507-adding-custom-remote-connectors) não estão disponíveis no plano Free)
+- Uma conta no PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+
+## Configuração
+
+<Steps>
+  <Step title="Abra os Connectors">
+    No Perplexity, abra **Account Settings → Connectors**. No **Computer**, você também pode abrir **Connectors** na barra lateral esquerda. Clique em **+ Custom connector**.
+  </Step>
+  <Step title="Adicione um conector remoto">
+    Escolha **Remote** e preencha:
+
+    | Campo | Valor |
+    |-------|-------|
+    | **Name** | `PostClean` |
+    | **MCP Server URL** | `https://post.chatclean.com.br/mcp/trypost` |
+    | **Authentication** | **OAuth 2.0** (deixe Client ID / Secret em branco: o PostClean usa Dynamic Client Registration) |
+    | **Transport** | Streamable HTTP, se aparecer (prefira ao SSE; costuma ser detectado sozinho) |
+
+    Aceite o aviso de risco dos conectores personalizados e clique em **Add**.
+  </Step>
+  <Step title="Autorize o PostClean">
+    Abra o card do novo conector e conclua o OAuth. Entre no PostClean, escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar**. Para usar outro workspace, conecte de novo e escolha-o. O conector deve aparecer como conectado, com as tools do PostClean disponíveis.
+  </Step>
+  <Step title="Use o PostClean em uma conversa">
+    Comece uma nova conversa ou tarefa no Computer, ative o conector **PostClean** nela se ainda não estiver ligado e peça:
+
+    ```
+    Liste todos os meus posts agendados
+    ```
+
+    O Perplexity chama as tools do PostClean para buscar seus posts.
+  </Step>
+</Steps>
+
+<Note>
+  O Perplexity acessa o servidor MCP a partir da nuvem dele, por HTTPS. O endpoint `https://post.chatclean.com.br/mcp/trypost` funciona sem nenhuma configuração extra.
+</Note>
+
+<Warning>
+  Escolha **OAuth 2.0** no conector. O PostClean recusa Personal Access Tokens em `/mcp/trypost`, então o modo de autenticação "API Key" do Perplexity não funciona com o MCP do PostClean.
+</Warning>
+
+<Accordion title="Conectores Enterprise / de organização">
+  No plano Enterprise, os administradores podem compartilhar conectores com toda a organização e controlar se os membros podem adicionar os próprios. Mesmo assim, cada membro faz o próprio login nos conectores OAuth, a menos que o administrador configure uma autenticação para a organização inteira.
+</Accordion>
+
+## Exemplos de prompts
+
+```
+Mostre todas as minhas contas de redes sociais conectadas
+```
+
+```
+Crie um rascunho de post no LinkedIn para amanhã às 9h, horário de Brasília
+```
+
+```
+Quais posts eu tenho agendados para esta semana?
+```
+
+```
+Crie uma etiqueta chamada "Campanha" com a cor #f59e0b
+```

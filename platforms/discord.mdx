@@ -1,0 +1,59 @@
+---
+title: Discord
+description: Conecte um servidor do Discord ao PostClean e publique nos canais dele
+icon: "discord"
+---
+
+O PostClean publica em **servidores do Discord** por meio de um bot do PostClean, que você adiciona ao seu servidor. Cada canal conectado no PostClean é um **servidor (guild)** — você escolhe em qual **canal** do Discord postar em cada post.
+
+## Conectar um servidor
+
+1. Na barra lateral, abra **Canais** e clique em **Conectar canal** (ou use **Novo** > **Conectar um novo canal**)
+2. Escolha **Discord** e clique em **Conectar Discord**
+3. No Discord, escolha o **servidor** onde o bot do PostClean vai entrar e autorize
+4. Na página de confirmação, marque o servidor e clique em **Concluir conexão**
+
+O PostClean abre a página **Publicar** do novo canal e pergunta quantas vezes por semana você quer postar. Veja o fluxo completo em [Conectar canais](/knowledge-base/channels/connecting).
+
+<Note>
+  Você precisa da permissão **Gerenciar servidor** num servidor do Discord para adicionar um bot a ele. A autorização adiciona o bot com as permissões de que ele precisa para postar: Ver canal, Enviar mensagens, Inserir links, Anexar arquivos, Ler histórico de mensagens e Mencionar todos.
+</Note>
+
+Conecte quantos servidores quiser — cada um vira um canal próprio no PostClean.
+
+## Escolher um canal do Discord
+
+Uma conexão do Discord é o servidor inteiro, então todo post do Discord precisa apontar para um **canal**. Nas configurações do Discord no editor, escolha o canal na lista, que dá para pesquisar. Um post sem canal não pode ser agendado nem publicado (`meta.channel_id` na API; liste os canais com [List Discord channels](/api-reference/social-accounts/list-discord-channels), `GET /social-accounts/{account}/channels`).
+
+Só aparecem os canais em que o bot consegue postar — canais de **texto** e de **anúncios** onde o bot tem *Ver canal* + *Enviar mensagens*. Canais de fórum, voz, palco e categorias ficam de fora (não aceitam mensagem direta), assim como os canais a que o bot não tem acesso.
+
+<Note>
+  Se um canal não aparece na lista, dê acesso a ele para o bot do PostClean no Discord (nas permissões do canal ou do cargo), ou mova o canal para uma categoria que o bot enxerga. A lista fica em cache por alguns minutos depois de uma mudança.
+</Note>
+
+## Tipos de conteúdo
+
+| Tipo | `content_type` | Descrição |
+|------|----------------|-----------|
+| **Mensagem** | `discord_message` | Texto com até 10 imagens/vídeos, menções e embeds opcionais |
+
+## Limites de mídia
+
+| `content_type` | Imagem | Vídeo | Formato |
+|----------------|--------|-------|---------|
+| `discord_message` | 10 MB | 20 MB | JPEG/PNG/GIF/WebP; vídeo MP4 ou MOV. Sem PDF. GIF aceito |
+
+Especificações oficiais: [Uploading Files](https://docs.discord.com/developers/reference#uploading-files) (padrão de 20 MiB para bots). Catálogo completo: [Mídia](/knowledge-base/media#discord).
+
+As imagens são otimizadas para os limites do Discord; vídeos e GIFs vão como estão.
+
+## Texto e opções do post
+
+- **2.000 caracteres** de texto na mensagem.
+- **Menções** — adicione menções (por exemplo `@everyone`, um cargo ou um membro) nas configurações do Discord. As menções só notificam no Discord — ficam guardadas separadas do texto compartilhado do post, então nunca aparecem como `<@id>` nas suas outras redes. Só notificam as menções que você adicionar ali; um "@everyone" digitado na legenda compartilhada **não** notifica.
+- **Embeds** — anexe até **10** embeds (título de até 256 caracteres, descrição de até 4.096, URL, imagem e cor de destaque). Eles aparecem como os cards nativos do Discord.
+- **Texto alternativo** — até 1.024 caracteres por imagem.
+
+## Insights
+
+O Discord não entra em [Insights](/knowledge-base/insights/overview): o Discord não informa impressões nem alcance de mensagens de bots, e o PostClean não mostra métricas do Discord.

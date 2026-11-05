@@ -1,0 +1,166 @@
+---
+title: "Grok"
+description: "Conecte o PostClean ao Grok como um conector MCP personalizado"
+icon: "/images/ai/grok.svg"
+---
+
+O [Grok](https://grok.com) é o assistente da xAI. Adicione o PostClean como um [conector MCP personalizado](https://docs.x.ai/grok/connectors) e você passa a agendar, publicar e gerenciar posts das suas redes sociais em uma conversa normal no Grok, na web, no iOS ou no Android.
+
+Esta página trata dos **conectores do chat do Grok**. Ela não cobre o [Grok Build CLI](https://docs.x.ai/build/features/mcp-servers) (`grok mcp add`) nem as tools de [Remote MCP da API da xAI](https://docs.x.ai/developers/tools/remote-mcp). São produtos separados.
+
+<Note>
+  O PostClean não está entre os conectores nativos nem no catálogo do Grok. Você mesmo o adiciona: **New Connector → Custom** e cola a URL MCP do PostClean.
+</Note>
+
+## Pré-requisitos
+
+- Uma conta no [Grok](https://grok.com). [A xAI informa que os conectores estão disponíveis para todos os usuários do Grok](https://docs.x.ai/grok/connectors).
+- Uma conta ativa no PostClean
+- No **Grok Business ou Enterprise**, um administrador do time precisa liberar o conector antes. Veja [Grok Business e Enterprise](#grok-business-e-enterprise)
+
+## URL do servidor
+
+Use exatamente esta URL. Não coloque barra no final. Não cole uma URL de autorização OAuth.
+
+```
+https://post.chatclean.com.br/mcp/trypost
+```
+
+## Configuração
+
+<Steps>
+  <Step title="Abra os Connectors">
+    Na web, acesse **[grok.com/connectors](https://grok.com/connectors)**.
+
+    Você também pode começar por uma conversa: clique em **+** → **Connectors** → **+ Add connector**.
+
+    No iOS e no Android, abra **Settings → Connectors**.
+  </Step>
+  <Step title="Adicione um conector personalizado">
+    Clique em **New Connector** e escolha **Custom**.
+
+    Cole a URL do servidor MCP:
+
+    ```
+    https://post.chatclean.com.br/mcp/trypost
+    ```
+
+    Se o Grok pedir um nome, use `PostClean`.
+
+    Se o Grok mostrar campos de cliente OAuth (Client ID, Client Secret, URLs de authorize/token), deixe em branco. O PostClean usa OAuth 2.1 com Dynamic Client Registration. O Grok descobre os endpoints pela URL MCP e se registra sozinho.
+  </Step>
+  <Step title="Entre no PostClean">
+    Em seguida, o Grok pede que você se autentique. Conclua o login no navegador:
+
+    1. Entre na sua conta do PostClean
+    2. Confira as permissões
+    3. Escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar** (para usar outro workspace, conecte de novo e escolha-o)
+
+    Depois disso, o Grok descobre as tools do PostClean e as deixa disponíveis nas conversas, do mesmo jeito que faz com os conectores nativos e do catálogo. Você não precisa colar nenhuma chave de API.
+  </Step>
+  <Step title="Peça ao Grok para usar o PostClean">
+    Abra uma nova conversa e peça em linguagem natural. Por exemplo:
+
+    ```
+    Liste todos os meus posts agendados
+    ```
+
+    O Grok deve chamar as tools do PostClean em vez de inventar a resposta. Se ele responder sem usar as tools, diga que quer que ele use o conector **PostClean**.
+
+    Veja a [referência de tools](/ai/tools-reference) com todas as tools e o fluxo recomendado (escolher o canal e o tipo de conteúdo, criar com mídia, pré-visualizar, publicar).
+  </Step>
+</Steps>
+
+## Autenticação
+
+O MCP do PostClean aceita **somente OAuth**: um login no navegador com o escopo `mcp:use`. Os Personal Access Tokens criados em **Configurações → API Keys** funcionam na [API REST](/api-reference/introduction), não em `/mcp/trypost`.
+
+<Warning>
+  Se o Grok oferecer um campo de chave de API ou bearer token, deixe em branco e conclua o pedido de OAuth. Uma chave de API colada ali retorna `403 MCP OAuth authorization required`.
+</Warning>
+
+Depois, você gerencia os assistentes conectados em **Configurações → MCP** do workspace no PostClean.
+
+## O que você pode fazer
+
+Com o conector autorizado, o Grok consegue:
+
+| Tarefa | Exemplos |
+|------|----------|
+| **Posts** | Listar, criar, editar, agendar, colocar na fila, publicar, pré-visualizar, excluir, aprovar e buscar métricas |
+| **Mídia** | Anexar a partir de uma URL pública, enviar um arquivo local (você roda o comando de upload; agentes de CLI conseguem rodar sozinhos; não é possível pelo app do Grok no celular) e reaproveitar um arquivo que já está em outro post |
+| **Contas** | Listar as contas sociais conectadas, definir horários de postagem, gerenciar a fila e encontrar boards do Pinterest e canais do Discord |
+| **Workspace** | Ler o workspace atual; gerenciar ideias, assinaturas, etiquetas, webhooks, reposts e chaves de API; ler análises |
+
+Algumas dessas ações dependem das suas permissões no workspace (aprovar exige publicação direta; horários de postagem, webhooks e chaves de API exigem administrador). Veja as permissões na [introdução](/ai/introduction).
+
+O Pinterest precisa de um `board_id`, o Discord de um `channel_id` e o TikTok de um `privacy_level` antes de publicar. Peça ao Grok para listar os boards ou canais primeiro. Detalhes e nomes das tools: [referência de tools](/ai/tools-reference).
+
+## Grok Business e Enterprise
+
+Nesses planos, os membros só conseguem adicionar um conector personalizado depois que um administrador do time o libera.
+
+<Accordion title="Administrador: libere o PostClean para o time">
+  1. Entre em [console.x.ai](https://console.x.ai), selecione o time e abra **Grok Business → Connectors**
+  2. Clique em **+ Add Connector** → **Other**
+  3. Cole `https://post.chatclean.com.br/mcp/trypost`
+  4. Conclua o login no PostClean se o Grok pedir
+
+  Adicionar e remover conectores exige a permissão **Team Read-Write**. A página de [gerenciamento de conectores](https://docs.x.ai/grok/connector-management) da xAI tem o fluxo completo para administradores.
+
+  Depois que o administrador adiciona o conector, cada membro ainda abre **[grok.com/connectors](https://grok.com/connectors)** e entra na **própria** conta do PostClean. A etapa do administrador só disponibiliza o conector; ela não compartilha um login do PostClean com o time todo.
+</Accordion>
+
+## Solução de problemas
+
+<AccordionGroup>
+  <Accordion title="O Grok nunca pede para eu entrar no PostClean">
+    Talvez você tenha colado a URL errada. Use `https://post.chatclean.com.br/mcp/trypost`, e não `/oauth/authorize`, nem `/api`, nem com barra no final. Remova o conector, adicione de novo e permita pop-ups para a janela do OAuth poder abrir.
+  </Accordion>
+  <Accordion title="O conector foi adicionado, mas o Grok não chama as tools do PostClean">
+    Conclua o OAuth. O Grok pode listar um servidor personalizado antes de você autorizá-lo. Abra **[grok.com/connectors](https://grok.com/connectors)**, conecte o PostClean, escolha o workspace e clique em **Autorizar** na tela do PostClean. Depois comece uma conversa **nova** e peça para ele usar o conector do PostClean.
+  </Accordion>
+  <Accordion title="O Grok diz que não consegue acessar o servidor">
+    O Grok acessa o servidor MCP a partir da nuvem da xAI. O endpoint do PostClean é público, então confira se a URL está exatamente como acima. Se o erro continuar, fale com o [suporte](/support).
+  </Accordion>
+  <Accordion title="HTTP 402 — Active subscription required">
+    A autorização OAuth funcionou, mas a conta do PostClean não está ativa. Abra o [PostClean](https://post.chatclean.com.br), ative a assinatura e reconecte o conector. Veja a [introdução](/ai/introduction).
+  </Accordion>
+  <Accordion title="HTTP 401 ou preciso entrar de novo">
+    A sessão OAuth expirou ou foi revogada. Abra o conector e faça o login de novo.
+  </Accordion>
+  <Accordion title="HTTP 403 — MCP OAuth authorization required">
+    A requisição usou uma chave de API (Personal Access Token) ou um token OAuth sem `mcp:use`. Remova qualquer bearer token do conector e entre com OAuth.
+  </Accordion>
+  <Accordion title="A opção Custom não aparece ou não consigo adicionar um conector">
+    No Grok Business / Enterprise, só um administrador pode liberar MCP personalizado. Peça a alguém com **Team Read-Write** para adicionar o PostClean em [console.x.ai](https://console.x.ai) primeiro. No Grok pessoal, abra **[grok.com/connectors](https://grok.com/connectors)** e escolha **Custom**, e não um app do catálogo.
+  </Accordion>
+</AccordionGroup>
+
+## Exemplos de prompts
+
+```
+Mostre todas as minhas contas de redes sociais conectadas
+```
+
+```
+Crie um rascunho de post no LinkedIn para amanhã às 9h, horário de Brasília
+```
+
+```
+Quais posts eu tenho agendados para esta semana?
+```
+
+```
+Anexe a imagem em <uma URL pública de imagem> ao meu rascunho e me mostre o texto exato que cada rede vai receber
+```
+
+```
+Crie uma etiqueta chamada "Campanha" com a cor #f59e0b
+```
+
+## Relacionados
+
+- [Introdução](/ai/introduction): visão geral do MCP, autenticação e solução de problemas em comum
+- [Referência de tools](/ai/tools-reference): todas as tools, parâmetros e o fluxo de publicação
+- [xAI: conectores do Grok](https://docs.x.ai/grok/connectors): passo a passo oficial de MCP personalizado

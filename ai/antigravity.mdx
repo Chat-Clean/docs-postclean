@@ -1,0 +1,62 @@
+---
+title: "Antigravity"
+description: "Conecte o PostClean ao Google Antigravity para gerenciar suas redes sociais com IA"
+icon: "/images/ai/antigravity.svg"
+---
+
+O [Antigravity](https://antigravity.google) é o agente de programação com IA do Google. Você pode conectá-lo ao servidor MCP do PostClean quando o cliente consegue concluir o OAuth.
+
+## Pré-requisitos
+
+- Antigravity instalado
+- Uma conta no PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+
+## Configuração
+
+<Steps>
+  <Step title="Abra o arquivo de configuração MCP">
+    No Antigravity, abra **MCP Servers → Manage → View raw config** e adicione o servidor do PostClean **sem** cabeçalho `Authorization`, para o OAuth poder rodar:
+
+    ```json
+    {
+      "mcpServers": {
+        "postclean": {
+          "serverUrl": "https://post.chatclean.com.br/mcp/trypost"
+        }
+      }
+    }
+    ```
+  </Step>
+  <Step title="Entre pelo navegador">
+    Reinicie o Antigravity se precisar e dispare uma chamada a uma tool do PostClean. Conclua o fluxo OAuth no navegador: escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar**. Para usar outro workspace, conecte de novo e escolha-o. Personal Access Tokens não são aceitos no endpoint MCP.
+  </Step>
+  <Step title="Confira a conexão">
+    Peça ao Antigravity:
+
+    ```
+    Liste todas as minhas contas sociais no PostClean
+    ```
+  </Step>
+</Steps>
+
+<Tip>
+  O Antigravity usa `"serverUrl"` em conexões MCP remotas (e não `"url"`). É o mesmo formato usado pelo agente Cascade do Devin Desktop.
+</Tip>
+
+<Note>
+  Se o Antigravity não conseguir concluir o OAuth (sem callback no navegador), use a [API REST](/api-reference/introduction) com uma chave de API (só administradores do workspace) criada em **Configurações → API Keys**, em vez do MCP.
+</Note>
+
+## Exemplos de prompts
+
+```
+Crie um novo post agendado para sexta às 14h, horário de Lisboa
+```
+
+```
+Mostre todas as etiquetas do meu workspace
+```
+
+```
+Crie uma assinatura chamada "Redes sociais" com #socialmedia #conteudo #marketing
+```

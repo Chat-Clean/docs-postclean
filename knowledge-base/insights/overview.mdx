@@ -1,0 +1,64 @@
+---
+title: "Insights"
+description: "Veja o desempenho dos seus canais e posts em todo o workspace."
+icon: "chart-line"
+---
+
+**Insights**, na barra lateral, é o painel de análises do workspace inteiro. Todos os membros do workspace podem abrir. Para ver um canal em detalhe, abra o canal e escolha **Insights**; veja [Insights do canal](/knowledge-base/insights/channel-insights).
+
+<Note>
+  Para quem participa do beta, o topo do Insights tem as abas **Orgânico** e **Tráfego pago**. A aba **Tráfego pago** mostra os resultados dos seus anúncios da Meta; veja [Tráfego pago](/knowledge-base/insights/paid-traffic).
+</Note>
+
+## Quais redes entram
+
+O Insights cobre X, TikTok, YouTube, Facebook, Instagram, Threads, Pinterest, Bluesky e Mastodon.
+
+LinkedIn (perfil e Página), Telegram, Discord e Google Business ficam de fora: essas redes não compartilham análises com apps de terceiros.
+
+Os posts publicados direto na rede, fora do PostClean, também contam. Eles aparecem como **Publicado na rede social**; os posts enviados pelo PostClean aparecem como **Publicado pelo PostClean**. Depois que você conecta um canal, o PostClean importa o histórico dele em segundo plano: "Importando o histórico das contas. Posts antigos aparecerão conforme a coleta avançar."
+
+## O painel
+
+| Seção | O que mostra |
+| --- | --- |
+| **Resumo** | Os totais do período, como **Posts**, **Total de seguidores**, **Reações**, **Comentários** e **Taxa de engajamento**, comparados com o período anterior. |
+| **Seguidores** | Seguidores por canal no fim do período e como o número mudou. Alterne o gráfico entre **Linha**, **Barras** e **Crescimento**. |
+| **Posts** | Quantos posts cada canal publicou no período. Alterne entre **Barras** e **Barras empilhadas**. |
+| **Desempenho** | Totais por canal dos posts publicados no período, comparados com o período anterior. Escolha as métricas em **Colunas**. |
+| **Top 5 posts** | Os seus cinco posts com mais reações ou comentários. Escolha qual em **Ordenar posts por**. |
+
+Com muitos canais, os gráficos mostram só uma parte; filtre por canal para ver os outros.
+
+As métricas dos posts usam a última leitura salva dos posts publicados no período. Quando uma rede estava indisponível, o número de seguidores pode aparecer como **Último valor**.
+
+## Período
+
+Escolha **7 dias**, **30 dias** (o padrão), **Mês atual** ou **Personalizado**. **Personalizado** oferece atalhos como **Últimos 3 meses** ou **Desde o início do ano**. Todo número é comparado com o período anterior de mesmo tamanho.
+
+Os dias são dias corridos no seu fuso horário, e os gráficos semanais começam no seu primeiro dia da semana. Os dois vêm das [Preferências](/knowledge-base/settings/preferences).
+
+## Filtros
+
+Filtre o painel por canais e por etiquetas. Se nada corresponder, o Insights avisa e sugere outro período ou limpar os filtros.
+
+## Exportar
+
+**Exportar** baixa o painel do período e dos filtros atuais em **CSV** ou **Markdown**.
+
+## Com que frequência os dados atualizam
+
+- Os posts novos são buscados a cada 3 horas em cada canal, e a cada 24 horas no X.
+- As métricas de um post são lidas pela primeira vez cerca de uma hora depois da publicação e depois uma vez por dia durante 30 dias. No X, onde cada leitura é cobrada, elas são lidas de novo só 2, 3, 7, 14 e 28 dias depois da publicação.
+- O número de seguidores é salvo uma vez por dia.
+
+**Status da sincronização** resume isso e mostra quando o canal sincronizou pela última vez.
+
+O histórico de seguidores vai se formando dia a dia, a partir da conexão do canal.
+
+## API e MCP
+
+| Tarefa | API REST | Ferramenta MCP |
+| --- | --- | --- |
+| Relatório do workspace | [Get workspace analytics](/api-reference/analytics/get-workspace-analytics) | `get-analytics-report-tool` |
+| Métricas de um post | [Get publication analytics](/api-reference/analytics/get-publication-analytics), [Get post metrics](/api-reference/posts/get-post-metrics) | `get-analytics-publication-tool`, `get-post-metrics-tool` |

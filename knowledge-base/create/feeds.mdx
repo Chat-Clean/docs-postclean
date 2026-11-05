@@ -1,0 +1,65 @@
+---
+title: "Feeds"
+description: "Acompanhe feeds RSS, Atom e JSON e transforme artigos em posts ou ideias."
+---
+
+**Criar › Feeds** é um leitor para os blogs e sites de notícias que você acompanha. Leia os artigos mais recentes e transforme um deles em post ou salve como ideia.
+
+Os feeds pertencem ao workspace. Todos os membros podem adicionar, organizar e ler.
+
+## Adicionar um feed
+
+<Steps>
+  <Step title="Abra o formulário">
+    Clique em **Novo feed** → **Adicionar feed**.
+  </Step>
+  <Step title="Cole a URL">
+    Informe a **URL do RSS**. Feeds RSS, Atom e JSON funcionam. Você também pode colar o endereço de uma página que aponta para o feed dela, e o PostClean encontra o feed para você.
+  </Step>
+  <Step title="Salve">
+    Clique em **Adicionar feed**. Os artigos aparecem depois da primeira atualização.
+  </Step>
+</Steps>
+
+Um feed é recusado quando:
+
+- a URL não é um feed e a página não indica nenhum;
+- o feed já está no workspace;
+- ele aponta para um endereço privado ou local ("Esta URL aponta para um endereço privado ou não suportado.");
+- o workspace já tem 50 feeds ("Você atingiu o limite de 50 feeds neste workspace.").
+
+### Explorar feeds
+
+**Explorar feeds** abre um diretório de feeds selecionados, por categoria: **Favoritos**, **Tecnologia**, **Notícias**, **Negócios**, **Arte e mídia**, **Entretenimento** e **Ciência**. Adicione um feed da lista ou remova um que você já acompanha.
+
+## Coleções
+
+Agrupe feeds em coleções para ler todos juntos.
+
+- **Nova coleção** cria uma.
+- **Adicionar à coleção** (no menu da coleção) ou **Mover para** (num feed) coloca um feed nela.
+- **Renomear** ou **Excluir** uma coleção. Excluir uma coleção mantém os feeds dela: eles voltam para **Feeds**.
+
+**Todos os feeds** mostra os artigos de todos os feeds do workspace.
+
+## Atualização
+
+- O PostClean procura artigos novos em cada feed a cada 8 horas.
+- **Atualizar feeds** verifica na hora. Um feed verificado nos últimos 5 minutos é pulado.
+- Cada feed guarda os 100 artigos mais recentes.
+- Um feed que não pode ser lido mostra "Não conseguimos atualizar este feed." com o motivo.
+
+## Transformar um artigo em conteúdo
+
+Num artigo:
+
+- **Criar post** abre o [editor de posts](/knowledge-base/publish/composer) com o título e o link do artigo, e com a imagem dele quando o site tem uma.
+- **Salvar como ideia** adiciona o artigo às [Ideias](/knowledge-base/create/ideas). O botão muda para **Salvo**.
+
+## Renomear e excluir um feed
+
+No menu de um feed, **Renomear** muda o nome mostrado no PostClean. **Excluir** remove o feed e os artigos dele do workspace. As ideias salvas a partir dele são mantidas.
+
+<Note>
+  Os feeds só existem no app web. Não há endpoint de API nem ferramenta MCP para eles.
+</Note>

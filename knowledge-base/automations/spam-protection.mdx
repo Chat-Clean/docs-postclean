@@ -1,0 +1,53 @@
+---
+title: "Proteção contra spam"
+description: "Como o PostClean limita as respostas públicas em posts movimentados para o Instagram não restringir a sua conta."
+icon: "shield-halved"
+---
+
+O Instagram restringe contas que publicam o mesmo comentário muitas vezes seguidas. Num post que viraliza, uma automação que responde em público cada comentário pode ser vista como spam. A **Proteção contra spam** evita isso: ela reduz as respostas públicas, mas a mensagem no direct continua indo para todo mundo.
+
+A proteção vale para os gatilhos que publicam resposta embaixo do comentário: **Comentário em post** e **Comentário em anúncio**. Os outros gatilhos não têm resposta pública. Veja [Gatilhos](/knowledge-base/automations/triggers).
+
+## Como funciona
+
+Com a proteção ligada, cada automação conta os comentários que respondeu em cada post:
+
+- os **10 primeiros comentários** de cada post recebem resposta pública;
+- a partir daí, **1 a cada 10** comentários recebe resposta pública (o 20º, o 30º, o 40º e assim por diante);
+- a **mensagem no direct** vai para todos que comentaram, com ou sem resposta pública.
+
+A contagem é separada por automação e por post. Um post novo começa do zero.
+
+<Note>
+  Quando a automação só tem **Resposta pública** e nenhuma mensagem no direct, os comentários que a proteção pula aparecem na **Atividade** da automação como **Ignorada**, com o motivo **Proteção contra spam**.
+</Note>
+
+## Ligar ou desligar
+
+A proteção vem **ligada** em toda automação nova.
+
+<Steps>
+  <Step title="Abra a automação">
+    Em **Automações**, abra a automação de comentário que você quer ajustar.
+  </Step>
+  <Step title="Encontre a resposta pública">
+    Na seção **Resposta pública**, logo abaixo das variações de resposta, fica a chave **Proteção contra spam**.
+  </Step>
+  <Step title="Escolha o modo">
+    - **Ligada:** responde em público os 10 primeiros comentários de cada post e, depois, 1 a cada 10.
+    - **Desligada:** todo comentário que bater com a regra da palavra-chave recebe resposta pública.
+  </Step>
+  <Step title="Salve">
+    Clique em **Salvar**.
+  </Step>
+</Steps>
+
+<Warning>
+  Desligar a proteção num post com muitos comentários aumenta o risco de o Instagram limitar a sua conta. Deixe ligada, a não ser que o post tenha pouco movimento.
+</Warning>
+
+## Dicas
+
+- **Use variações.** Em **Resposta pública**, clique em **Adicionar variação** para cadastrar até 10 textos diferentes. Cada comentário recebe uma variação sorteada, o que deixa as respostas menos repetitivas.
+- **Responder cada pessoa uma vez.** A opção **Responder cada pessoa uma vez** faz a automação ignorar novos comentários da mesma pessoa no mesmo post. Eles aparecem na **Atividade** como **Ignorada**, com o motivo **Já respondida**.
+- **O direct tem limites próprios.** As respostas privadas seguem os limites da Meta, que o PostClean respeita colocando o excesso na fila. Veja [Limites da Meta](/knowledge-base/automations/meta-limits).

@@ -1,0 +1,70 @@
+---
+title: "OpenCode"
+description: "Conecte o PostClean ao OpenCode para gerenciar suas redes sociais com IA pelo terminal"
+icon: "/images/ai/opencode.svg"
+---
+
+O [OpenCode](https://opencode.ai) é um assistente de programação com IA, de código aberto, que roda no terminal. Você pode conectá-lo ao servidor MCP do PostClean para gerenciar seus agendamentos em linguagem natural.
+
+## Pré-requisitos
+
+- OpenCode instalado
+- Uma conta no PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+
+## Configuração
+
+<Steps>
+  <Step title="Abra o arquivo de configuração">
+    Edite o `opencode.json` na raiz do projeto (ou `~/.config/opencode/opencode.json` para a configuração global):
+
+    ```json
+    {
+      "mcp": {
+        "postclean": {
+          "type": "remote",
+          "url": "https://post.chatclean.com.br/mcp/trypost",
+          "enabled": true
+        }
+      }
+    }
+    ```
+
+    Sem cabeçalho `Authorization`: o OpenCode descobre o OAuth pela URL.
+  </Step>
+  <Step title="Entre com `mcp auth`">
+    Rode o fluxo OAuth de forma explícita para o OpenCode guardar o token:
+
+    ```bash
+    opencode mcp auth postclean
+    ```
+
+    O OpenCode abre o navegador no PostClean. Entre na sua conta, escolha o **Workspace** que essa conexão pode usar, clique em **Autorizar** e volte ao terminal. Para usar outro workspace, conecte de novo e escolha-o.
+  </Step>
+  <Step title="Confira a conexão">
+    Dentro do OpenCode, peça:
+
+    ```
+    Liste todas as minhas contas sociais no PostClean
+    ```
+
+    Se algo parecer errado, `opencode mcp debug postclean` mostra o estado atual do token.
+  </Step>
+</Steps>
+
+<Tip>
+  O OpenCode também tem `opencode mcp logout postclean`, que revoga o token guardado se você precisar trocar de conta.
+</Tip>
+
+## Exemplos de prompts
+
+```
+Crie um post para amanhã às 9h, horário de São Paulo
+```
+
+```
+Mostre todas as minhas assinaturas
+```
+
+```
+Crie uma etiqueta chamada "Newsletter" com a cor #8b5cf6
+```

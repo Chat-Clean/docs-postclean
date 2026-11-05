@@ -1,0 +1,100 @@
+---
+title: "Conectar um canal"
+description: "Conecte suas contas sociais a um workspace, escolha em quais o PostClean publica e reconecte um canal que perdeu a conexão."
+icon: "plug"
+---
+
+Um **canal** é uma conta social conectada a um workspace: um perfil do LinkedIn, uma página do Facebook, um canal do YouTube, um servidor do Discord e assim por diante. O PostClean publica nos canais, importa o que eles postam direto na rede e lê as métricas deles.
+
+Só o dono da conta e os administradores do workspace podem conectar, reconectar ou desconectar canais. Veja [Membros e permissões](/knowledge-base/settings/members-and-permissions).
+
+## Redes compatíveis
+
+| Rede | O que você conecta | Guia |
+|------|--------------------|------|
+| LinkedIn | Página ou perfil | [LinkedIn](/platforms/linkedin) |
+| X | Perfil | [X (Twitter)](/platforms/x-twitter) |
+| TikTok | Conta comercial ou pessoal | [TikTok](/platforms/tiktok) |
+| YouTube | Canal | [YouTube](/platforms/youtube) |
+| Facebook | Página | [Facebook](/platforms/facebook) |
+| Instagram | Conta profissional (Empresa ou Criador de conteúdo) | [Instagram](/platforms/instagram) |
+| Threads | Perfil | [Threads](/platforms/threads) |
+| Pinterest | Perfil | [Pinterest](/platforms/pinterest) |
+| Bluesky | Perfil | [Bluesky](/platforms/bluesky) |
+| Mastodon | Perfil | [Mastodon](/platforms/mastodon) |
+| Telegram | Canal ou grupo | [Telegram](/platforms/telegram) |
+| Discord | Servidor | [Discord](/platforms/discord) |
+| Google Business | Perfil da empresa | [Google Business Profile](/platforms/google-business) |
+
+O guia de cada rede explica os requisitos, os tipos de post e as regras de mídia.
+
+## Conectar um canal
+
+<Steps>
+  <Step title="Abra Conectar um novo canal">
+    Clique em **Novo** → **Conectar um novo canal** na barra lateral. Você também pode clicar em **Conectar canal** em **Configurações → Canais**.
+  </Step>
+  <Step title="Escolha a rede">
+    Escolha a rede e clique no botão de conectar com o nome dela (por exemplo, **Conectar LinkedIn**). O mesmo painel mostra o que a rede aceita e leva ao guia dela.
+  </Step>
+  <Step title="Entre na rede">
+    O PostClean leva você para a página de login da própria rede, na mesma aba. Entre e aceite todas as permissões, principalmente a de publicar.
+  </Step>
+  <Step title="Escolha as contas">
+    Você volta para uma página de confirmação: **Conecte sua conta** quando o login oferece uma conta, ou **Selecione as contas** quando oferece várias (por exemplo, seu perfil do LinkedIn e as páginas que você gerencia). Marque uma ou mais, ou use **Selecionar todas**, e clique em **Concluir conexão**.
+  </Step>
+</Steps>
+
+Depois de **Concluir conexão**, você cai na página **Publicar** do novo canal, que pergunta quantas vezes por semana você quer postar e monta os horários de postagem da [fila](/knowledge-base/publish/queue). Dá para mudar as duas coisas depois em [Configurações do canal](/knowledge-base/channels/settings).
+
+Não existe pop-up: toda rede que faz login pelo próprio site usa um redirecionamento de página inteira.
+
+### Contas que já estão conectadas
+
+Se o login oferece uma conta que já é um canal deste workspace, a página de confirmação ainda mostra essa conta, mas bloqueada: aparece **Conectada** no lugar da caixa de seleção, ela nunca vem marcada e **Selecionar todas** pula ela. **Concluir conexão** fica desativado até você escolher uma conta nova. Quando todas as contas do login já estão conectadas, a página avisa **Todas as suas contas do LinkedIn já estão conectadas.** (com o nome da rede).
+
+### Trocar conta
+
+Entrou no perfil errado? Clique em **Trocar conta** no topo da página de confirmação. A etapa **Conectar outra conta** pede para você trocar de conta no site da rede, e então **Conectar** *rede* recomeça o login. Nas redes que permitem (Google Business, Facebook, Instagram pelo Facebook e Mastodon), o PostClean pede para a rede mostrar de novo a tela de escolha de conta.
+
+### Quando a conexão para no meio
+
+A página de confirmação explica o que aconteceu e oferece **Tentar de novo**:
+
+| Mensagem | O que aconteceu |
+|----------|-----------------|
+| **Conexão cancelada** | Você cancelou na rede. Nada foi conectado. |
+| **Permissão necessária** | A permissão de publicar foi desmarcada. Conecte de novo e mantenha essa permissão marcada. |
+| **Esta conexão expirou** | Passaram mais de 15 minutos entre o login e a conclusão. Comece de novo. |
+| **Não foi possível conectar** | A rede devolveu um erro, ou o login não tem nada em que o PostClean possa publicar (por exemplo, nenhuma página do Facebook que você gerencia). |
+
+## Redes com etapas próprias
+
+- **Bluesky**: informe seu **Usuário ou e-mail** e uma **Senha de app** (crie uma em [bsky.app/settings/app-passwords](https://bsky.app/settings/app-passwords)), não a sua senha principal.
+- **Mastodon**: informe a **URL da instância** (por exemplo, `mastodon.social`) e entre nessa instância.
+- **Telegram**: uma janela pede para você adicionar o bot do PostClean como administrador do seu canal ou grupo e depois publicar lá o comando que ela mostra. O comando expira em 15 minutos; **Gerar novo comando** cria outro.
+- **Instagram**: a janela pergunta **Como você quer conectar sua conta do Instagram?**. **Conectar ao Instagram** faz login com o Instagram, para uma conta profissional (Empresa ou Criador de conteúdo). O link **Conecte o Instagram pelo Facebook** é para uma conta do Instagram vinculada a uma página do Facebook; os **Requisitos** pedem uma conta Empresa ou Criador de conteúdo vinculada a uma página (não a um perfil), login como administrador da página com controle total e todas as permissões selecionadas. Veja [Instagram](/platforms/instagram).
+
+<Note>
+  As [Automações](/knowledge-base/automations/overview) de comentários e Direct só funcionam em contas do Instagram conectadas com **Conectar ao Instagram** (login do Instagram). Uma conta conectada pelo Facebook não aparece nas automações.
+</Note>
+
+## Várias contas por rede
+
+Um workspace pode conectar quantas contas quiser da mesma rede: dois LinkedIns, três Instagrams e assim por diante.
+
+Conectar uma conta que já é um canal nunca cria um segundo canal: o canal existente só é atualizado. A mesma conta também não pode ficar duas vezes em dois tipos de conexão da mesma rede, como uma conta do Instagram conectada direto e pelo Facebook.
+
+A mesma conta social pode ser conectada em vários workspaces; cada workspace gerencia o próprio canal.
+
+## Reconectar um canal
+
+O PostClean verifica a conexão de todos os canais uma vez por dia. Quando uma rede para de aceitar a conexão (senha trocada, acesso revogado, token expirado), o canal mostra **Conexão perdida** com **Reconecte este canal para continuar publicando.** O dono da conta recebe um e-mail; veja [Notificações](/knowledge-base/settings/notifications).
+
+Para resolver, clique em **Reconectar** no canal, em **Configurações → Canais**. Use **Atualizar conexão**, no menu do canal, para renovar uma conexão que ainda funciona mas está com problemas. Os dois fazem o mesmo login, e a página de confirmação mostra só aquele canal, já marcado. Entre com a mesma conta: se você autorizar outra, aparece **Essa é outra conta. Autorize a que você está reconectando.**
+
+Reconectar mantém os posts, a fila e as configurações do canal.
+
+## Pela API e pelo MCP
+
+A conexão acontece só no navegador. Depois que o canal está conectado, a API e o MCP conseguem listá-lo: [`GET /social-accounts`](/api-reference/social-accounts/list-social-accounts) ou `list-social-accounts-tool`.

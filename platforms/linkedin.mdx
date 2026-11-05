@@ -1,0 +1,59 @@
+---
+title: LinkedIn
+description: Conecte seu perfil ou as páginas da sua empresa no LinkedIn ao PostClean
+icon: "linkedin"
+---
+
+O PostClean publica posts em perfis pessoais do LinkedIn e nas páginas de empresa que você administra.
+
+## Conectar sua conta
+
+Um único card **LinkedIn** cobre o seu perfil pessoal e as páginas da empresa — não existe um card separado de "LinkedIn Page".
+
+1. Na barra lateral, abra **Canais** e clique em **Conectar canal** (ou use **Novo** > **Conectar um novo canal**)
+2. Escolha **LinkedIn** e clique em **Conectar LinkedIn**
+3. Autorize o PostClean no LinkedIn
+4. Na página **Selecione as contas**, marque o seu perfil e as páginas que quiser (cada card vem marcado como **Perfil** ou **Página**) e clique em **Concluir conexão**
+
+O PostClean abre a página **Publicar** do novo canal e pergunta quantas vezes por semana você quer postar. Veja o fluxo completo em [Conectar canais](/knowledge-base/channels/connecting).
+
+<Note>
+  O seu perfil e cada página são identidades separadas, então você pode conectar todos no mesmo workspace. Uma identidade que já está conectada aparece como **Conectada** e não pode ser adicionada duas vezes.
+</Note>
+
+## Tipos de conteúdo
+
+| Tipo | `content_type` | Descrição |
+|------|----------------|-----------|
+| **Post** | `linkedin_post` / `linkedin_page_post` | Texto com mídia opcional — até **10 imagens**, **1 vídeo** ou **1 PDF**. Os arquivos anexados definem o formato; não há um tipo separado para carrossel ou documento. |
+
+Perfis pessoais usam `linkedin_post`; páginas de empresa usam `linkedin_page_post`.
+
+## Limites de mídia
+
+| `content_type` | Imagem | Vídeo | PDF | Duração | Formato |
+|----------------|--------|-------|-----|---------|---------|
+| `linkedin_post` / `linkedin_page_post` | 5 MB | 1 GB | 100 MB | 10 minutos | JPG/PNG. Vídeo MP4 ou MOV. PDF sozinho |
+
+Imagens, vídeo e PDF nunca se misturam no mesmo post, e GIFs não são aceitos. Especificações oficiais: [Vídeos](https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/videos-api), [Imagens](https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/images-api), [Documentos](https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/documents-api). Catálogo completo: [Mídia](/knowledge-base/media#linkedin).
+
+## Texto e opções do post
+
+- **3.000 caracteres** por post. Os caracteres são contados como code points, então um emoji conta como um.
+- O negrito do editor é convertido nos caracteres em negrito do LinkedIn; o resto da formatação vai como texto simples.
+- **Prévia do link** — o primeiro link do texto ganha um card de prévia. Remova com o **×** no card (`meta.link_preview: false` na API).
+- **Título do documento** — em posts com PDF, defina o título exibido no documento (`meta.document_title`, até 300 caracteres). O padrão é o nome do arquivo.
+- **Texto alternativo** — até 4.086 caracteres por imagem.
+
+## Insights
+
+O LinkedIn não entra em [Insights](/knowledge-base/insights/overview): o PostClean não coleta seguidores nem métricas de posts de perfis ou páginas do LinkedIn.
+
+## Escopos OAuth
+
+| Conexão | Escopos solicitados |
+|---------|---------------------|
+| Perfil pessoal (`linkedin`) | `openid`, `profile`, `email`, `w_member_social` |
+| Página de empresa (`linkedin-page`) | `openid`, `profile`, `email`, `w_organization_social`, `r_organization_social`, `rw_organization_admin`, `w_member_social` |
+
+Uma única tela de consentimento pede os escopos dos dois tipos de conexão do LinkedIn.

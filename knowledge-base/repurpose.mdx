@@ -1,0 +1,118 @@
+---
+title: "Repost"
+description: "Acompanhe uma conta do Instagram ou do Facebook e republique cada vídeo novo nas suas outras redes."
+icon: "arrows-rotate"
+---
+
+Um repost acompanha uma conta do Instagram ou do Facebook em busca de vídeos novos que você publica **fora** do PostClean e republica cada um nos outros canais que você escolher. Poste um Reels no Instagram, e o mesmo vídeo vai para o TikTok, os YouTube Shorts e o resto, sem você copiar nada à mão.
+
+**Repost** fica na barra lateral, com a marca **Beta**. Só quem publica direto vê essa área: o dono da conta, os admins e os membros com o acesso de **Publicação** em **Publica direto**. Veja [Membros e permissões](/knowledge-base/settings/members-and-permissions).
+
+## Criar um repost
+
+<Steps>
+  <Step title="Novo repost">
+    Em **Repost**, clique em **Novo repost**.
+  </Step>
+  <Step title="Escolha a conta de origem">
+    Escolha a conta do Instagram ou do Facebook que o PostClean deve acompanhar e clique em **Criar**. Só essas redes podem ser origem, "porque são as únicas redes que permitem baixar o vídeo."
+  </Step>
+  <Step title="Configure">
+    Na aba **Configuração**, escolha o que observar, o modo de publicação e os destinos. As mudanças são salvas na hora (**Salvo**).
+  </Step>
+  <Step title="Ative">
+    Clique em **Ativar** no topo da página. Só as publicações feitas depois da ativação são replicadas.
+  </Step>
+</Steps>
+
+Um repost novo começa como **Rascunho**, então nada é replicado até você ativar.
+
+## Origem
+
+**Observar** define o tipo de publicação que dispara um repost: **Reels**, **Vídeos** ou **Stories**.
+
+Uma conta pode alimentar um repost por formato. Criar um segundo repost para a mesma conta e o mesmo formato abre o que já existe; mudar um repost existente para uma combinação já usada falha com "Esta conta já alimenta outro repost. Edite aquele."
+
+## Destinos
+
+"Escolha as contas que vão receber. Cada uma publica no formato que você definir."
+
+- Qualquer outro canal conectado pode ser destino, menos o Google Business: "O Google Meu Negócio não pode ser destino: as postagens dele não aceitam vídeo."
+- Para cada destino você escolhe o tipo de post, que precisa aceitar vídeo, e as mesmas configurações de rede do editor de posts. Um Story pode virar um vídeo do TikTok ou um YouTube Short; os formatos não precisam ser iguais.
+- As configurações que uma rede exige para publicar (a visibilidade do TikTok, o quadro do Pinterest, o canal do Discord) precisam estar preenchidas antes de você ativar ou retomar.
+- A conta de origem não pode ser também um destino.
+
+A legenda do original é reaproveitada. Só uma legenda maior que o limite de uma rede é alterada: ela é encurtada com IA ou, quando a IA não está disponível, cortada numa palavra. Os destinos do Instagram ficam só com as 5 primeiras hashtags.
+
+## Publicação
+
+| Opção | O que acontece quando um vídeo novo é encontrado |
+| --- | --- |
+| **Publicar automaticamente** | "Cada publicação nova é agendada assim que é encontrada." |
+| **Criar como rascunho** | "Cada publicação nova vira um rascunho aqui para você revisar e publicar." |
+
+Os posts criados por um repost aparecem em [Publicar](/knowledge-base/publish/overview) como qualquer outro post.
+
+<Note>
+  Caso específico: se quem criou o repost perder depois o direito de publicar direto (o acesso mudar para **Precisa de aprovação**), os posts criados vão para [Aprovações](/knowledge-base/publish/approvals) em vez de serem agendados.
+</Note>
+
+## Status
+
+| Status | Significado |
+| --- | --- |
+| **Rascunho** | Configurado, mas ainda sem acompanhar. |
+| **Ativo** | O PostClean verifica a conta com frequência e replica cada publicação nova. |
+| **Pausado** | As verificações estão suspensas. **Retomar** continua de onde parou, então nada publicado nesse meio-tempo se perde. |
+| **Desativado** | Desligado. **Ativar** de novo começa do zero: o que você publicou enquanto estava desligado não é replicado. |
+
+Os botões **Ativar**, **Pausar**, **Retomar** e **Desativar** ficam no topo da página do repost. A lista de Repost mostra, para cada um, o número de **Replicados** e a **Última verificação**.
+
+Um repost ativo verifica a origem a cada 15 minutos, mais ou menos. Se a rede limitar as requisições, a próxima verificação espera mais.
+
+## Quando uma conta para de funcionar
+
+- **A origem precisa ser reconectada:** o repost para sozinho e mostra "A replicação está parada: a conta monitorada por esta automação precisa ser reconectada." [Reconecte](/knowledge-base/channels/connecting) a conta e o repost volta sozinho.
+- **Não sobrou nenhum destino:** ele para com "A replicação está parada: nenhum destino disponível. Adicione um e retome."
+- **Um destino precisa ser reconectado:** o repost continua rodando. Os posts daquele canal continuam sendo criados e falham de forma visível, para você tentar de novo depois de reconectar.
+- **A origem foi desconectada:** o repost fica sem origem até você escolher uma. Ao desconectar um canal, o PostClean informa quantos reposts foram pausados. Veja [Desconectar um canal](/knowledge-base/channels/disconnecting).
+
+Nos outros casos, quando o problema é resolvido o aviso diz "O problema foi resolvido. Retome esta automação para voltar a replicar." Um repost que parou sozinho volta a partir do momento em que você retoma, então os vídeos publicados durante a parada não são repetidos. Nenhum e-mail é enviado quando um repost para.
+
+## Atividade
+
+A aba **Atividade** lista cada publicação de origem que o PostClean encontrou ("As publicações que essa conta fizer fora do PostClean aparecem aqui."), com o status e os posts criados a partir dela.
+
+| Status | Significado |
+| --- | --- |
+| **Na fila** | Esperando o download. |
+| **Processando** | Baixando o vídeo ou criando os posts. |
+| **Replicado** | Posts criados e agendados. |
+| **Rascunho** | Posts criados como rascunho. |
+| **Ignorado** | Não replicado de propósito. |
+| **Falhou** | Algo deu errado. |
+
+Os itens ignorados e com falha mostram o motivo:
+
+- Já publicado pelo PostClean: o original foi postado pelo PostClean, então não é copiado de volta.
+- A rede não disponibilizou o arquivo para download, normalmente por causa de áudio com direitos autorais.
+- Não foi possível baixar o vídeo.
+- Não foi possível criar os posts.
+- Nenhum destino estava disponível para publicar.
+
+## Excluir um repost
+
+Abra **Mais ações** no topo da página do repost e escolha **Excluir repost**: "As verificações param na hora. Os posts já criados continuam no seu calendário."
+
+## API e MCP
+
+| Tarefa | API REST | Ferramenta MCP |
+| --- | --- | --- |
+| Listar e ler | [List repurposes](/api-reference/repurposes/list-repurposes), [Get repurpose](/api-reference/repurposes/get-repurpose) | `list-repurposes-tool`, `get-repurpose-tool` |
+| Criar e editar | [Create repurpose](/api-reference/repurposes/create-repurpose), [Update repurpose](/api-reference/repurposes/update-repurpose) | `create-repurpose-tool`, `update-repurpose-tool` |
+| Ativar, pausar, retomar e desativar | [Activate](/api-reference/repurposes/activate-repurpose), [Pause](/api-reference/repurposes/pause-repurpose), [Resume](/api-reference/repurposes/resume-repurpose), [Disable](/api-reference/repurposes/disable-repurpose) | `activate-repurpose-tool`, `pause-repurpose-tool`, `resume-repurpose-tool`, `disable-repurpose-tool` |
+| Atividade | [List repurpose items](/api-reference/repurposes/list-repurpose-items) | `list-repurpose-items-tool` |
+| Formatos | [List repurpose source formats](/api-reference/repurposes/list-repurpose-source-formats) | `list-repurpose-source-formats-tool` |
+| Excluir | [Delete repurpose](/api-reference/repurposes/delete-repurpose) | `delete-repurpose-tool` |
+
+Na API e no MCP, o Repost se chama *repurpose*.

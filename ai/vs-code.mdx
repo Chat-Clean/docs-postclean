@@ -1,0 +1,55 @@
+---
+title: "VS Code"
+description: "Conecte o PostClean ao suporte nativo a MCP do VS Code no Copilot Chat"
+icon: "/images/ai/vscode.svg"
+---
+
+O Visual Studio Code tem suporte nativo a servidores MCP (no Copilot Chat em modo agente e em qualquer extensão compatível com MCP). Você conecta o PostClean em poucos cliques.
+
+## Pré-requisitos
+
+- VS Code 1.101 ou mais recente (versões anteriores não suportam OAuth em servidores MCP remotos)
+- Extensão GitHub Copilot (ou outra extensão compatível com MCP)
+- Uma conta no PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+
+## Configuração
+
+<Steps>
+  <Step title="Crie o arquivo de configuração MCP">
+    Na raiz do seu projeto, crie ou edite `.vscode/mcp.json`:
+
+    ```json
+    {
+      "servers": {
+        "postclean": {
+          "type": "http",
+          "url": "https://post.chatclean.com.br/mcp/trypost"
+        }
+      }
+    }
+    ```
+
+    Sem cabeçalho `Authorization`: o VS Code descobre o OAuth pela URL.
+  </Step>
+  <Step title="Recarregue o VS Code">
+    Recarregue a janela para o VS Code ler a nova configuração.
+  </Step>
+  <Step title="Entre pelo navegador">
+    Abra o menu **Accounts** (engrenagem no canto inferior esquerdo) ou o painel do Copilot Chat: o VS Code pede que você entre no PostClean. No navegador, escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar**. O servidor passa para **Connected**. Para usar outro workspace, conecte de novo e escolha-o.
+  </Step>
+  <Step title="Confira a conexão">
+    Abra o Copilot Chat em modo agente e peça:
+
+    ```
+    Liste todas as minhas contas sociais no PostClean
+    ```
+  </Step>
+</Steps>
+
+<Tip>
+  O VS Code usa `"servers"` como chave principal (e não `"mcpServers"`). Isso é diferente da maioria dos outros clientes MCP.
+</Tip>
+
+## Configuração global
+
+Para deixar o PostClean disponível em todos os projetos, abra a paleta de comandos e rode **MCP: Open User Configuration** para adicionar o servidor às suas configurações de usuário.

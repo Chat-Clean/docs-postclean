@@ -1,0 +1,111 @@
+---
+title: "Gatilhos"
+description: "O que dispara uma automação: comentários, mensagens no direct, stories, lives, anúncios e links ig.me com QR code."
+icon: "bolt"
+---
+
+O **Gatilho** fica em **Quando**, na página da automação. Ele decide o que dispara a automação e quais campos aparecem no formulário.
+
+| Gatilho | Quando dispara | Palavras-chave | Resposta pública |
+| --- | --- | --- | --- |
+| **Comentário em post** | "Alguém comenta num post ou reel. Anúncios feitos a partir do post contam." | Sim | Sim |
+| **Mensagem no direct** | "Alguém manda uma mensagem com a palavra-chave." | Sim | Não |
+| **Resposta ao story** | "Alguém responde a um dos seus stories." | Sim | Não |
+| **Menção no story** | "Alguém marca o seu perfil no story." | Não | Não |
+| **Comentário na live** | "Alguém comenta na live. A mensagem só sai enquanto a live estiver no ar." | Sim | Não |
+| **Comentário em anúncio** | "Alguém comenta em qualquer anúncio do perfil." | Sim | Sim |
+| **Link ig.me ou QR code** | "Alguém abre o seu link ig.me (na bio, no site ou no QR code) e chega no direct." | Não | Não |
+
+Comentários de dentro de uma conversa (respostas a outro comentário) e os comentários do próprio perfil nunca disparam uma automação, para uma resposta não responder a si mesma.
+
+## Palavras-chave
+
+Nos gatilhos com palavras-chave, **Regra da palavra-chave** define como o texto é comparado:
+
+| Regra | Responde quando | Exemplo com a palavra "link" |
+| --- | --- | --- |
+| **Qualquer texto** | Qualquer comentário ou mensagem. | Responde tudo. |
+| **Tem a palavra** | O texto tem a palavra inteira. | "quero o link!" sim, "linkedin" não. |
+| **Contém o texto** | O texto contém o trecho em qualquer lugar. | "quero o link" e "linkedin", os dois. |
+| **É exatamente** | O texto é só a palavra. | "Link" sim, "quero o link" não. |
+
+Em **Palavras-chave**, digite uma palavra e aperte Enter. Você pode cadastrar várias, e basta uma combinar. "Acentos e letras maiúsculas são ignorados": "PREÇO" combina com "preco".
+
+Em **Ignorar quando tiver**, coloque palavras que barram a resposta: "Comentários ou mensagens com alguma destas palavras não são respondidos." Com **Contém o texto**, a palavra ignorada é procurada em qualquer parte do texto; nas outras regras, como palavra inteira.
+
+<Tip>
+  Uma palavra-chave sem letras nem números (um emoji como 🔥, um ponto de interrogação) conta em qualquer lugar do texto.
+</Tip>
+
+## Comentário em post
+
+Em **Posts**, escolha quais posts a automação acompanha:
+
+- **Qualquer post**: todos os posts e reels do canal.
+- **Posts específicos**: você escolhe os posts na lista (dá para filtrar por **Todos**, **Posts** e **Reels**). A lista é preenchida a partir das métricas do canal: "Nenhum post ainda. Eles aparecem depois da primeira sincronização de métricas da conta."
+- **Próximo post**: "Vale para o primeiro post publicado depois de salvar." Enquanto esse post não sai, a automação mostra "Esperando o próximo post."; depois, "Post encontrado: a automação responde só nele."
+
+Um anúncio feito a partir de um post acompanhado também conta como o post.
+
+### Comentários dos últimos 7 dias
+
+Com **Posts específicos**, aparece a opção **Responder também os comentários dos últimos 7 dias**. Ao salvar com a automação ligada, ela responde também os comentários que esses posts já tinham, dos mais antigos para os mais novos. "O Instagram aceita a mensagem até 7 dias depois do comentário. O limite de mensagens por hora é respeitado." Ninguém recebe a resposta duas vezes.
+
+## Mensagem no direct
+
+Dispara quando alguém manda uma mensagem que combina com as palavras-chave. A resposta vai na própria conversa.
+
+Se o canal tiver o [agente externo](/knowledge-base/automations/external-agent) ligado, ele responde o direct, e esta automação é salva desligada.
+
+## Resposta ao story
+
+Dispara quando alguém responde a um story seu, por texto ou com uma das reações rápidas de emoji do Instagram. Em **Stories**, escolha **Qualquer story** ou **Stories específicos** (não existe "próximo story"). Com a regra **Qualquer texto**, qualquer resposta ou reação dispara.
+
+<Warning>
+  A curtida do story (o coração) não chega ao PostClean como mensagem, então ela não dispara a automação. Só respostas e reações de emoji disparam.
+</Warning>
+
+## Menção no story
+
+Dispara quando alguém marca o seu perfil num story. Não usa palavras-chave. O modelo **Agradecer menção no story** já vem com uma mensagem de agradecimento.
+
+## Comentário na live
+
+Dispara com comentários feitos durante uma live. A resposta vai só no direct, sem resposta pública, e "a mensagem só sai enquanto a live estiver no ar".
+
+## Comentário em anúncio
+
+Dispara com comentários em qualquer anúncio do perfil. Aceita resposta pública e mensagem no direct, como um comentário em post. Uma automação de **Comentário em post** com posts escolhidos tem prioridade sobre esta; esta tem prioridade sobre uma de **Qualquer post**.
+
+## Link ig.me ou QR code
+
+Gera um link que abre o direct do seu perfil já com a automação: `https://ig.me/m/<seu_usuario>?ref=<codigo>`. Use na bio, no site, em impressos ou no QR code.
+
+<Steps>
+  <Step title="Defina o código">
+    Em **Código do link**, escreva o código que vai no fim do link (`?ref=`). "Use letras, números, - e _." Cada automação do canal precisa de um código diferente ("Outra automação deste canal já usa este código.").
+  </Step>
+  <Step title="Salve">
+    "Salve a automação para ver o link e o QR code."
+  </Step>
+  <Step title="Copie o link ou baixe o QR code">
+    Em **Seu link**, clique em **Copiar**. O QR code sai na identidade do PostClean, com a foto do perfil do Instagram no centro e o @ embaixo. Baixe em **Baixar PNG** ou **Baixar SVG**.
+  </Step>
+</Steps>
+
+Como a automação dispara:
+
+- **Quem já conversou com o perfil**: abrir o link já dispara a automação.
+- **Conversa nova**: o Instagram só avisa quando a pessoa manda a primeira mensagem (ou toca numa das perguntas sugeridas da conversa, os *ice breakers*). Até ela escrever, nada é enviado.
+
+<Tip>
+  Para conversas novas, deixe claro o que a pessoa deve fazer ao abrir o direct ("mande um oi para receber") ou configure perguntas sugeridas (*ice breakers*) no perfil, para ela só precisar tocar.
+</Tip>
+
+<Warning>
+  "O link ig.me não abre no Instagram pelo navegador do computador." Ele funciona no app do Instagram, no celular. Por isso o QR code é a melhor saída para quem está no computador ou num impresso.
+</Warning>
+
+## Responder cada pessoa uma vez
+
+Vale para todos os gatilhos. Com **Responder cada pessoa uma vez** ligado (o padrão), a pessoa recebe a automação uma vez por post nos comentários e uma única vez nas mensagens do direct. Desligue para responder toda vez. Quando a pessoa já recebeu, a atividade mostra **Ignorada** com **Já respondida**.

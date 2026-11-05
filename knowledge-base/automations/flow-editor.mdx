@@ -1,0 +1,160 @@
+---
+title: "Formulário e editor de blocos"
+sidebarTitle: "Formulário e blocos"
+description: "Monte a conversa no direct pelo formulário de passos ou pelo editor de blocos, com botões, perguntas, condições, etiquetas, variáveis e modelos prontos."
+icon: "diagram-project"
+---
+
+Em **Então**, a **Conversa no direct** define "o que a pessoa recebe e o que acontece depois". Há dois jeitos de montar essa conversa:
+
+| | **Formulário** | **Editor de blocos** |
+| --- | --- | --- |
+| Para quê | As receitas mais comuns, em passos fixos. | Fluxos com ramificações, do seu jeito. |
+| Como funciona | Você liga e preenche os passos que quiser. A ordem é sempre a mesma. | "Cada bloco é um passo. Botões e condições abrem caminhos." |
+| Começa por | **Começar do zero** ou um dos modelos. | O modelo **Editor de blocos**. |
+
+Os dois rodam no mesmo motor. Uma automação feita no formulário pode ser aberta no editor de blocos com **Abrir no editor de blocos**: "Os passos do formulário viram blocos que você pode ramificar. Depois não dá para voltar ao formulário."
+
+## Resposta pública
+
+Nos gatilhos **Comentário em post** e **Comentário em anúncio**, **Resposta pública** é o texto "publicado embaixo do comentário" (por exemplo, "Te mandei no direct!"). Clique em **Adicionar variação** para cadastrar até 10 textos: "Com mais de uma, cada comentário recebe uma sorteada."
+
+A resposta pública só é publicada depois que a mensagem no direct sai. Se o direct falhar, o post nunca fica com um "te mandei no direct" sem mensagem. Em posts movimentados, a **Proteção contra spam** responde em público só parte dos comentários; veja [Proteção contra spam](/knowledge-base/automations/spam-protection).
+
+Uma automação de comentário pode ter só a resposta pública, só a mensagem no direct ou as duas ("Adicione uma resposta pública ou uma mensagem no direct.").
+
+## Formulário
+
+O formulário tem passos fixos, nesta ordem. Cada passo opcional tem uma chave para ligar ou desligar.
+
+<Steps>
+  <Step title="Mensagem de abertura">
+    "Uma mensagem curta com um botão. O toque abre a conversa: aí dá para checar se segue, pedir dados e mandar lembrete." Preencha **Texto da abertura** e **Texto do botão**. Nos gatilhos de comentário, o passo vem marcado como **Recomendado**.
+  </Step>
+  <Step title="Verificar se segue">
+    "Quem ainda não segue recebe um pedido para seguir e um botão para checar de novo." Veja [Verificar se segue](/knowledge-base/automations/follow-gate).
+  </Step>
+  <Step title="Pedir um dado">
+    "Pergunta e guarda a resposta no contato antes de entregar." Veja [Pergunta](#pergunta).
+  </Step>
+  <Step title="Entrega">
+    "A mensagem principal, com o link ou o conteúdo." Escreva a **Mensagem no direct** e adicione até 3 **Botões**.
+  </Step>
+  <Step title="Etiquetas">
+    "O contato recebe estas etiquetas quando chega na entrega." As etiquetas são criadas em **Contatos**; veja [Contatos e etiquetas](/knowledge-base/automations/contacts).
+  </Step>
+  <Step title="Enviar para o CRM">
+    "Manda o contato para as integrações escolhidas." Veja [Integrações](/knowledge-base/automations/integrations).
+  </Step>
+  <Step title="Lembrete para quem não clicou">
+    "Se a pessoa não abrir o link, ela recebe um lembrete." Veja [Lembrete para quem não clicou](/knowledge-base/automations/reminders).
+  </Step>
+</Steps>
+
+A **Entrega** é obrigatória para usar qualquer outro passo ("Escreva a mensagem de entrega para usar os passos.").
+
+### Por que a mensagem de abertura importa
+
+Num comentário, o Instagram permite **uma** mensagem privada para quem comentou. Depois dela, a conversa só continua quando a pessoa toca num botão ou responde. Por isso, nos gatilhos de comentário (post, anúncio e live):
+
+- **Verificar se segue** exige a **Mensagem de abertura** ("Ligue a mensagem de abertura para verificar se segue."). Ligar o primeiro liga o segundo, e desligar a abertura desliga a verificação.
+- **Lembrete para quem não clicou** exige a abertura ou o pedido de dado.
+
+Veja [Limites da Meta](/knowledge-base/automations/meta-limits).
+
+### Botões da entrega
+
+Cada botão tem um **Texto do botão** (até 20 caracteres) e uma ação em **Ao tocar**:
+
+- **Abrir um link**: abre o **Link** (https). O link passa por um endereço curto do PostClean que conta o clique antes de levar a pessoa ao destino. É isso que permite o lembrete e a condição **Clicou no link?**.
+- **Enviar mensagem**: responde com a **Mensagem** que você escrever.
+
+## Editor de blocos
+
+O fluxo começa em **Início** (com o gatilho ao lado) e termina em **Fim da conversa**. Clique em **Adicionar bloco** para incluir um passo. Um fluxo pode ter até 60 blocos.
+
+| Bloco | O que faz |
+| --- | --- |
+| **Mensagem** | "Texto com até 3 botões." |
+| **Pergunta** | "Pede um dado e guarda a resposta." |
+| **Condição** | "Divide o fluxo em Sim e Não." |
+| **Esperar** | "Espera antes do próximo bloco." |
+| **Etiquetas** | "Adiciona ou remove etiquetas." |
+| **Enviar para o CRM** | "Manda o contato para uma integração." |
+
+Para fechar um ciclo, use **Voltar para um bloco anterior** ao adicionar um bloco: o caminho passa a mostrar "Volta para: …". Um fluxo que volta sem esperar nada da pessoa (uma condição que aponta para ela mesma, por exemplo) é interrompido.
+
+Nos gatilhos de comentário, o editor lembra: "Depois da primeira mensagem de um comentário, o fluxo só segue quando a pessoa toca num botão ou responde."
+
+### Mensagem
+
+Escreva o **Texto** (até 640 caracteres) e adicione até 3 botões com **Adicionar botão**. Cada botão tem uma ação:
+
+- **Abrir um link**: abre o **Link** (precisa começar com `https://`), com o clique contado.
+- **Seguir o fluxo**: abre um caminho novo, "Ao tocar em …". O fluxo espera o toque da pessoa para continuar por ali.
+
+### Pergunta
+
+Em **O que pedir**, escolha **E-mail**, **Telefone (WhatsApp)** ou **Outra resposta** (dê um **Nome do campo**, como "cidade"). Escreva a **Pergunta** e, se quiser, o texto de **Se a resposta não servir**.
+
+- **E-mail**: vale o primeiro e-mail da resposta ("é joao@email.com" conta).
+- **Telefone (WhatsApp)**: o número é guardado só com dígitos. Um número digitado sem código do país (10 ou 11 dígitos, DDD e número) ganha o 55 do Brasil.
+- **Outra resposta**: guarda o texto como veio.
+
+Se a resposta não servir, a pergunta é feita de novo uma vez, com o texto de **Se a resposta não servir**. Na segunda resposta errada, o fluxo continua sem o dado.
+
+### Condição
+
+Em **Pergunta**, escolha o que verificar. O fluxo segue por **Sim** ou por **Não**:
+
+- **Segue o perfil?** (veja [Verificar se segue](/knowledge-base/automations/follow-gate))
+- **Tem a etiqueta?** (escolha a **Etiqueta**)
+- **Tem e-mail?**
+- **Tem telefone?**
+- **Clicou no link?**
+
+### Esperar
+
+Pausa o fluxo por 30 minutos, 1, 2, 4, 8, 12 ou 20 horas. "As mensagens só saem até 24 horas depois da última ação da pessoa": se a espera passar desse prazo, o que vem depois não é enviado.
+
+### Etiquetas
+
+Escolha as etiquetas a **Adicionar** e a **Remover** do contato.
+
+### Enviar para o CRM
+
+Escolha a **Integração** que recebe o contato. Veja [Integrações](/knowledge-base/automations/integrations).
+
+## Variáveis
+
+Personalize qualquer texto com o que o contato já tem:
+
+| Variável | Vira |
+| --- | --- |
+| `{first_name}` | O primeiro nome (ou o usuário, se não houver nome) |
+| `{name}` | O nome completo (ou o usuário, se não houver nome) |
+| `{username}` | O @ do Instagram |
+| `{email}` | O e-mail que a pessoa deixou |
+| `{phone}` | O telefone que a pessoa deixou |
+
+Uma variável sem valor fica vazia. O nome de quem comentou só chega depois que a pessoa interage com a conversa (o Instagram pede o consentimento dela antes), então numa primeira mensagem de comentário `{first_name}` pode virar o usuário.
+
+## Modelos prontos
+
+Em **Comece por um modelo**, cada modelo preenche o formulário com uma receita comum. Tudo continua editável.
+
+| Modelo | Gatilho | O que faz |
+| --- | --- | --- |
+| **Comente e receba o link** | Comentário em post | "Quem comenta a palavra recebe o link no direct, com lembrete." |
+| **Seguir para liberar** | Comentário em post | "Entrega o link só para quem segue o perfil." |
+| **Captar e-mail** | Comentário em post | "Pede o e-mail antes de entregar o material." |
+| **WhatsApp para o CRM** | Comentário em post | "Pede o WhatsApp e manda o contato para o CRM." |
+| **Resposta ao story** | Resposta ao story | "Responde quem reage ou responde aos seus stories." |
+| **Agradecer menção no story** | Menção no story | "Agradece quem marca o seu perfil no story." |
+| **Link ig.me e QR code** | Link ig.me ou QR code | "Para a bio, o site ou um impresso: quem abre recebe a mensagem." |
+| **Palavra-chave no direct** | Mensagem no direct | "Responde quem manda a palavra no direct." |
+| **Comentário em anúncio** | Comentário em anúncio | "Responde quem comenta nos seus anúncios." |
+| **Comentário na live** | Comentário na live | "Manda o link para quem comenta durante a live." |
+| **Editor de blocos** | Comentário em post | "Monte um fluxo com ramificações, do seu jeito." |
+
+Os quatro primeiros modelos já vêm com a palavra-chave "link", três variações de resposta pública e a mensagem de abertura com o botão **Quero receber**. Troque a palavra-chave e preencha o link do botão **Acessar**, quando o modelo tiver esse botão, antes de salvar.

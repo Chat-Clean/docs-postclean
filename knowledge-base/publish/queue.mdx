@@ -1,0 +1,74 @@
+---
+title: "Fila"
+description: "Defina horários de postagem para cada canal e deixe a fila preenchê-los com posts."
+---
+
+A fila publica os posts nos **horários de postagem** de um canal (também chamados de slots). Em vez de escolher uma data para cada post, você coloca o post na fila e o PostClean encaixa ele num horário livre.
+
+## Configurar os horários de postagem
+
+Cada canal tem os próprios horários de postagem, no próprio fuso horário.
+
+- **Na primeira vez:** depois que você conecta um canal, o PostClean pergunta "Quantas vezes por semana você quer postar?" Escolha **Manter constância** (1 vez/semana), **Criar presença** (3), **Alcançar novos patamares** (5) ou **Escolher sua meta** (até 28). Depois o PostClean sugere horários recomendados, que você pode **Personalizar**.
+- **A qualquer momento depois:** abra o canal e escolha **Gerenciar horários**, ou vá às [Configurações do canal](/knowledge-base/channels/settings). Ali você define até 4 horários por dia, liga ou desliga dias e gera horários a partir da sua meta, das recomendações do PostClean ou copiando os de outro canal.
+
+Um canal sem horários de postagem não pode usar a fila. Nele, **Adicionar à fila** fica desativado: "Adicione horários de postagem a este canal para usar a fila."
+
+## Colocar um post na fila
+
+No [editor de posts](/knowledge-base/publish/composer), escolha:
+
+| Opção | Para onde o post vai |
+| --- | --- |
+| **Próximo horário livre** | O primeiro horário livre. As lacunas entre os posts da fila são preenchidas primeiro. |
+| **Priorizar** | O primeiro horário que não está ocupado por um post com horário personalizado. Os posts da fila logo atrás dele, até a próxima lacuna, vão cada um para o horário seguinte. Nada mais se move. |
+
+Em **Rascunhos**, **Adicionar à fila** coloca um rascunho no próximo horário livre.
+
+Você também pode clicar em **Novo** num horário livre da lista da Fila ou do calendário. O editor abre no horário daquele slot; se você salvar sem mudar o horário nem o canal, o post fica exatamente naquele horário.
+
+## Os posts mantêm o horário
+
+Um post da fila fica no horário dele. O PostClean nunca o move por conta própria.
+
+- **Excluir**, **Mover para rascunhos**, publicar agora ou dar um horário personalizado ao post libera o horário. Os posts seguintes **não** sobem para preencher a lacuna.
+- **Próximo horário livre** preenche essa lacuna na próxima vez que você colocar um post na fila.
+- Qualquer post agendado no horário de um slot ocupa esse slot, mesmo um agendado com horário personalizado. A fila nunca coloca dois posts no mesmo horário.
+
+## Reordenar a fila
+
+Arraste um post da fila sobre outro, ou use **Mover para cima** ou **Mover para baixo** no menu do post. Os posts trocam de lugar entre os horários que já ocupam; nenhum horário novo é usado.
+
+**Mover para o topo** funciona como **Priorizar**: o post ocupa o primeiro horário que não está ocupado por um post com horário personalizado, e os posts da fila logo atrás dele, até a próxima lacuna, vão cada um para o horário seguinte. Nada mais se move.
+
+## Posts pendentes
+
+Quando um membro que precisa de aprovação coloca um post na fila, o pedido reserva o horário enquanto espera. A Fila mostra o pedido como um cartão de post naquele horário:
+
+- quem aprova vê **Adicionar à fila**, que aprova o post, e **Rejeitar**;
+- quem pediu pode editar;
+- o cartão não pode ser arrastado.
+
+Ao aprovar, o post fica naquele horário se o slot ainda existir e estiver livre; senão, ele vai para o primeiro horário livre. Rejeitar ou excluir o pedido libera o horário. Quem não pode ver o pedido vê uma lacuna ali, sem o botão **Novo**. Veja [Aprovações](/knowledge-base/publish/approvals).
+
+## Quando os horários ou o fuso horário mudam
+
+- **Mudar os horários de postagem** move só os posts cujo horário deixou de existir. Eles vão para os primeiros horários livres, em ordem.
+- **Mudar o fuso horário do canal** primeiro leva cada post da fila para o horário com a mesma hora local no novo fuso e depois preenche os primeiros horários livres, em ordem. Os posts com horário personalizado mantêm o momento deles.
+- Se não sobrar nenhum horário, o post da fila mantém o horário como um post de horário personalizado.
+
+## Mostrar os horários
+
+No menu de filtros de Publicar, ative **Mostrar horários de postagem** para ver os horários livres na lista da Fila, cada um com **Novo**. **Gerenciar horários** abre as configurações do canal.
+
+## API e MCP
+
+| Tarefa | API REST | Ferramenta MCP |
+| --- | --- | --- |
+| Ler ou mudar os horários de postagem | [Get posting schedule](/api-reference/channels/get-posting-schedule), [Update posting schedule](/api-reference/channels/update-posting-schedule) | `get-posting-schedule-tool`, `update-posting-schedule-tool` |
+| Gerar ou copiar horários de postagem | [Generate posting schedule](/api-reference/channels/generate-posting-schedule), [Copy posting schedule](/api-reference/channels/copy-posting-schedule) | `generate-posting-schedule-tool`, `copy-posting-schedule-tool` |
+| Listar horários livres | [List free queue slots](/api-reference/channels/list-free-queue-slots) | `list-free-slots-tool` |
+| Reordenar | [Reorder queue](/api-reference/channels/reorder-queue) | `reorder-queue-tool` |
+| Mover um post para um horário | [Move post to queue slot](/api-reference/channels/move-post-to-queue-slot) | `move-post-to-slot-tool` |
+
+Para colocar um post novo na fila pela API, veja o [guia de publicação](/api-reference/guides/posting).

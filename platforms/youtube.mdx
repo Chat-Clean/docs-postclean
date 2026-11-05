@@ -1,0 +1,58 @@
+---
+title: YouTube
+description: Conecte seu canal do YouTube ao PostClean
+icon: "youtube"
+---
+
+O PostClean envia YouTube Shorts para os seus canais.
+
+## Conectar sua conta
+
+1. Na barra lateral, abra **Canais** e clique em **Conectar canal** (ou use **Novo** > **Conectar um novo canal**)
+2. Escolha **YouTube** e clique em **Conectar YouTube**
+3. Escolha sua conta do Google no seletor de contas e autorize o PostClean
+4. Na página **Selecione as contas**, marque os canais que você quer e clique em **Concluir conexão**
+
+Todos os canais desse login do Google aparecem na lista, e você pode conectar vários de uma vez. Se o login não tiver nenhum canal do YouTube, o PostClean avisa que nenhum canal foi encontrado e pede que você crie um primeiro. Ao concluir, o PostClean abre a página **Publicar** do novo canal e pergunta quantas vezes por semana você quer postar. Veja o fluxo completo em [Conectar canais](/knowledge-base/channels/connecting).
+
+## Tipos de conteúdo
+
+| Tipo | `content_type` | Proporção | Descrição |
+|------|----------------|-----------|-----------|
+| **Short** | `youtube_short` | 9:16 | Vídeo vertical de até 3 minutos (o vídeo é obrigatório) |
+
+## Limites de mídia
+
+| `content_type` | Vídeo | Duração | Formato |
+|----------------|-------|---------|---------|
+| `youtube_short` | 1 GB | 3 minutos | MP4 ou MOV |
+
+Especificações oficiais: [`videos.insert`](https://developers.google.com/youtube/v3/docs/videos/insert), [Shorts de 3 minutos](https://support.google.com/youtube/answer/15424877). Catálogo completo: [Mídia](/knowledge-base/media#youtube).
+
+## Título, descrição e configurações
+
+**Título.** Defina nas configurações do YouTube (**Título**, `meta.title`, até 100 caracteres, sem `<` nem `>` — recusado até em rascunhos). Se deixar vazio, o PostClean usa a primeira linha não vazia do texto do post, sem `<` e `>` e cortada em 100 caracteres. O YouTube recusa envios sem título, então um post sem título e sem texto não pode ser agendado nem publicado.
+
+**Descrição.** O texto do post, a menos que você preencha **Descrição** (`meta.description`, texto simples, no máximo 5.000 bytes).
+
+O texto do post (a sua descrição, quando **Descrição** está vazia) é limitado a **5.000 caracteres**.
+
+| Configuração | Chave em `meta` | Valores |
+|--------------|-----------------|---------|
+| **Categoria** | `category_id` | `1` Filmes e desenhos, `2` Automóveis e veículos, `10` Música, `15` Animais, `17` Esportes, `19` Viagens e eventos, `20` Jogos, `22` Pessoas e blogs (padrão), `23` Comédia, `24` Entretenimento, `25` Notícias e política, `26` Guias e estilo, `27` Educação, `28` Ciência e tecnologia, `29` ONGs e ativismo |
+| **Visibilidade** | `privacy_status` | `public` (padrão), `unlisted`, `private` |
+| **Licença** | `license` | `youtube` (Licença padrão do YouTube), `creativeCommon` (Creative Commons - Atribuição) |
+| **Notificar inscritos** | `notify_subscribers` | booleano, ligado por padrão |
+| **Permitir incorporar** | `embeddable` | booleano, ligado por padrão |
+| **Para crianças** | `made_for_kids` | booleano, desligado por padrão |
+| **Gerado por IA** | `is_ai_generated` | booleano — informa conteúdo alterado ou sintético |
+
+## Insights
+
+Os vídeos e os inscritos do YouTube aparecem em [Insights](/knowledge-base/insights/overview).
+
+## Escopos OAuth
+
+`https://www.googleapis.com/auth/youtube.upload`, `https://www.googleapis.com/auth/youtube.readonly`, `https://www.googleapis.com/auth/youtube.force-ssl`, `https://www.googleapis.com/auth/yt-analytics.readonly`
+
+O `yt-analytics.readonly` alimenta as métricas do YouTube em Insights.

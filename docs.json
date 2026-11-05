@@ -1,0 +1,431 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "aspen",
+  "name": "PostClean Docs",
+  "colors": {
+    "primary": "#1f4a34",
+    "light": "#51bc69",
+    "dark": "#1f4a34"
+  },
+  "background": {
+    "color": {
+      "light": "#f0eee4",
+      "dark": "#0d1611"
+    }
+  },
+  "appearance": {
+    "default": "light",
+    "strict": true
+  },
+  "favicon": "/logo/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentação",
+        "icon": "book-open",
+        "groups": [
+          {
+            "group": "Primeiros passos",
+            "pages": [
+              "index",
+              "getting-started/quickstart"
+            ]
+          },
+          {
+            "group": "Plataformas",
+            "pages": [
+              "platforms/instagram",
+              "platforms/facebook",
+              "platforms/linkedin",
+              "platforms/x-twitter",
+              "platforms/tiktok",
+              "platforms/youtube",
+              "platforms/threads",
+              "platforms/pinterest",
+              "platforms/bluesky",
+              "platforms/mastodon",
+              "platforms/telegram",
+              "platforms/discord",
+              "platforms/google-business"
+            ]
+          },
+          {
+            "group": "Suporte",
+            "pages": [
+              "support"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Referência da API",
+        "icon": "code",
+        "openapi": "openapi.json",
+        "groups": [
+          {
+            "group": "Visão geral",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/guides/posting",
+              "api-reference/guides/media-uploads"
+            ]
+          },
+          {
+            "group": "Posts",
+            "pages": [
+              "GET /posts",
+              "POST /posts",
+              "POST /posts/batch",
+              "GET /posts/{post}",
+              "PUT /posts/{post}",
+              "DELETE /posts/{post}",
+              "GET /posts/{post}/metrics",
+              "GET /posts/{post}/preview"
+            ]
+          },
+          {
+            "group": "Notas de posts",
+            "pages": [
+              "GET /posts/{post}/notes",
+              "POST /posts/{post}/notes",
+              "PUT /posts/{post}/notes/{note}",
+              "DELETE /posts/{post}/notes/{note}"
+            ]
+          },
+          {
+            "group": "Aprovações",
+            "pages": [
+              "POST /posts/{post}/approve",
+              "POST /posts/{post}/reject"
+            ]
+          },
+          {
+            "group": "Recorrência",
+            "pages": [
+              "PATCH /posts/{post}/recurrence",
+              "DELETE /posts/{post}/recurrence"
+            ]
+          },
+          {
+            "group": "Mídia e uploads",
+            "pages": [
+              "POST /posts/{post}/media",
+              "POST /posts/{post}/media/from-upload",
+              "POST /posts/{post}/media/from-url",
+              "POST /uploads",
+              "POST /uploads/{token}"
+            ]
+          },
+          {
+            "group": "Contas sociais",
+            "pages": [
+              "GET /social-accounts",
+              "GET /social-accounts/{account}/boards",
+              "POST /social-accounts/{account}/boards",
+              "GET /social-accounts/{account}/channels",
+              "GET /social-accounts/{account}/tiktok-creator-info"
+            ]
+          },
+          {
+            "group": "Canais",
+            "pages": [
+              "GET /channels/{account}/posting-schedule",
+              "PUT /channels/{account}/posting-schedule",
+              "POST /channels/{account}/posting-schedule/generate",
+              "POST /channels/{account}/posting-schedule/copy",
+              "GET /channels/{account}/queue/slots",
+              "PUT /channels/{account}/queue/order",
+              "PUT /channels/{account}/queue/slot"
+            ]
+          },
+          {
+            "group": "Ideias",
+            "pages": [
+              "GET /ideas",
+              "POST /ideas",
+              "DELETE /ideas",
+              "GET /ideas/{idea}",
+              "PUT /ideas/{idea}",
+              "DELETE /ideas/{idea}",
+              "POST /ideas/{idea}/duplicate",
+              "PUT /ideas/{idea}/move"
+            ]
+          },
+          {
+            "group": "Etapas de ideias",
+            "pages": [
+              "GET /idea-stages",
+              "POST /idea-stages",
+              "PUT /idea-stages/order",
+              "PUT /idea-stages/{ideaStage}",
+              "DELETE /idea-stages/{ideaStage}"
+            ]
+          },
+          {
+            "group": "Análises",
+            "pages": [
+              "GET /analytics",
+              "GET /analytics/publications/{publication}",
+              "GET /channels/{account}/insights",
+              "GET /channels/{account}/insights/publications"
+            ]
+          },
+          {
+            "group": "Etiquetas",
+            "pages": [
+              "GET /labels",
+              "POST /labels",
+              "PUT /labels/{label}",
+              "DELETE /labels/{label}"
+            ]
+          },
+          {
+            "group": "Assinaturas",
+            "pages": [
+              "GET /signatures",
+              "POST /signatures",
+              "PUT /signatures/{signature}",
+              "DELETE /signatures/{signature}"
+            ]
+          },
+          {
+            "group": "Workspace",
+            "pages": [
+              "GET /workspace"
+            ]
+          },
+          {
+            "group": "Chaves de API",
+            "pages": [
+              "GET /api-keys",
+              "POST /api-keys",
+              "DELETE /api-keys/{apiToken}"
+            ]
+          },
+          {
+            "group": "Webhooks",
+            "pages": [
+              "GET /webhooks",
+              "POST /webhooks",
+              "GET /webhooks/{webhook}",
+              "PUT /webhooks/{webhook}",
+              "DELETE /webhooks/{webhook}",
+              "GET /webhooks/{webhook}/logs",
+              "POST /webhooks/{webhook}/logs/{webhookLog}/replay",
+              "POST /webhooks/{webhook}/rotate-secret",
+              "POST /webhooks/{webhook}/send-test"
+            ]
+          },
+          {
+            "group": "Repost",
+            "pages": [
+              "GET /repurpose-source-formats",
+              "GET /repurposes",
+              "POST /repurposes",
+              "GET /repurposes/{repurpose}",
+              "PUT /repurposes/{repurpose}",
+              "DELETE /repurposes/{repurpose}",
+              "POST /repurposes/{repurpose}/activate",
+              "POST /repurposes/{repurpose}/disable",
+              "GET /repurposes/{repurpose}/items",
+              "POST /repurposes/{repurpose}/pause",
+              "POST /repurposes/{repurpose}/resume"
+            ]
+          },
+          {
+            "group": "Plataforma",
+            "pages": [
+              "GET /content-types"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Construa com IA",
+        "icon": "microchip-ai",
+        "groups": [
+          {
+            "group": "Primeiros passos",
+            "pages": [
+              "ai/introduction",
+              "ai/tools-reference"
+            ]
+          },
+          {
+            "group": "Guias de configuração",
+            "pages": [
+              "ai/claude",
+              "ai/claude-code",
+              "ai/claude-desktop",
+              "ai/chatgpt",
+              "ai/muse",
+              "ai/muse-code",
+              "ai/perplexity",
+              "ai/grok",
+              "ai/cursor",
+              "ai/devin",
+              "ai/vs-code",
+              "ai/github-copilot",
+              "ai/gemini-cli",
+              "ai/opencode",
+              "ai/openclaw",
+              "ai/hermes",
+              "ai/codex",
+              "ai/antigravity"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Base de conhecimento",
+        "icon": "book",
+        "groups": [
+          {
+            "group": "Primeiros passos",
+            "pages": [
+              "knowledge-base/introduction"
+            ]
+          },
+          {
+            "group": "Criar",
+            "pages": [
+              "knowledge-base/create/ideas",
+              "knowledge-base/create/templates",
+              "knowledge-base/create/feeds"
+            ]
+          },
+          {
+            "group": "Publicar",
+            "pages": [
+              "knowledge-base/publish/overview",
+              "knowledge-base/publish/composer",
+              "knowledge-base/media",
+              "knowledge-base/publish/queue",
+              "knowledge-base/publish/approvals",
+              "knowledge-base/publish/recurring-posts"
+            ]
+          },
+          {
+            "group": "Automações",
+            "pages": [
+              "knowledge-base/automations/overview",
+              "knowledge-base/automations/triggers",
+              "knowledge-base/automations/flow-editor",
+              "knowledge-base/automations/follow-gate",
+              "knowledge-base/automations/reminders",
+              "knowledge-base/automations/spam-protection",
+              "knowledge-base/automations/meta-limits",
+              "knowledge-base/automations/contacts",
+              "knowledge-base/automations/integrations",
+              "knowledge-base/automations/external-agent"
+            ]
+          },
+          {
+            "group": "Insights",
+            "pages": [
+              "knowledge-base/insights/overview",
+              "knowledge-base/insights/channel-insights",
+              "knowledge-base/insights/paid-traffic"
+            ]
+          },
+          {
+            "group": "Repost",
+            "pages": [
+              "knowledge-base/repurpose"
+            ]
+          },
+          {
+            "group": "Canais",
+            "pages": [
+              "knowledge-base/channels/connecting",
+              "knowledge-base/channels/settings",
+              "knowledge-base/channels/disconnecting"
+            ]
+          },
+          {
+            "group": "Configurações",
+            "pages": [
+              {
+                "group": "Pessoal",
+                "pages": [
+                  "knowledge-base/settings/profile",
+                  "knowledge-base/settings/preferences",
+                  "knowledge-base/settings/authentication",
+                  "knowledge-base/settings/notifications"
+                ]
+              },
+              {
+                "group": "Workspace",
+                "pages": [
+                  "knowledge-base/settings/workspaces",
+                  "knowledge-base/settings/members-and-permissions"
+                ]
+              },
+              {
+                "group": "Recursos",
+                "pages": [
+                  "knowledge-base/settings/signatures",
+                  "knowledge-base/settings/labels",
+                  "knowledge-base/settings/webhooks"
+                ]
+              },
+              {
+                "group": "Desenvolvedores",
+                "pages": [
+                  "knowledge-base/settings/api-keys",
+                  "knowledge-base/settings/mcp"
+                ]
+              },
+              {
+                "group": "Conta",
+                "pages": [
+                  "knowledge-base/settings/plans-and-billing"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg",
+    "href": "https://docs.postclean.com.br"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Suporte",
+        "href": "mailto:contato@chatclean.com.br"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Acessar o PostClean",
+      "href": "https://post.chatclean.com.br"
+    }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
+  },
+  "footer": {
+    "socials": {
+      "website": "https://chatclean.com.br"
+    }
+  },
+  "seo": {
+    "metatags": {
+      "canonical": "https://docs.postclean.com.br"
+    }
+  }
+}

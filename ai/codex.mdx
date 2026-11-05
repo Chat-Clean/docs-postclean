@@ -1,0 +1,61 @@
+---
+title: "Codex"
+description: "Conecte o PostClean ao Codex CLI da OpenAI para gerenciar suas redes sociais com IA"
+icon: "/images/ai/codex.svg"
+---
+
+O [OpenAI Codex](https://github.com/openai/codex) é o agente de linha de comando da OpenAI para desenvolvimento de software. Você pode conectá-lo ao servidor MCP do PostClean para gerenciar seus agendamentos em linguagem natural.
+
+## Pré-requisitos
+
+- Codex CLI instalado (`npm install -g @openai/codex`)
+- Uma conta no PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+
+## Configuração
+
+<Steps>
+  <Step title="Abra o arquivo de configuração">
+    Edite `~/.codex/config.toml` e adicione o servidor do PostClean:
+
+    ```toml
+    [mcp_servers.postclean]
+    url = "https://post.chatclean.com.br/mcp/trypost"
+    ```
+
+    Sem cabeçalho `Authorization`: o Codex descobre o OAuth pela URL. Ou adicione em uma linha: `codex mcp add postclean --url https://post.chatclean.com.br/mcp/trypost`.
+  </Step>
+  <Step title="Entre com codex mcp login">
+    Rode o fluxo OAuth para o Codex guardar o token:
+
+    ```bash
+    codex mcp login postclean
+    ```
+
+    O Codex abre o navegador no PostClean. Entre na sua conta, escolha o **Workspace** que essa conexão pode usar, clique em **Autorizar** e volte ao terminal. Para usar outro workspace, conecte de novo e escolha-o.
+  </Step>
+  <Step title="Confira a conexão">
+    Inicie o Codex e peça:
+
+    ```
+    Liste todos os meus posts no PostClean
+    ```
+  </Step>
+</Steps>
+
+<Tip>
+  O Codex usa TOML na configuração (não JSON). Em ambientes com sandbox, onde a porta padrão de callback não fica acessível, defina `mcp_oauth_callback_port` ou `mcp_oauth_callback_url` no `config.toml`.
+</Tip>
+
+## Exemplos de prompts
+
+```
+Crie um novo rascunho de post para todas as minhas contas sociais
+```
+
+```
+Mostre todas as minhas assinaturas
+```
+
+```
+Crie uma etiqueta chamada "Campanha" com a cor #f59e0b
+```

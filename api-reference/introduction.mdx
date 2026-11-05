@@ -1,0 +1,187 @@
+---
+title: "Introdução"
+description: "Autentique com uma chave de API do workspace e chame a API REST do PostClean: URL base, permissões, erros, paginação e limites de requisições."
+icon: "book-open"
+---
+
+A API REST do PostClean permite que scripts e integrações façam o que você faz no app: criar, agendar e publicar posts, enviar mídia, gerenciar as filas e os horários de publicação dos canais, ideias, etiquetas, assinaturas, webhooks e reposts, e ler as análises.
+
+## URL base
+
+```
+https://post.chatclean.com.br/api
+```
+
+## Autenticação
+
+Toda requisição envia uma chave de API do workspace como token Bearer no cabeçalho `Authorization`:
+
+```bash
+curl https://post.chatclean.com.br/api/workspace \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Accept: application/json"
+```
+
+Envie sempre `Accept: application/json`, como em todos os exemplos destas páginas. Sem ele, alguns erros (por exemplo, o `409` de uma fila de canal ocupada) voltam como redirecionamento em vez de um corpo JSON.
+
+Crie uma chave no app em **Configurações → API Keys → Gerar chave API** (veja [Chaves de API](/knowledge-base/settings/api-keys)) ou com [Create API key](/api-reference/api-keys/create-api-key). A chave aparece uma única vez, quando é criada. Guarde-a na hora; se você perdê-la, gere uma nova.
+
+<Warning>
+  Trate a chave de API como uma senha. Não a coloque em código que roda no navegador nem a envie para um repositório.
+</Warning>
+
+As chaves de API autenticam apenas a API REST. O [servidor MCP](/ai/introduction) usa login com OAuth, e um token MCP enviado à API REST é recusado com `403` `Personal access token required.`.
+
+### Quem pode usar chaves de API
+
+As chaves de API funcionam só para **administradores do workspace**: o dono da conta e os membros marcados como administradores. Quando o dono da chave não é administrador do workspace, toda requisição retorna `403` com `Insufficient workspace permissions.`; quando ele saiu do workspace, `403` com `Workspace access denied.`. Veja [Membros e permissões](/knowledge-base/settings/members-and-permissions).
+
+### Uma chave, um workspace
+
+A chave fica presa ao workspace em que foi criada. Toda requisição age nesse workspace, qualquer que seja o workspace aberto no app, e recursos de outros workspaces respondem `404`. Para automatizar vários workspaces, crie uma chave em cada um.
+
+## Aprovações
+
+Administradores publicam direto, então um post criado ou editado pela API nunca fica esperando aprovação: `status: scheduled` agenda o post e `status: publishing` publica na hora.
+
+Membros que precisam de aprovação continuam enviando pedidos pelo app e pelo servidor MCP. Esses posts aparecem na API com `status: pending_approval`, e você pode decidi-los com [Approve post](/api-reference/approvals/approve-post) e [Reject post](/api-reference/approvals/reject-post). [Get workspace](/api-reference/workspace/get-workspace) devolve as suas próprias permissões em `me` (`is_admin`, `requires_approval`, `publishes_directly`).
+
+## Assinatura
+
+A conta dona do workspace precisa de uma assinatura ativa ou de um período de teste. Sem isso, toda requisição retorna `402`:
+
+```json
+{
+  "message": "Active subscription required."
+}
+```
+
+## Recursos de IA
+
+As ferramentas de escrita e de imagem com IA existem só no app web. A API não tem endpoint de IA, e criar um post pela API nunca chama a IA. Um repost pode encurtar com IA uma legenda longa demais para um destino (veja [Create repurpose](/api-reference/repurposes/create-repurpose)).
+
+## Limites de requisições
+
+Cada workspace pode fazer **60 requisições por minuto**. Todas as chaves do workspace dividem esse limite. As respostas trazem `X-RateLimit-Limit` e `X-RateLimit-Remaining`.
+
+Quatro chamadas que consultam a rede social diretamente também contam para um segundo limite de **60 requisições por minuto por usuário**, dividido entre as quatro e entre todos os seus workspaces: [List Pinterest boards](/api-reference/social-accounts/list-pinterest-boards), [Create Pinterest board](/api-reference/social-accounts/create-pinterest-board), [List Discord channels](/api-reference/social-accounts/list-discord-channels) e [Get TikTok creator info](/api-reference/social-accounts/get-tiktok-creator-info).
+
+Acima do limite, a API responde `429` com o cabeçalho `Retry-After` (segundos de espera):
+
+```json
+{
+  "name": "rate_limit_exceeded",
+  "message": "Rate limit exceeded. Please retry after 30 seconds."
+}
+```
+
+## Erros
+
+A API usa os códigos de status HTTP padrão e sempre responde em JSON com um `message`.
+
+| Status | Significado |
+|--------|---------|
+| `200` | Sucesso |
+| `201` | Criado |
+| `204` | Sucesso sem corpo (exclusões, exceto [Remove post recurrence](/api-reference/recurrence/remove-post-recurrence), e reordenação da fila) |
+| `401` | Chave de API ausente, inválida ou expirada (`Token expired.`) |
+| `402` | Sem assinatura ativa (`Active subscription required.`) |
+| `403` | Não permitido: o dono da chave não é administrador do workspace (`Insufficient workspace permissions.`), ou a ação não é permitida para esse recurso |
+| `404` | O recurso não existe neste workspace |
+| `409` | Outra alteração no mesmo post ou na mesma fila de canal está em andamento. Repita a requisição |
+| `422` | A validação falhou, ou a ação não combina com o estado do recurso (por exemplo, editar um post que já foi publicado) |
+| `429` | Limite de requisições excedido |
+
+Os erros de validação listam as mensagens de cada campo em `errors`, com o caminho do campo como chave:
+
+```json
+{
+  "message": "Select a Pinterest board to publish this post.",
+  "errors": {
+    "meta.board_id": [
+      "Select a Pinterest board to publish this post."
+    ]
+  }
+}
+```
+
+Em [Create post](/api-reference/posts/create-post), as configurações do canal vêm com o caminho dentro de `platforms`: `platforms.0.meta.board_id`, `platforms.0.content_type`; os demais campos usam o próprio nome: `content`, `media`. Em [Create posts in batch](/api-reference/posts/create-posts-in-batch), ela indica o destino, por exemplo `destinations.0.meta.board_id`.
+
+Os demais erros trazem só `message`:
+
+```json
+{
+  "message": "Insufficient workspace permissions."
+}
+```
+
+## Formato das respostas
+
+Um recurso único volta como um objeto simples, sem o invólucro `data`:
+
+```json
+{
+  "id": "9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41",
+  "content": "We just shipped scheduled threads.",
+  "status": "scheduled"
+}
+```
+
+As listas são paginadas (veja abaixo). Algumas respostas têm formato próprio, descrito na página delas: [List content types](/api-reference/platform/list-content-types) devolve `{ "platforms": [...] }`, [List idea stages](/api-reference/idea-stages/list-idea-stages) um array simples, [List repurpose source formats](/api-reference/repurposes/list-repurpose-source-formats) `{ "data": [...] }`, [Create posts in batch](/api-reference/posts/create-posts-in-batch) `{ "posts": [...] }` e [Create API key](/api-reference/api-keys/create-api-key) `{ "token": {...}, "plain_token": "..." }`.
+
+Posts, notas, ideias, etapas de ideias, etiquetas, assinaturas e o workspace trazem as datas no formato `Y-m-d H:i:s` em UTC (`2026-10-12 14:00:00`). Chaves de API, webhooks, logs de webhook, reposts, uploads, horários livres da fila e o desempenho dos posts do canal usam ISO 8601. Nas análises, os principais posts usam `Y-m-d H:i:s`; as análises de publicação e a cobertura usam ISO 8601. Nas requisições, envie as datas em ISO 8601 com fuso ou `Z` (`2026-10-12T14:00:00Z`).
+
+## Paginação
+
+Listas como posts, ideias, etiquetas, assinaturas, contas sociais, chaves de API, webhooks, logs de webhook, reposts e notas de posts são paginadas. Escolha a página com o parâmetro de consulta `page`:
+
+```bash
+curl "https://post.chatclean.com.br/api/posts?page=2" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Accept: application/json"
+```
+
+O servidor define o tamanho da página; não existe parâmetro `per_page`. Leia o valor em `meta.per_page` em vez de supor um número (hoje é 25). A resposta usa o envelope padrão:
+
+```json
+{
+  "data": [
+    { "id": "9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41", "...": "..." }
+  ],
+  "links": {
+    "first": "https://post.chatclean.com.br/api/posts?page=1",
+    "last": "https://post.chatclean.com.br/api/posts?page=3",
+    "prev": "https://post.chatclean.com.br/api/posts?page=1",
+    "next": "https://post.chatclean.com.br/api/posts?page=3"
+  },
+  "meta": {
+    "current_page": 2,
+    "from": 26,
+    "last_page": 3,
+    "path": "https://post.chatclean.com.br/api/posts",
+    "per_page": 25,
+    "to": 50,
+    "total": 72,
+    "links": [
+      { "url": "https://post.chatclean.com.br/api/posts?page=1", "label": "&laquo; Previous", "page": 1, "active": false },
+      { "url": "https://post.chatclean.com.br/api/posts?page=1", "label": "1", "page": 1, "active": false },
+      { "url": "https://post.chatclean.com.br/api/posts?page=2", "label": "2", "page": 2, "active": true },
+      { "url": "https://post.chatclean.com.br/api/posts?page=3", "label": "3", "page": 3, "active": false },
+      { "url": "https://post.chatclean.com.br/api/posts?page=3", "label": "Next &raquo;", "page": 3, "active": false }
+    ]
+  }
+}
+```
+
+Continue pedindo `links.next` até ele ser `null`.
+
+## Próximos passos
+
+<CardGroup cols={2}>
+  <Card title="Publicação" icon="paper-plane" href="/api-reference/guides/posting">
+    Escolha um canal, preencha as configurações dele e agende, coloque na fila ou publique um post.
+  </Card>
+  <Card title="Envio de mídia" icon="image" href="/api-reference/guides/media-uploads">
+    Envie arquivos, anexe a partir de URLs e reutilize mídia entre posts.
+  </Card>
+</CardGroup>

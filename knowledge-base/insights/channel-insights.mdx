@@ -1,0 +1,68 @@
+---
+title: "Insights do canal"
+description: "Acompanhe os seguidores e o alcance de um canal e o desempenho de cada post."
+---
+
+Cada canal tem a própria página de análises. Na seção **Canais** da barra lateral, abra um canal e escolha **Insights**. A página se chama **Insights · *nome do canal***. Todos os membros do workspace podem abrir.
+
+Para ver o workspace inteiro de uma vez, veja [Insights](/knowledge-base/insights/overview).
+
+## Redes sem análises
+
+LinkedIn (perfil e Página), Telegram, Discord e Google Business mostram **Sem analytics para esta rede**: "LinkedIn não compartilha analytics com apps de terceiros, então ainda não há nada para mostrar aqui."
+
+## Período e filtros
+
+- Período: **7 dias**, **30 dias** (padrão), **Mês atual** ou **Personalizado**, comparado com o período anterior. Os dias seguem o seu fuso horário das [Preferências](/knowledge-base/settings/preferences).
+- Filtre por etiquetas e por **Tipo de post** (por exemplo Reels, Story ou Vídeo).
+
+## Resumo
+
+O topo da página mostra os totais do canal no período, como posts, seguidores, reações, comentários e taxa de engajamento, ao lado do período anterior.
+
+## Métricas
+
+O cartão **Métricas** mostra uma visão por vez num gráfico:
+
+| Visão | Mostra |
+| --- | --- |
+| **Impacto do conteúdo** | Posts e Seguidores: se a sua frequência de posts está aumentando o seu público. |
+| **Crescimento** | Seguidores ao longo do tempo. |
+| **Visibilidade** | Visualizações do perfil e Seguidores: quantas pessoas que descobrem o seu perfil passam a seguir você. |
+| **Crescimento de seguidores** | A velocidade de crescimento dos seguidores em cada mês dos últimos 12 meses. Os filtros de data e de etiquetas não valem para este gráfico. |
+
+Você também pode trocar a métrica mostrada (**Seguidores**, **Novos seguidores**, **Alcance**, **Visualizações**, **Impressões**, **Visualizações do perfil**, **Posts**) e comparar **Este período**, **Período anterior** ou **Ambos**. Cada gráfico tem uma leitura de uma linha, como "Seu público cresceu neste período."
+
+Alcance, visualizações, impressões e visitas ao perfil somam os totais acumulados dos posts publicados em cada dia. Um canal novo pode mostrar que ainda não há histórico suficiente: o número de seguidores vai se formando dia a dia.
+
+As métricas disponíveis dependem do que cada rede compartilha.
+
+## Desempenho por post
+
+**Desempenho por post** lista todos os posts que o canal publicou no período, ordenados pela coluna escolhida.
+
+- 10 posts por página, com páginas numeradas. Mudar a ordenação, o período ou um filtro volta para a página 1.
+- **Colunas** escolhe quais métricas aparecem.
+- O menu de cada linha tem **Ver detalhes**, **Ver post** e **Copiar link**.
+
+**Ver detalhes** mostra tudo o que a rede informa sobre aquele post. Dependendo da rede e do tipo de post, isso inclui tempo assistido, tempo médio assistido, quartis do vídeo (25%, 50%, 75% e 100% assistidos), toques e saídas nos stories, salvamentos, cliques no link e visitas ao perfil. Um post cujas métricas ainda não foram coletadas mostra "As métricas ainda não foram coletadas."
+
+Os posts publicados direto na rede também aparecem na lista.
+
+## Exportar
+
+**Exportar** baixa o relatório do canal em **CSV** ou **Markdown**.
+
+## Com que frequência os dados atualizam
+
+Os posts novos são buscados a cada 3 horas (a cada 24 horas no X). As métricas de um post são lidas pela primeira vez cerca de uma hora depois da publicação e depois diariamente durante 30 dias; no X, só 2, 3, 7, 14 e 28 dias depois da publicação. O número de seguidores é salvo uma vez por dia. **Status da sincronização** resume isso e mostra quando o canal sincronizou pela última vez.
+
+## API e MCP
+
+| Tarefa | API REST | Ferramenta MCP |
+| --- | --- | --- |
+| Relatório do canal | [Get channel insights](/api-reference/analytics/get-channel-insights) | `get-channel-insights-tool` |
+| Tabela por post | [List channel post performance](/api-reference/analytics/list-channel-post-performance) | `list-channel-publications-tool` |
+| Detalhes de um post | [Get publication analytics](/api-reference/analytics/get-publication-analytics) | `get-analytics-publication-tool` |
+
+A API e o MCP devolvem a lista por post com o tamanho de página padrão, e não 10 por página.

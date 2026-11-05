@@ -1,0 +1,57 @@
+---
+title: "Configurações do canal"
+description: "Ordene seus canais e defina o fuso horário, a meta de postagem e os horários de postagem de cada um."
+icon: "clock"
+---
+
+Só o dono da conta e os administradores do workspace podem gerenciar canais. Veja [Membros e permissões](/knowledge-base/settings/members-and-permissions).
+
+## A lista de canais
+
+**Configurações → Canais** lista todos os canais conectados ao workspace.
+
+- **Arraste para reordenar**, use **Mover para cima** / **Mover para baixo** no menu do canal ou arraste os canais na barra lateral. Essa é a ordem usada na barra lateral e no editor de posts.
+- O menu de cada canal também tem **Ver perfil** (abre o perfil na rede), **Atualizar conexão** e **Desconectar**.
+- Um canal que perdeu a conexão mostra **Conexão perdida** e um botão **Reconectar**. Veja [Reconectar um canal](/knowledge-base/channels/connecting#reconectar-um-canal).
+- O ícone de engrenagem abre as **Configurações do canal**.
+
+## Fuso horário
+
+**Fuso horário** é o fuso da agenda de postagem deste canal: os horários de postagem e os [posts recorrentes](/knowledge-base/publish/recurring-posts) seguem o relógio dele. Um canal novo começa com o seu fuso horário, definido em [Preferências](/knowledge-base/settings/preferences).
+
+Antes de mudar, o PostClean pergunta: **Mudar o fuso horário do canal e reagendar os posts?**
+
+- Os posts da fila são reagendados para os horários de postagem do novo fuso. Cada um mantém o mesmo horário local quando esse horário existe no novo fuso; se não existir, vai para o primeiro horário livre. Um post da fila que fica sem horário mantém o seu momento como post de horário personalizado.
+- Posts com horário personalizado mantêm o mesmo momento.
+
+## Meta de postagem
+
+**Meta de postagem** é quantas vezes por semana você pretende postar neste canal, de 1 a 28 posts. A página **Publicar** do canal acompanha a meta pelos posts enviados na semana, que segue o início da semana definido em [Preferências](/knowledge-base/settings/preferences).
+
+Quando você conecta um canal, o PostClean pergunta primeiro essa meta (**Manter constância**, 1 vez/semana; **Criar presença**, 3 vezes/semana; **Alcançar novos patamares**, 5 vezes/semana; ou **Escolher sua meta**) e sugere horários recomendados para cumpri-la.
+
+## Horários de postagem
+
+Os **Horários de postagem** dizem ao PostClean quando enviar os posts da sua [fila](/knowledge-base/publish/queue). Um post que você adiciona com **Próximo horário livre** vai para o primeiro horário livre.
+
+- Ligue ou desligue cada dia (**Ligado** / **Inativo**).
+- **Adicionar horário** para **Todo dia**, **Dias úteis**, **Fim de semana** ou um dia específico, na hora que você escolher. Cada dia aceita até 4 horários.
+- Remova um horário, ou mude a hora ou os minutos dele, direto no próprio horário.
+- **Limpar tudo** remove todos os horários de postagem do canal, depois de uma confirmação.
+- **Gerar novos horários** substitui os horários atuais por:
+  - **Cumprir minha meta**: horários suficientes para atingir a meta (fica desativado quando você já tem mais horários do que a meta);
+  - **Atualizar para os horários recomendados do PostClean**: horários recomendados;
+  - **Copiar de outro canal**: a agenda de outro canal.
+
+Cada mudança é salva sozinha. Os horários aparecem no seu formato de hora (12 ou 24 horas) e a semana começa no dia que você escolheu, os dois em [Preferências](/knowledge-base/settings/preferences).
+
+Mudar os horários só move os posts da fila cujo horário deixou de existir; eles vão, em ordem, para os primeiros horários livres. Um canal sem horários de postagem não consegue usar a fila.
+
+## Pela API e pelo MCP
+
+| Tarefa | REST | MCP |
+|--------|------|-----|
+| Ler a agenda | [Get posting schedule](/api-reference/channels/get-posting-schedule) | `get-posting-schedule-tool` |
+| Mudar horários, meta ou fuso horário | [Update posting schedule](/api-reference/channels/update-posting-schedule) | `update-posting-schedule-tool` |
+| Gerar horários | [Generate posting schedule](/api-reference/channels/generate-posting-schedule) | `generate-posting-schedule-tool` |
+| Copiar de outro canal | [Copy posting schedule](/api-reference/channels/copy-posting-schedule) | `copy-posting-schedule-tool` |

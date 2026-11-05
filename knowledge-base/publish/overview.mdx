@@ -1,0 +1,114 @@
+---
+title: "Publicar"
+description: "Veja e gerencie todos os posts: a fila, as aprovações, os rascunhos e o que foi enviado, em lista ou calendário."
+icon: "pen-to-square"
+---
+
+**Publicar** é onde ficam os seus posts. Abra pela barra lateral para ver **Todos os canais**, ou abra um canal na seção **Canais** e escolha **Publicar** para ver só aquele canal.
+
+Cada post pertence a um canal. Quando você salva um post para vários canais no [editor de posts](/knowledge-base/publish/composer), o PostClean cria um post por canal, e cada um pode ser editado, movido ou excluído separadamente.
+
+## Abas
+
+| Aba | O que mostra |
+| --- | --- |
+| **Fila** | Posts agendados e posts sendo publicados agora, em ordem de horário. |
+| **Aprovações** | Posts aguardando aprovação. Veja [Aprovações](/knowledge-base/publish/approvals). |
+| **Rascunhos** | Rascunhos. |
+| **Enviados** | Posts publicados e com falha. |
+
+As listas carregam mais posts conforme você rola a página.
+
+Os posts publicados ficam guardados por 2 anos e depois são excluídos do PostClean junto com a mídia. Eles continuam na rede.
+
+Os posts enviados mostram as métricas mais recentes direto no cartão, com a hora da última atualização ("Atualizado há 2 horas"). Use as setas para passar pelas métricas e **Ver insights do post** para ver tudo o que a rede informa. Até a primeira coleta, o post mostra "As métricas ainda não foram coletadas." Redes sem análises (LinkedIn, Telegram, Discord, Google Business) não mostram nada; veja [Insights](/knowledge-base/insights/overview).
+
+**Enviados** também mostra os posts que você publicou direto na rede, fora do PostClean. Eles aparecem como "Publicado diretamente pelo Instagram" (ou pela rede do canal).
+
+## Lista e Calendário
+
+Alterne entre **Lista** e **Calendário**.
+
+- O calendário tem as visualizações **3 dias**, **Semana** e **Mês**, e um filtro de **Status**: **Todos os posts**, **Rascunhos**, **Agendados** ou **Enviados**.
+- **Rascunhos sem data** lista os rascunhos sem data.
+- Clicar num horário do calendário abre o editor de posts naquele horário.
+- Os canais do Instagram têm uma terceira visualização, **Grade**: uma aproximação da grade do seu perfil.
+
+## Filtros e fuso horário
+
+- **Etiquetas** e **Canais** filtram a lista e o calendário. **Sem label** mostra os posts sem etiquetas. Veja [Etiquetas](/knowledge-base/settings/labels).
+- **Fuso horário** define o fuso em que a página mostra os horários. Ele começa com o seu fuso das [Preferências](/knowledge-base/settings/preferences). Mudá-lo só muda o que você vê; cada canal continua publicando na própria agenda.
+
+## Ações do post
+
+Cada cartão de post tem botões e um menu. O que aparece depende do status do post e das suas permissões:
+
+| Ação | O que faz |
+| --- | --- |
+| **Editar** | Abre o post no editor de posts. |
+| **Publicar agora** | Publica um rascunho na hora. |
+| **Adicionar à fila** | Coloca o post no próximo horário livre da fila do canal. Num canal sem horários de postagem, o botão fica desativado: "Adicione horários de postagem a este canal para usar a fila." |
+| **Mover para o topo**, **Mover para cima**, **Mover para baixo** | Reordenam os posts da fila. Veja [Fila](/knowledge-base/publish/queue). |
+| **Tornar recorrente** / **Editar recorrência** | Repete um post agendado. Veja [Posts recorrentes](/knowledge-base/publish/recurring-posts). |
+| **Duplicar post** | Cria na hora uma cópia do post como rascunho e abre no editor. |
+| **Mover para rascunhos** | Tira o post da agenda. |
+| **Editar labels** | Muda as etiquetas do post. |
+| **Excluir post** | Exclui o post e a mídia dele do PostClean. Quem precisa de aprovação só pode excluir os posts que escreveu, ou um pedido que fez enquanto ele ainda está pendente. |
+| **Abrir post no Instagram** (ou na rede do canal) | Abre o post publicado. |
+| **Ver insights do post** | Abre as métricas do post. Veja [Insights do canal](/knowledge-base/insights/channel-insights). |
+| **Detalhes do Post** | Mostra o post completo, os canais, quem criou e, depois de enviado, as métricas. |
+
+Posts com status **Publicando**, **Publicado** ou **Falhou** não podem ser editados nem excluídos. Para tentar de novo, duplique o post. Excluir um post nunca o remove da rede.
+
+## Status
+
+| Status | Significado |
+| --- | --- |
+| **Rascunho** | Salvo, sem agendamento. |
+| **Aguardando aprovação** | Esperando alguém aprovar. |
+| **Agendado** | Vai ser publicado no horário marcado. |
+| **Publicando** | Sendo enviado para a rede agora. |
+| **Tentando novamente** | A rede teve um problema temporário; o PostClean tenta de novo no horário mostrado. |
+| **Publicado** | No ar na rede. |
+| **Falhou** | Não foi possível publicar. |
+
+### Por que um post falhou
+
+Um post com falha mostra **Por que falhou**, com um motivo em linguagem simples e a **Mensagem da rede**. Os motivos são:
+
+- A rede não aceitou o formato, o tamanho ou a duração da mídia. Veja [Mídia](/knowledge-base/media).
+- A rede está limitando a frequência de posts deste canal.
+- O canal não tem permissão para publicar este post.
+- A rede recusou o conteúdo pelas regras de publicação dela.
+- A rede teve um erro, estava indisponível ou demorou demais para responder.
+- A conexão do canal expirou. Reconecte o canal em [Configurações do canal](/knowledge-base/channels/settings).
+- A publicação parou antes de a rede confirmar o post.
+- Não conseguimos publicar este post. (a rede não deu um motivo que o PostClean reconheça)
+
+Um post maior do que a rede permite falha com uma mensagem como "Este post tem 312 caracteres, mas o X permite 280."
+
+## Notas
+
+Clique no ícone de **Notas** (o balão de conversa) no cartão de um post para conversar com a sua equipe sobre ele. As notas abrem num painel por cima do cartão, em qualquer aba. Pressione <kbd>Enter</kbd> para enviar e <kbd>Shift</kbd> <kbd>Enter</kbd> para pular linha. O link de uma nota num e-mail abre as notas daquele post com a nota em destaque. Você pode **Editar** ou **Excluir** as suas notas; as editadas ganham a marca "editado", e **Carregar notas antigas** mostra as anteriores. Uma nota nova manda e-mail para todos os membros do workspace, menos quem escreveu. Num post aguardando aprovação, só quem aprova e quem pediu a aprovação recebem o e-mail. Cada pessoa pode desligar esses e-mails com **Nova nota em uma publicação** em [Notificações](/knowledge-base/settings/notifications).
+
+## Extras da página do canal
+
+Quando você abre **Publicar** de um canal só, o cabeçalho também mostra:
+
+- a meta de postagem, "2/5 posts enviados nesta semana", com **Enviados**, **Agendados** e **A fazer**. A semana começa no dia definido nas suas [Preferências](/knowledge-base/settings/preferences).
+- **Mostrar horários de postagem** e **Gerenciar horários** da [fila](/knowledge-base/publish/queue) do canal.
+
+## Workspace vazio
+
+Um workspace sem canais mostra "Boas-vindas ao PostClean 👋" com um botão para conectar o primeiro canal. Veja [Conectar um canal](/knowledge-base/channels/connecting).
+
+## API e MCP
+
+| Tarefa | API REST | Ferramenta MCP |
+| --- | --- | --- |
+| Listar posts | [List posts](/api-reference/posts/list-posts) | `list-posts-tool` |
+| Ler um post | [Get post](/api-reference/posts/get-post) | `get-post-tool` |
+| Excluir um post | [Delete post](/api-reference/posts/delete-post) | `delete-post-tool` |
+| Notas | [List post notes](/api-reference/post-notes/list-post-notes), [Create post note](/api-reference/post-notes/create-post-note), [Update post note](/api-reference/post-notes/update-post-note), [Delete post note](/api-reference/post-notes/delete-post-note) | `list-post-notes-tool`, `create-post-note-tool`, `update-post-note-tool`, `delete-post-note-tool` |
+
+Veja a [referência das ferramentas MCP](/ai/tools-reference).

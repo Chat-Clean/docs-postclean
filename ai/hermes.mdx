@@ -1,0 +1,306 @@
+---
+title: "Hermes"
+description: "Conecte o PostClean ao Hermes Agent como um servidor MCP remoto"
+icon: "/images/ai/hermes.png"
+---
+
+O [Hermes Agent](https://hermes-agent.nousresearch.com/) é o agente de código aberto da [Nous Research](https://nousresearch.com/). Adicione o PostClean como um servidor MCP HTTP remoto e você passa a agendar, publicar e gerenciar posts das suas redes sociais pelo CLI do Hermes, pelo app [Desktop](https://hermes-agent.nousresearch.com/docs/user-guide/desktop) ou por qualquer [gateway de mensagens](https://hermes-agent.nousresearch.com/docs/user-guide/messaging) que já esteja rodando nessa instalação.
+
+Esta página trata do **Hermes como cliente MCP**: você aponta o Hermes para o PostClean. Ela não cobre o [`hermes mcp serve`](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp), que expõe o próprio Hermes para outros agentes.
+
+<Note>
+  O PostClean não está no [catálogo de MCP aprovado pela Nous](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp). `hermes mcp` sem argumentos (ou `hermes mcp picker` / `hermes mcp install`) só lista os itens do catálogo. Não procure um card do PostClean. Adicione um servidor HTTP personalizado com `auth: oauth`.
+</Note>
+
+## Pré-requisitos
+
+- [Hermes Agent](https://hermes-agent.nousresearch.com/docs/getting-started/installation) instalado (CLI e/ou [Desktop](https://hermes-agent.nousresearch.com/docs/user-guide/desktop)). A [instalação padrão](https://hermes-agent.nousresearch.com/docs/guides/use-mcp-with-hermes) já inclui MCP. Se algum comando disser que faltam os extras de MCP:
+
+  ```bash
+  cd ~/.hermes/hermes-agent
+  uv pip install -e ".[mcp]"
+  ```
+
+- Uma conta ativa no PostClean
+
+## URL do servidor
+
+Use exatamente esta URL. Não coloque barra no final. Não cole uma URL de autorização OAuth. Não use `/api`.
+
+```
+https://post.chatclean.com.br/mcp/trypost
+```
+
+Deixe o transporte no padrão do Hermes (Streamable HTTP). Não defina `transport: sse`.
+
+## Configuração
+
+O Hermes guarda os servidores em `~/.hermes/config.yaml`, em `mcp_servers`. Para um servidor OAuth hospedado, ele usa `url` + `auth: oauth` e conclui o fluxo no navegador na [primeira conexão ou com `hermes mcp login`](https://hermes-agent.nousresearch.com/docs/guides/oauth-over-ssh).
+
+Escolha **um** jeito de adicionar o servidor. Não rode `login` depois de um `add` que deu certo: o `hermes mcp login` [força uma nova autenticação](https://hermes-agent.nousresearch.com/docs/reference/cli-commands), apaga o token salvo em disco e começa o fluxo no navegador de novo.
+
+<Steps>
+  <Step title="Adicione o servidor MCP do PostClean">
+    **Pelo CLI.** O [`hermes mcp add`](https://hermes-agent.nousresearch.com/docs/reference/cli-commands) grava o servidor e já conecta (essa conexão é o primeiro OAuth). Dê tempo para o teste de conexão esperar o login no navegador:
+
+    ```bash
+    hermes mcp add postclean --url https://post.chatclean.com.br/mcp/trypost --auth oauth --connect-timeout 300
+    ```
+
+    O `--auth` só aceita `oauth` ou `header`. Use **`oauth`**.
+
+    1. Entre no PostClean, escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar** (para usar outro workspace, conecte de novo e escolha-o)
+    2. Quando aparecer `Enable all N tools? [Y/n/select]`, responda **Y**. **n** cancela e **não** salva o servidor. **select** grava uma lista `tools.include` e esconde todo o resto (inclusive publicar e excluir)
+
+    Se a conexão falhar, o Hermes pode perguntar **Save config anyway?** e guardar o item com `enabled: false`. Mude para `enabled: true` no `config.yaml` e rode o login abaixo.
+
+    **YAML e depois login.** É a mesma configuração que o [Hermes documenta para servidores HTTP com OAuth](https://hermes-agent.nousresearch.com/docs/reference/mcp-config-reference). Escreva o bloco da seção **Configuração manual**, mais abaixo. Se o Hermes já estiver rodando, **não** espere o recarregamento automático da sessão: [ele só espera 30 segundos](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp), pouco tempo para o OAuth. Em um terminal **novo**:
+
+    ```bash
+    hermes mcp login postclean
+    ```
+
+    O `login` espera até cinco minutos. Use esse mesmo comando depois para se autenticar de novo.
+
+    **Desktop.** Abra o link [Add to Hermes](#hermes-desktop), confirme a janela e rode o `login` se o app ainda não tiver concluído o OAuth.
+  </Step>
+  <Step title="Conclua o login no navegador">
+    Na primeira conexão, o Hermes [mostra uma URL de autorização, abre o navegador quando consegue e fica esperando um callback de loopback](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp). Você não cola chave de API, Client ID nem Client Secret: o PostClean usa Dynamic Client Registration.
+
+    Quando dá certo, ele grava `~/.hermes/mcp-tokens/postclean.json` (modo `0o600`). As sessões seguintes reaproveitam esse arquivo e renovam o token. Uma nova autorização só acontece quando a renovação falha, ou quando você roda `login`.
+
+    Se o navegador não conseguir acessar `http://127.0.0.1:<porta>/callback` (SSH, VPS, gateway sem interface), veja [Hermes remoto e sem interface](#hermes-remoto-e-sem-interface).
+  </Step>
+  <Step title="Recarregue e confira">
+    ```bash
+    hermes mcp list
+    hermes mcp test postclean
+    hermes chat
+    ```
+
+    O `hermes mcp list` deve mostrar `postclean`. O `hermes mcp test postclean` deve conectar e listar as tools.
+
+    Se uma sessão já estiver aberta, rode `/reload-mcp`. Depois use o prompt que o [Hermes documenta](https://hermes-agent.nousresearch.com/docs/guides/use-mcp-with-hermes) para essa verificação:
+
+    ```
+    Tell me which MCP-backed tools are available right now.
+    ```
+
+    As tools do PostClean devem aparecer. Depois:
+
+    ```
+    Liste todos os meus posts agendados
+    ```
+
+    O Hermes registra cada tool como `mcp__<servidor>__<tool>` ([referência de configuração](https://hermes-agent.nousresearch.com/docs/reference/mcp-config-reference)). Hífens viram sublinhados, então `list-posts-tool` vira `mcp__postclean__list_posts_tool`. Você não precisa digitar esse nome: peça em linguagem natural. Se o Hermes responder sem usar as tools, diga para ele usar o servidor MCP **postclean**.
+
+    Veja a [referência de tools](/ai/tools-reference) com todas as tools e o fluxo recomendado (escolher o canal e o tipo de conteúdo, criar com mídia, pré-visualizar, publicar).
+  </Step>
+</Steps>
+
+## Autenticação
+
+O MCP do PostClean aceita **somente OAuth**: um login no navegador com o escopo `mcp:use`. No Hermes, isso é `auth: oauth`. O Hermes cuida de [descoberta, Dynamic Client Registration, PKCE, troca de token e renovação](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp).
+
+Os Personal Access Tokens criados em **Configurações → API Keys** funcionam na [API REST](/api-reference/introduction), não em `/mcp/trypost`.
+
+<Warning>
+  Não passe `--auth header` e não coloque `Authorization: Bearer …` em `headers`. Uma chave de API colada ali retorna `403 MCP OAuth authorization required`.
+</Warning>
+
+Não adicione `oauth.client_id` / `oauth.client_secret`. Esses campos são para servidores que recusam DCR ([o Hermes documenta Google Drive e Atlassian](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp) desse jeito). O PostClean não é um deles.
+
+Depois, você gerencia os assistentes conectados em **Configurações → MCP** do workspace no PostClean. Para entrar de novo no Hermes (isso **apaga** o token guardado e repete o fluxo no navegador):
+
+```bash
+hermes mcp login postclean
+```
+
+O `hermes mcp reauth postclean` faz o mesmo para um servidor. O `hermes mcp reauth --all` passa por todos os servidores com `auth: oauth`, um de cada vez.
+
+## O que você pode fazer
+
+Com o servidor autorizado, o Hermes consegue:
+
+| Tarefa | Exemplos |
+|------|----------|
+| **Posts** | Listar, criar, editar, agendar, colocar na fila, publicar, pré-visualizar, excluir, aprovar e buscar métricas |
+| **Mídia** | Anexar a partir de uma URL pública, enviar um arquivo local (você roda o comando de upload; agentes de CLI conseguem rodar sozinhos) e reaproveitar um arquivo que já está em outro post |
+| **Contas** | Listar as contas sociais conectadas, definir horários de postagem, gerenciar a fila e encontrar boards do Pinterest e canais do Discord |
+| **Workspace** | Ler o workspace atual; gerenciar ideias, assinaturas, etiquetas, webhooks, reposts e chaves de API; ler análises |
+
+Algumas dessas ações dependem das suas permissões no workspace (aprovar exige publicação direta; horários de postagem, webhooks e chaves de API exigem administrador). Veja as permissões na [introdução](/ai/introduction).
+
+O Pinterest precisa de um `board_id`, o Discord de um `channel_id` e o TikTok de um `privacy_level` antes de publicar. Peça ao Hermes para listar os boards ou canais primeiro. Detalhes e os nomes originais das tools (use esses em `tools.include` / `tools.exclude`, e não os nomes convertidos `mcp__…`): [referência de tools](/ai/tools-reference).
+
+As mesmas tools ficam disponíveis no `hermes chat`, no Hermes Desktop e em qualquer [gateway de mensagens](https://hermes-agent.nousresearch.com/docs/user-guide/messaging) dessa instalação (Telegram, Discord, Slack e os demais).
+
+## Configuração manual
+
+Configuração equivalente à que o `hermes mcp add` grava, no [formato HTTP com OAuth](https://hermes-agent.nousresearch.com/docs/reference/mcp-config-reference):
+
+```yaml
+mcp_servers:
+  postclean:
+    url: "https://post.chatclean.com.br/mcp/trypost"
+    auth: oauth
+```
+
+Salve em `~/.hermes/config.yaml` e rode `hermes mcp login postclean` em um terminal novo. Não adicione `headers`, `transport` nem `oauth.client_id`.
+
+Para esconder o servidor sem apagar o bloco, defina `enabled: false`. Para removê-lo:
+
+```bash
+hermes mcp remove postclean
+```
+
+Para mudar quais tools o Hermes enxerga depois de um login que deu certo:
+
+```bash
+hermes mcp configure postclean
+```
+
+## Hermes Desktop
+
+O Desktop usa o mesmo `~/.hermes/config.yaml`. As configurações do Desktop têm um painel **MCP servers**. Depois de adicionar e autorizar o servidor, abra esse painel ou comece uma nova conversa no Desktop para as tools carregarem.
+
+Instalação com um clique ([Add to Hermes](https://hermes-agent.nousresearch.com/docs/reference/mcp-config-reference)):
+
+```
+hermes://mcp/install?name=postclean&config=eyJ1cmwiOiJodHRwczovL3Bvc3QuY2hhdGNsZWFuLmNvbS5ici9tY3AvdHJ5cG9zdCIsImF1dGgiOiJvYXV0aCJ9
+```
+
+Abrir esse link **não** instala nada sozinho. O Desktop mostra o nome e a configuração completa, e você confirma. Nomes que já existem nunca são sobrescritos: você renomeia ou cancela. Depois rode `hermes mcp login postclean` se o app ainda não tiver concluído o OAuth.
+
+## Hermes remoto e sem interface
+
+Quando o Hermes não está na mesma máquina que o seu navegador, o callback OAuth para `http://127.0.0.1:<porta>/callback` nunca chega ao listener. Este é o login MCP do PostClean, não o login do Hermes no provedor de modelos.
+
+Ordem de tentativa, segundo o guia [OAuth over SSH](https://hermes-agent.nousresearch.com/docs/guides/oauth-over-ssh) e a skill [mcp-oauth-remote-gateway](https://hermes-agent.nousresearch.com/docs/user-guide/skills/optional/mcp/mcp-mcp-oauth-remote-gateway): primeiro o painel no seu navegador, depois colar o redirecionamento ou um túnel SSH e, por último, a skill para ambientes sem interface.
+
+<Accordion title="Painel do Hermes (tente primeiro num gateway remoto)">
+  Um Hermes remoto muitas vezes também roda o [painel web](https://hermes-agent.nousresearch.com/docs/user-guide/features/web-dashboard). Adicionar ou reautenticar um servidor MCP com OAuth pelo painel, no **seu** navegador, evita o problema do callback de loopback. Procure a seção MCP / Connectors (o mesmo bloco `mcp_servers` do CLI). Se `HERMES_DASHBOARD_PUBLIC_URL` estiver definido no servidor, essa é a URL pública para abrir.
+</Accordion>
+
+<Accordion title="Cole de volta a URL de redirecionamento">
+  Num terminal interativo, o `hermes mcp login postclean` mostra a URL de autorização e pede que você cole o redirecionamento. Abra a URL no seu computador, escolha o workspace e clique em **Autorizar**. Depois copie a URL inteira da barra de endereço (a página pode mostrar um erro de conexão, e isso é esperado) e cole no prompt do Hermes. Uma string só com `?code=…&state=…` também funciona. Passo a passo oficial: [OAuth over SSH / Remote Hosts](https://hermes-agent.nousresearch.com/docs/guides/oauth-over-ssh).
+</Accordion>
+
+<Accordion title="Redirecionamento de porta por SSH">
+  O Hermes mostra a porta que abriu (`Waiting for callback on http://127.0.0.1:<porta>/callback`). Em outro terminal, no seu computador:
+
+  ```bash
+  ssh -N -L <porta>:127.0.0.1:<porta> usuario@servidor-remoto
+  ```
+
+  Depois conclua a URL de autorização no navegador local, para o redirecionamento passar pelo túnel até o listener remoto. O Hermes pode trocar a porta sozinho se a preferida estiver ocupada: copie da linha `Waiting for callback` mais recente.
+</Accordion>
+
+<Accordion title="Callback HTTPS público (Tailscale Funnel / proxy reverso)">
+  O Hermes também aceita um callback por proxy quando uma URL HTTPS pública encaminha para o listener. Fixe a porta e defina `oauth.redirect_uri` ([guia de MCP](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp)):
+
+  ```yaml
+  mcp_servers:
+    postclean:
+      url: "https://post.chatclean.com.br/mcp/trypost"
+      auth: oauth
+      oauth:
+        redirect_port: 8765
+        redirect_uri: "https://oauth.example.ts.net/callback"
+  ```
+
+  Depois rode `hermes mcp login postclean`. Você não precisa disso num computador em que o navegador e o Hermes estão na mesma máquina.
+</Accordion>
+
+<Accordion title="Sem terminal interativo (só gateway / bot)">
+  Se você não consegue abrir o painel nem colar nada num prompt, instale a skill da Nous e deixe que ela conduza o fluxo:
+
+  ```bash
+  hermes skills install official/mcp/mcp-oauth-remote-gateway
+  ```
+
+  Ela grava os tokens em `~/.hermes/mcp-tokens/` e depois você roda `/reload-mcp`. Documentação: [mcp-oauth-remote-gateway](https://hermes-agent.nousresearch.com/docs/user-guide/skills/optional/mcp/mcp-mcp-oauth-remote-gateway).
+</Accordion>
+
+<Accordion title="Os tokens foram parar no ~/.hermes errado">
+  Segundo o guia [OAuth over SSH](https://hermes-agent.nousresearch.com/docs/guides/oauth-over-ssh), os tokens são gravados no usuário Linux que rodou o login. Se o gateway ou a unidade do systemd roda como `root` ou como um usuário `hermes` dedicado, autentique-se como **esse** usuário (`sudo -u hermes -i` ou equivalente), para que `~/.hermes/mcp-tokens/postclean.json` seja o arquivo que o agente em execução lê.
+</Accordion>
+
+## Comandos úteis
+
+| Comando | O que faz |
+|---------|----------------|
+| `hermes mcp add postclean --url https://post.chatclean.com.br/mcp/trypost --auth oauth --connect-timeout 300` | Grava o servidor e roda o OAuth durante o teste de conexão |
+| `hermes mcp login postclean` | Apaga o token guardado e roda o OAuth de novo (ou pela primeira vez, depois de adicionar só pelo YAML) |
+| `hermes mcp reauth postclean` | O mesmo que `login`, para um servidor (`--all` passa por todos os servidores OAuth) |
+| `hermes mcp list` | Mostra os servidores configurados |
+| `hermes mcp test postclean` | Testa a conexão e as tools |
+| `hermes mcp configure postclean` | Muda a lista de tools ativas |
+| `hermes mcp remove postclean` | Apaga o servidor e limpa os tokens OAuth dele |
+| `/reload-mcp` | Recarrega o MCP dentro de uma sessão `hermes chat` aberta |
+
+## Solução de problemas
+
+<AccordionGroup>
+  <Accordion title="O hermes mcp add ou o login expira antes de eu terminar o OAuth">
+    O `add` sem `--connect-timeout` usa um teste de conexão curto, pouco tempo para um login no navegador. Tente o add de novo com `--connect-timeout 300`, ou escreva o YAML e rode `hermes mcp login postclean` num terminal **novo** (o `login` espera cinco minutos). Se você editou o `config.yaml` dentro de uma sessão aberta, [não espere o recarregamento automático](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp): ele só espera 30 segundos. Não rode `login` logo depois de um add que deu certo, porque isso apaga o token que você acabou de receber.
+  </Accordion>
+  <Accordion title="O servidor está na configuração, mas o Hermes não chama as tools do PostClean">
+    Confirme que `~/.hermes/mcp-tokens/postclean.json` existe e que `enabled` não está `false` (um `mcp add` que falhou pode salvar o servidor desativado). Rode `hermes mcp test postclean` e depois `/reload-mcp` ou um novo `hermes chat`. Pergunte quais tools MCP estão disponíveis. Se `tools.include` foi salvo com uma lista curta, rode `hermes mcp configure postclean` e ative tudo (ou apague o bloco `tools`). Se o `/reload-mcp` não mostrar nada e nenhuma tool aparecer, o recarregamento pode ter falhado em silêncio: rode `hermes mcp test postclean` e comece uma nova sessão.
+  </Accordion>
+  <Accordion title="O login lista as tools, mas toda chamada de verdade expira">
+    O Hermes documenta isso quando o DCR falhou e nenhum token foi gravado em disco. Com o PostClean, o DCR deve funcionar. Confira se `auth: oauth` está definido, se não há `headers.Authorization` e se `~/.hermes/mcp-tokens/postclean.json` existe depois do login. Se o arquivo não existir, rode `hermes mcp login postclean` de novo. Não adicione Client ID.
+  </Accordion>
+  <Accordion title="O Hermes não consegue acessar o servidor">
+    O Hermes se conecta a partir da máquina em que o agente roda. O endpoint do PostClean é público, então essa máquina precisa ter acesso à internet por HTTPS. Confira se a URL está exatamente como acima. Se o erro continuar, fale com o [suporte](/support).
+  </Accordion>
+  <Accordion title="HTTP 402 — Active subscription required">
+    A autorização OAuth funcionou, mas a conta do PostClean não está ativa. Abra o [PostClean](https://post.chatclean.com.br), ative a assinatura e rode `hermes mcp login postclean` de novo. Veja a [introdução](/ai/introduction).
+  </Accordion>
+  <Accordion title="HTTP 401 ou preciso entrar de novo">
+    O token expirou ou foi revogado. Rode `hermes mcp login postclean` de novo.
+  </Accordion>
+  <Accordion title="HTTP 403 — MCP OAuth authorization required">
+    A requisição usou `--auth header` ou um Bearer token em `headers`, ou um token OAuth sem `mcp:use`. Remova o cabeçalho, mantenha `auth: oauth` e entre de novo.
+  </Accordion>
+  <Accordion title="Usei hermes mcp install postclean e nada aconteceu">
+    O `install` só aceita nomes do [catálogo](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp), e o PostClean não está nele. Use `hermes mcp add` com `--url` e `--auth oauth`.
+  </Accordion>
+</AccordionGroup>
+
+## Exemplos de prompts
+
+```
+Tell me which MCP-backed tools are available right now.
+```
+
+```
+Mostre todas as minhas contas de redes sociais conectadas
+```
+
+```
+Crie um rascunho de post no LinkedIn para amanhã às 9h, horário de Brasília
+```
+
+```
+Quais posts eu tenho agendados para esta semana?
+```
+
+```
+Anexe a imagem em <uma URL pública de imagem> ao meu rascunho e me mostre o texto exato que cada rede vai receber
+```
+
+```
+Crie uma etiqueta chamada "Campanha" com a cor #f59e0b
+```
+
+## Relacionados
+
+- [Introdução](/ai/introduction): visão geral do MCP, autenticação e solução de problemas em comum
+- [Referência de tools](/ai/tools-reference): todas as tools, parâmetros e o fluxo de publicação
+- [Hermes: MCP](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp): cliente vs `mcp serve`, OAuth, catálogo
+- [Hermes: referência de configuração MCP](https://hermes-agent.nousresearch.com/docs/reference/mcp-config-reference): chaves de `mcp_servers`
+- [Hermes: Use MCP](https://hermes-agent.nousresearch.com/docs/guides/use-mcp-with-hermes): adicionar, testar, filtrar, recarregar
+- [Hermes: CLI](https://hermes-agent.nousresearch.com/docs/reference/cli-commands): subcomandos `hermes mcp`
+- [Hermes: OAuth over SSH](https://hermes-agent.nousresearch.com/docs/guides/oauth-over-ssh): colar o redirecionamento e túneis
+- [Hermes: painel web](https://hermes-agent.nousresearch.com/docs/user-guide/features/web-dashboard): painel MCP num gateway remoto

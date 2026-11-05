@@ -1,0 +1,56 @@
+---
+title: Facebook
+description: Conecte suas páginas do Facebook ao PostClean
+icon: "facebook"
+---
+
+O PostClean publica posts, reels e stories nas páginas do Facebook que você gerencia.
+
+## Conectar sua conta
+
+1. Na barra lateral, abra **Canais** e clique em **Conectar canal** (ou use **Novo** > **Conectar um novo canal**)
+2. Escolha **Facebook** e clique em **Conectar Facebook**
+3. Autorize o PostClean no Facebook e deixe todas as permissões marcadas
+4. Na página **Selecione as contas**, marque as páginas que você quer e clique em **Concluir conexão**
+
+Todas as páginas que você gerencia aparecem na lista, e você pode conectar várias de uma vez. As páginas já conectadas aparecem como **Conectada**. Depois, o PostClean abre a página **Publicar** do novo canal e pergunta quantas vezes por semana você quer postar. Veja o fluxo completo em [Conectar canais](/knowledge-base/channels/connecting).
+
+## Tipos de conteúdo
+
+| Tipo | `content_type` | Proporção | Descrição |
+|------|----------------|-----------|-----------|
+| **Post** | `facebook_post` | — | Texto com até 10 imagens ou 1 vídeo |
+| **Reels** | `facebook_reel` | 9:16 | Vídeo vertical curto |
+| **Story** | `facebook_story` | 9:16 | Uma imagem ou um vídeo, visível por 24 horas. Stories não têm legenda, então o texto do post não é enviado |
+
+O editor permite misturar imagens e um vídeo num Post, mas o Facebook recebe só um tipo: o vídeo, quando ele é o primeiro arquivo (as imagens são descartadas); caso contrário, as imagens (o vídeo é descartado).
+
+## Limites de mídia
+
+| `content_type` | Imagem | Vídeo | Duração | Formato |
+|----------------|--------|-------|---------|---------|
+| `facebook_post` | 4 MB | 1 GB | 240 minutos | JPEG/PNG/WebP (sem GIF). Vídeo MP4 ou MOV |
+| `facebook_reel` | — | 1 GB | 90 segundos | MP4 recomendado, 9:16 |
+| `facebook_story` | 10 MB | 1 GB | 60 segundos | As imagens são ajustadas para 9:16. MP4 recomendado |
+
+Os vídeos de Reels e Stories precisam ser verticais, perto de 9:16 (largura ÷ altura entre 0,5 e 0,6), ou o post não pode ser agendado.
+
+As imagens são publicadas na proporção original; o PostClean não as recorta no servidor. Um Story precisa de uma imagem ou de um vídeo. Especificações oficiais: [Reels](https://developers.facebook.com/docs/video-api/guides/reels-publishing/), [Stories](https://developers.facebook.com/docs/page-stories-api/), [Erros de vídeo](https://developers.facebook.com/docs/video-api/reference/error-codes/). Catálogo completo: [Mídia](/knowledge-base/media#facebook).
+
+## Texto e opções do post
+
+- **10.000 caracteres** por post.
+- **Prévia do link** — o primeiro link do post ganha um card de prévia. Remova com o **×** no card (`meta.link_preview: false` na API), ou use **Trocar prévia do link por mídia**.
+- **Texto alternativo** — até 1.000 caracteres por imagem.
+
+## Insights
+
+As métricas e os seguidores das páginas do Facebook aparecem em [Insights](/knowledge-base/insights/overview).
+
+Uma página do Facebook também pode ser a origem de um [Repost](/knowledge-base/repurpose): o PostClean acompanha a página e, quando você publica Reels, vídeos ou Stories fora do PostClean, republica nos canais que você escolher.
+
+## Escopos OAuth
+
+`public_profile`, `pages_show_list`, `pages_read_engagement`, `pages_manage_posts`, `read_insights`, `business_management`
+
+O `read_insights` alimenta as métricas da página e dos posts em Insights.

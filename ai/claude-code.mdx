@@ -1,0 +1,74 @@
+---
+title: "Claude Code"
+description: "Conecte o PostClean ao Claude Code para cuidar das suas redes sociais com IA pelo terminal"
+icon: "/images/ai/claude.svg"
+---
+
+O [Claude Code](https://code.claude.com/docs) é a ferramenta de linha de comando da Anthropic para trabalhar com o Claude direto no terminal. Você pode conectá-lo ao servidor MCP do PostClean e cuidar do agendamento das suas redes sociais em linguagem natural.
+
+## Pré-requisitos
+
+- Claude Code instalado ([guia de instalação](https://code.claude.com/docs/en/setup))
+- Uma conta do PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+
+## Configuração
+
+<Steps>
+  <Step title="Adicione o servidor MCP do PostClean">
+    Rode este comando no terminal:
+
+    ```bash
+    claude mcp add --transport http postclean https://post.chatclean.com.br/mcp/trypost
+    ```
+
+    Isso adiciona o servidor ao projeto atual, só para você (escopo local). Use `--scope project` para compartilhar pelo `.mcp.json` ou `--scope user` para todos os projetos.
+  </Step>
+  <Step title="Entre pelo navegador">
+    Abra o Claude Code e faça a primeira chamada ao PostClean:
+
+    ```bash
+    claude
+    ```
+
+    ```
+    Liste todos os meus posts agendados
+    ```
+
+    O Claude Code abre uma janela do navegador pedindo que você entre no PostClean e autorize a conexão. Entre, escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar**. A partir daí o Claude Code guarda o token OAuth e o renova sozinho. Para usar outro workspace, conecte de novo e escolha esse workspace.
+  </Step>
+</Steps>
+
+## Configuração manual
+
+Se preferir editar o arquivo de configuração, isto é o que `claude mcp add --scope project` grava no `.mcp.json` (sem cabeçalho `Authorization`, porque o OAuth é descoberto pela URL):
+
+```json
+{
+  "mcpServers": {
+    "postclean": {
+      "type": "http",
+      "url": "https://post.chatclean.com.br/mcp/trypost"
+    }
+  }
+}
+```
+
+Coloque no `.mcp.json` para o escopo de projeto. Com `--scope user`, o mesmo bloco vai em `mcpServers` no `~/.claude.json`.
+
+## Exemplos de pedidos
+
+```
+Crie um post agendado para amanhã às 10h no horário de São Paulo
+```
+
+```
+Mostre todas as minhas contas sociais conectadas
+```
+
+```
+Crie uma assinatura chamada "Marketing SaaS" com #saas #marketing #crescimento #startup
+```
+
+```
+Liste todas as minhas etiquetas
+```

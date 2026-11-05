@@ -1,0 +1,63 @@
+---
+title: "Claude Desktop"
+description: "Conecte o PostClean ao app Claude Desktop para cuidar das suas redes sociais com IA"
+icon: "/images/ai/claude.svg"
+---
+
+O [Claude Desktop](https://claude.ai/download) é o app de desktop da Anthropic para conversar com o Claude. Você pode conectá-lo ao servidor MCP do PostClean e cuidar do agendamento das suas redes sociais pela conversa.
+
+## Pré-requisitos
+
+- Claude Desktop instalado
+- Uma conta do PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+
+## Configuração
+
+<Steps>
+  <Step title="Abra as configurações de conectores">
+    No Claude Desktop, vá em **Settings** → **Connectors** e clique em **Add custom connector**.
+  </Step>
+  <Step title="Adicione a URL do servidor do PostClean">
+    Cole a URL do servidor:
+
+    ```
+    https://post.chatclean.com.br/mcp/trypost
+    ```
+
+    Deixe as **Advanced settings** (Client ID / Client Secret) em branco. O PostClean aceita Dynamic Client Registration, então o Claude Desktop se registra sozinho.
+  </Step>
+  <Step title="Entre pelo navegador">
+    O Claude Desktop abre uma janela do navegador no PostClean pedindo que você entre na sua conta. Escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar**. Depois volte ao Claude Desktop: o conector muda para **Connected**. Para usar outro workspace, conecte de novo e escolha esse workspace.
+  </Step>
+  <Step title="Confira a conexão">
+    Abra uma conversa nova e peça ao Claude algo da sua conta do PostClean:
+
+    ```
+    Liste todos os meus posts agendados
+    ```
+
+    O Claude vai usar as ferramentas do PostClean para buscar os seus posts.
+  </Step>
+</Steps>
+
+<Note>
+  O conector do Claude Desktop roda pela nuvem da Anthropic, não pela sua máquina, então o servidor MCP precisa estar acessível na internet. O endereço `https://post.chatclean.com.br/mcp/trypost` está.
+</Note>
+
+## Exemplos de pedidos
+
+```
+Mostre todas as minhas contas de redes sociais conectadas
+```
+
+```
+Crie uma assinatura chamada "Marketing de conteúdo"
+```
+
+```
+Quais posts eu tenho agendados para esta semana?
+```
+
+```
+Crie uma etiqueta chamada "Urgente" na cor vermelha
+```

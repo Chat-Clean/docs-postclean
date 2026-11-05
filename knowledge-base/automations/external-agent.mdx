@@ -1,0 +1,167 @@
+---
+title: "Agente externo do direct"
+sidebarTitle: "Agente externo"
+description: "Conecte um agente de IA, como um fluxo do n8n, para responder o direct de um canal do Instagram."
+icon: "robot"
+---
+
+O agente externo deixa um sistema seu responder as mensagens do direct de um canal do Instagram. Pode ser um fluxo do n8n, um agente de IA ou qualquer serviço que receba um `POST` em JSON. O PostClean recebe as mensagens do Instagram, manda a conversa para a URL do agente e publica no direct as respostas que ele devolver.
+
+Cada canal do Instagram tem no máximo um agente, e uma conta do Instagram só pode responder com agente em um workspace.
+
+## Antes de começar
+
+- O canal precisa estar conectado pelo login do Instagram, com as automações ativas (botão **Ativar** em **Automações → Canais do Instagram**). Veja [Visão geral das automações](/knowledge-base/automations/overview).
+- Só o dono da conta e os admins do workspace configuram o agente.
+- O agente e as automações de **Mensagem no direct** não funcionam juntos no mesmo canal. Para ligar o agente, desligue as automações de direct do canal. Com o agente ligado, uma automação de direct nova é salva desligada.
+
+As automações de comentário, story, live, anúncio e link ig.me continuam funcionando com o agente ligado. Quando uma delas responde a mensagem (por exemplo, a resposta a uma pergunta de um fluxo), o agente não é chamado para essa mensagem.
+
+## Configurar
+
+<Steps>
+  <Step title="Abra o agente do canal">
+    Em **Automações**, no cartão **Canais do Instagram**, clique em **Agente** ao lado do canal.
+  </Step>
+  <Step title="Informe a conexão">
+    - **URL do agente:** o endereço que recebe as conversas, por exemplo `https://n8n.example.com/webhook/instagram`. Endereços de rede interna não são aceitos.
+    - **Token:** opcional. Quando preenchido, vai no cabeçalho `Authorization: Bearer <token>`. Depois de salvo, ele não aparece de novo; deixe como está para manter.
+  </Step>
+  <Step title="Salve e ligue">
+    Clique em **Salvar**. Um agente novo começa desligado. Use a chave **Ligar ou desligar o agente** para ligar. O status passa para **Agente ligado**.
+  </Step>
+</Steps>
+
+## Quando o agente é chamado
+
+O PostClean grava tudo o que acontece na conversa. Algumas coisas chamam o agente; outras só vão como contexto na próxima chamada.
+
+| Acontecimento | Chama o agente? |
+|---------------|-----------------|
+| A pessoa manda uma mensagem (texto ou anexo) que nenhuma automação respondeu | Sim |
+| A pessoa toca numa resposta rápida que não é de uma automação, como um ice breaker | Sim |
+| Alguém da equipe responde pelo Instagram | Sim, para o agente decidir o que fazer |
+| A pessoa comenta e uma automação manda a resposta privada | Não, vai como contexto |
+| A pessoa toca num botão de uma automação | Não, vai como contexto |
+| Uma automação manda uma mensagem | Não, vai como contexto |
+
+Mensagens em sequência viram uma chamada só: o PostClean espera 5 segundos depois da última mensagem antes de chamar o agente. As mensagens enviadas pela equipe no app do Instagram levam uns 10 segundos para serem reconhecidas.
+
+O contexto pendente vale por 7 dias. Reações, leituras e edições de mensagens não são enviadas.
+
+## O que o PostClean envia
+
+Um `POST` para a URL do agente com `Content-Type: application/json`:
+
+```json
+{
+  "id": "0195f3a2-7c41-7b8e-9d2a-3f5c1e8b4a10",
+  "type": "instagram.direct_messages",
+  "account": {
+    "id": "9d3f1c2a-...",
+    "instagram_user_id": "17841400000000000",
+    "username": "seuperfil"
+  },
+  "contact": {
+    "id": "1234567890123456",
+    "username": "maria.silva"
+  },
+  "messages": [
+    {
+      "id": "aWdfZAG1...",
+      "from": "contact",
+      "type": "comment",
+      "text": "quero o link",
+      "attachments": [],
+      "context": {
+        "automation": { "id": "9d40...", "name": "Comente e receba o link" },
+        "media_id": "17900000000000000",
+        "public_reply": "Te mandei no direct! 📩"
+      },
+      "sent_at": "2026-11-05T14:20:00+00:00"
+    },
+    {
+      "id": "aWdfZAG2...",
+      "from": "automation",
+      "type": "message",
+      "text": "Oi, Maria! Aqui está o link:",
+      "attachments": [],
+      "context": {
+        "automation": { "id": "9d40...", "name": "Comente e receba o link" }
+      },
+      "sent_at": "2026-11-05T14:20:02+00:00"
+    },
+    {
+      "id": "aWdfZAG3...",
+      "from": "contact",
+      "type": "message",
+      "text": "Obrigada! Vocês entregam em Natal?",
+      "attachments": [],
+      "context": {},
+      "sent_at": "2026-11-05T14:25:10+00:00"
+    }
+  ],
+  "created_at": "2026-11-05T14:25:15+00:00"
+}
+```
+
+| Campo | Descrição |
+|-------|-----------|
+| `id` | ID da execução. Aparece em **Execuções do agente** |
+| `type` | Sempre `instagram.direct_messages` |
+| `account` | O canal: `id` no PostClean, `instagram_user_id` e `username` |
+| `contact` | A pessoa: `id` no Instagram (use para identificar a conversa) e `username`, quando disponível |
+| `messages` | Tudo o que ainda não foi enviado ao agente, em ordem de tempo |
+| `messages[].from` | Quem escreveu: `contact` (a pessoa), `human` (alguém da equipe pelo Instagram) ou `automation` (uma automação do PostClean) |
+| `messages[].type` | `message`, `button_click` (toque num botão de automação) ou `comment` (o comentário que abriu a conversa) |
+| `messages[].text` | O texto, ou `null` |
+| `messages[].attachments` | Lista de `{ "type", "url" }`. Os links expiram: baixe o que precisar na hora |
+| `messages[].context` | Detalhes extras: `automation` e `button` (`id`, `title`) num toque ou numa mensagem de automação; `automation`, `media_id` e `public_reply` num comentário; `postback` num toque fora das automações; `reply_to` quando a pessoa respondeu uma mensagem específica |
+| `messages[].sent_at` | Quando aconteceu (ISO 8601) |
+| `created_at` | Quando a chamada foi montada (ISO 8601) |
+
+As respostas que o próprio agente mandou não voltam no lote seguinte. Guarde o histórico do seu lado se o agente precisar dele.
+
+## O que o agente deve responder
+
+Responda com status `2xx` e um JSON com as mensagens a enviar:
+
+```json
+{
+  "replies": [
+    "Entregamos sim! 🚚",
+    "Quer que eu te passe o prazo para o seu CEP?"
+  ]
+}
+```
+
+- Cada item de `replies` vira uma mensagem no direct, na ordem. São no máximo 5; o resto é ignorado.
+- As respostas são só texto.
+- Também vale `{ "replies": "uma mensagem só" }` e uma lista com o objeto dentro (`[{ "replies": [...] }]`), que é o formato do nó **Respond to Webhook** do n8n.
+- Corpo vazio ou `replies` vazio quer dizer "não responder agora". A execução fica como **Sem resposta**.
+
+Limites da chamada:
+
+- O agente tem até 30 segundos para responder.
+- A resposta pode ter até 64 KB.
+- Redirecionamentos não são seguidos.
+- Um status fora de `2xx` ou uma resposta que não é JSON conta como **Falhou**, e nada é enviado.
+
+As mensagens do agente seguem a janela de 24 horas do Instagram. Veja [Limites da Meta](/knowledge-base/automations/meta-limits).
+
+## Execuções do agente
+
+Na página do agente, a **Atividade** mostra as últimas chamadas. Clique em **Ver execuções** para abrir **Execuções do agente**, que atualiza **Ao vivo** e lista as conversas. Filtre por período com **De** e **Até**.
+
+Ao escolher uma execução, você vê a conversa enviada, as respostas e os **Detalhes**:
+
+- **Registrada em**
+- **Tempo de resposta do agente**
+- **Status HTTP**
+- **URL chamada**
+- **ID da execução**
+- **ID do contato (Instagram)**
+- **Itens enviados**
+- **Erro**, quando houver
+
+Cada execução tem um destes status: **Respondeu**, **Sem resposta** ou **Falhou**. As execuções ficam guardadas por 30 dias.

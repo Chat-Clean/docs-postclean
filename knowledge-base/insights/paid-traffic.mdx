@@ -1,0 +1,94 @@
+---
+title: "Tráfego pago"
+description: "Veja investimento, alcance, cliques e resultados dos seus anúncios da Meta ao lado dos posts orgânicos."
+icon: "bullhorn"
+---
+
+A aba **Tráfego pago**, em **Insights**, mostra os números das suas contas de anúncios da Meta (Facebook e Instagram): investimento, alcance, cliques, leads, compras e de onde vieram os resultados. Os dados vêm direto da Meta, ao lado dos seus Insights orgânicos.
+
+<Note>
+  O **Tráfego pago** está em **Beta** e é liberado por workspace. Se a aba não aparecer em **Insights**, o recurso ainda não está ativo para o seu workspace. Fale com a gente em [contato@chatclean.com.br](mailto:contato@chatclean.com.br).
+</Note>
+
+O acesso é **só de leitura**: o PostClean não cria nem altera nada nas suas contas de anúncios.
+
+## Conectar uma conta de anúncios
+
+Só o dono da conta e os admins do workspace conectam e desconectam contas de anúncios. Todos os membros veem os números.
+
+<Steps>
+  <Step title="Abra a aba">
+    Em **Insights**, troque de **Orgânico** para **Tráfego pago**.
+  </Step>
+  <Step title="Entre com o Facebook">
+    Clique em **Conectar conta de anúncios** e entre com um perfil do Facebook que administre as contas de anúncios. O PostClean pede só permissão de leitura dos anúncios e do gerenciador de negócios.
+  </Step>
+  <Step title="Escolha as contas">
+    Na tela **Escolha as contas de anúncios**, marque as contas que este workspace vai acompanhar. Contas que não estão ativas na Meta aparecem como **Inativa na Meta**, e as que já estão no workspace como **Já conectada**. Clique em **Conectar**.
+  </Step>
+</Steps>
+
+Se o login não tiver nenhuma conta de anúncios, aparece **Este login do Facebook não tem conta de anúncios. Entre com um perfil que administre uma.**
+
+Com mais de uma conta conectada, troque entre elas no seletor **Conta de anúncios**, no topo da página.
+
+## Período
+
+Escolha o período em **7 dias**, **30 dias** (o padrão), **Mês atual** ou **Personalizado**. Os números vêm comparados com o período anterior de mesmo tamanho. A Meta guarda até 37 meses de histórico, então datas mais antigas não podem ser escolhidas.
+
+Os valores aparecem na moeda da conta de anúncios.
+
+## O que a página mostra
+
+### Visão geral
+
+Cartões com o total do período e a comparação com o período anterior:
+
+- **Investimento**, **Alcance**, **Impressões** e **Frequência**
+- **Cliques no link**, **CTR do link**, **CPC** e **CPM**
+- **Leads** e **Custo por lead**, quando houve leads
+- **Compras** e **Custo por compra**, quando houve compras, e **ROAS** quando a Meta informou o valor das compras
+- Os tipos de lead (**Conversas**, **Formulários**, **Leads do site**) em cartões separados, quando a conta tem mais de um
+
+Um gráfico diário mostra uma métrica por vez: **Investimento**, **Cliques no link** ou um resultado (**Leads**, **Compras**). Troque em **Métrica exibida**.
+
+### De onde vieram os leads
+
+Para onde cada conjunto de anúncios levou as pessoas: **WhatsApp**, **Direct do Instagram**, **Messenger**, **Formulário instantâneo**, **Site** e outros destinos, com a parte de cada um no total de leads. São só contagens, como a Meta informa; ninguém é identificado.
+
+### Campanhas
+
+Uma tabela com as campanhas do período: **Investimento**, **Alcance**, **Impressões**, **Cliques no link**, **CTR do link**, **CPC** e o **Resultado** principal de cada uma. Clique numa campanha para ver os conjuntos de anúncios dela e, num conjunto, os anúncios.
+
+### Onde rodou e quem viu
+
+O **Detalhamento** por **Posicionamento** (Feed, Stories, Reels, Explorar e outros, no Facebook, Instagram, Messenger, Threads e Audience Network), **Idade e gênero**, **Região** e **Dispositivo**. Em **Campanha exibida**, escolha **Conta inteira** ou uma campanha.
+
+### Posts impulsionados
+
+Os posts do Instagram usados por algum anúncio no período. Para cada um, o que os anúncios entregaram (**Pago**) ao lado do que o post teve no orgânico (**Orgânico**): alcance, curtidas, comentários e salvamentos. Clique em **Mais métricas** para ver engajamento pago e números de vídeo, como **ThruPlays** e quanto do vídeo as pessoas assistiram.
+
+Um post que ainda não está nos seus Insights orgânicos aparece com **Ainda não está nos seus Insights orgânicos.**
+
+## Atualização dos dados
+
+O PostClean busca os números na Meta e guarda por até 1 hora. Quando o período inclui hoje, os dados se renovam a cada 15 minutos.
+
+Se a Meta não devolver uma seção, ela mostra **A Meta não devolveu estes dados. Tente de novo em alguns minutos.** e o resto da página continua funcionando.
+
+## Reconectar
+
+O acesso à Meta expira de tempos em tempos.
+
+- Faltando poucos dias para expirar, aparece **O acesso a esta conta de anúncios expira em poucos dias.**
+- Quando a Meta deixa de aceitar o acesso, aparece **A Meta não aceita mais o acesso a esta conta de anúncios. Conecte de novo para ver as métricas.**
+
+Nos dois casos, clique em **Reconectar** e entre de novo com o Facebook.
+
+## Desconectar
+
+Em **Mais ações**, clique em **Desconectar conta** e confirme em **Desconectar**. As métricas da conta deixam de aparecer no PostClean. Nada muda na conta de anúncios.
+
+## Pelo MCP
+
+Assistentes de IA conectados ao [servidor MCP](/ai/introduction) do PostClean podem ler o mesmo relatório com a ferramenta `get-paid-traffic-report-tool`. Ela aceita o período (`range`: `7d`, `30d`, `mtd` ou `custom` com `start` e `end`), a conta (`account_id`), as seções (`overview`, `lead_sources`, `campaigns`, `breakdowns`, `posts`) e `campaign_id` ou `adset_id` para descer até conjuntos e anúncios. É só leitura e precisa de uma conta de anúncios conectada.

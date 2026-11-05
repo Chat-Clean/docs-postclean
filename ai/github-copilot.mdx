@@ -1,0 +1,75 @@
+---
+title: "GitHub Copilot"
+description: "Conecte o PostClean ao GitHub Copilot no VS Code para gerenciar suas redes sociais com IA"
+icon: "/images/ai/github-copilot.svg"
+---
+
+O [GitHub Copilot](https://github.com/features/copilot) suporta servidores MCP no modo agente, o que permite conectar o PostClean direto ao seu fluxo de trabalho no VS Code.
+
+## Pré-requisitos
+
+- VS Code com a extensão GitHub Copilot instalada
+- Modo agente do Copilot ativado
+- Uma conta no PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+
+## Configuração (modo agente na IDE)
+
+<Steps>
+  <Step title="Crie o arquivo de configuração MCP">
+    Na raiz do seu projeto, crie ou edite `.vscode/mcp.json`:
+
+    ```json
+    {
+      "servers": {
+        "postclean": {
+          "type": "http",
+          "url": "https://post.chatclean.com.br/mcp/trypost"
+        }
+      }
+    }
+    ```
+
+    Sem cabeçalho `Authorization`: o Copilot usa a camada MCP do VS Code, que descobre o OAuth pela URL.
+  </Step>
+  <Step title="Recarregue o VS Code">
+    Recarregue a janela para carregar a nova configuração MCP.
+  </Step>
+  <Step title="Entre pelo navegador">
+    Abra o Copilot Chat em modo agente. O VS Code pede que você entre no PostClean. No navegador, escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar**. O servidor passa para **Connected**. Para usar outro workspace, conecte de novo e escolha-o.
+  </Step>
+  <Step title="Confira a conexão">
+    Peça ao Copilot:
+
+    ```
+    Liste todos os meus posts no PostClean
+    ```
+  </Step>
+</Steps>
+
+<Tip>
+  O VS Code usa `"servers"` como chave principal (e não `"mcpServers"`). Isso é diferente da maioria dos outros clientes MCP.
+</Tip>
+
+## Copilot coding agent (na nuvem do GitHub)
+
+O **coding agent** do GitHub (o que roda na infraestrutura do GitHub para cuidar de issues e PRs) ainda não suporta OAuth em servidores MCP remotos. O endpoint MCP do PostClean exige OAuth (`mcp:use`) e **recusa** Personal Access Tokens, então hoje o MCP não funciona no coding agent.
+
+Use o **modo agente na IDE** do Copilot (acima) para o MCP, ou chame a [API REST](/api-reference/introduction) a partir de Actions ou scripts com uma chave de API (só administradores do workspace) criada em **Configurações → API Keys**.
+
+## Configuração global na IDE
+
+Para deixar o PostClean disponível em todos os projetos da sua IDE, abra a paleta de comandos e rode **MCP: Open User Configuration** para adicionar o servidor às suas configurações de usuário.
+
+## Exemplos de prompts
+
+```
+Crie um novo post agendado para amanhã às 9h, horário de Brasília
+```
+
+```
+Mostre todas as minhas assinaturas
+```
+
+```
+Quais contas sociais estão conectadas ao meu workspace?
+```

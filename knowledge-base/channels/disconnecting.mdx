@@ -1,0 +1,43 @@
+---
+title: "Desconectar um canal"
+description: "Remova um canal de um workspace. Desconectar apaga todos os posts desse canal no PostClean."
+icon: "link-slash"
+---
+
+Só o dono da conta e os administradores do workspace podem desconectar um canal. Veja [Membros e permissões](/knowledge-base/settings/members-and-permissions).
+
+<Warning>
+  Desconectar apaga **todos os posts desse canal no PostClean**: rascunhos, posts agendados, posts aguardando aprovação, posts que falharam, posts enviados e posts importados da rede, junto com as mídias deles. Os posts que já estão na rede continuam lá. Isso não pode ser desfeito.
+</Warning>
+
+## Antes de desconectar
+
+Se o canal está com problemas ou mostra **Conexão perdida**, provavelmente você quer reconectar: [reconectar](/knowledge-base/channels/connecting#reconectar-um-canal) mantém todos os posts, a fila e as configurações. A própria janela de desconexão sugere isso primeiro: **Problemas com a conexão? Tente Atualizar conexão primeiro.**
+
+## Desconectar um canal
+
+<Steps>
+  <Step title="Abra o menu do canal">
+    Em **Configurações → Canais**, abra o menu do canal e clique em **Desconectar**.
+  </Step>
+  <Step title="Digite a palavra de confirmação">
+    A janela **Desconectar** *nome do canal* explica o que vai ser apagado. Digite `desconectar` na caixa (o botão ao lado da palavra copia ela). A palavra diferencia maiúsculas de minúsculas: `DESCONECTAR` não confirma.
+  </Step>
+  <Step title="Confirme">
+    Clique em **Desconectar canal**.
+  </Step>
+</Steps>
+
+A palavra de confirmação é traduzida: em outro idioma da interface, você digita a palavra que a janela mostra.
+
+## O que acontece
+
+- **Posts**: todos os posts do canal são apagados, qualquer que seja o status, com as mídias. Nenhum [webhook](/knowledge-base/settings/webhooks) `post.deleted` nem e-mail é enviado para esses posts.
+- **Fila**: a fila e a agenda de postagem do canal vão junto.
+- **Repost**: um [repost](/knowledge-base/repurpose) que usava este canal como origem é pausado, e a mensagem de confirmação diz quantos foram pausados. Um repost que publicava neste canal tira ele dos destinos e é pausado se não sobrar nenhum destino.
+- **Insights**: o canal sai dos [Insights](/knowledge-base/insights/overview). Se você conectar a mesma conta de novo depois, o PostClean importa de novo os posts recentes dela.
+- **A rede**: nada muda na rede. Para revogar o acesso do PostClean lá também, remova o app nas configurações da própria rede.
+
+## Pela API e pelo MCP
+
+Desconectar só é possível no app web.

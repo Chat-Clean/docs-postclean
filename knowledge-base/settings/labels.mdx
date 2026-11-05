@@ -1,0 +1,41 @@
+---
+title: "Etiquetas"
+description: "Organize e filtre seus posts e ideias com etiquetas coloridas."
+icon: "tag"
+---
+
+Etiquetas são marcadores coloridos para posts e ideias: uma campanha, um pilar de conteúdo, um cliente. As etiquetas pertencem ao workspace, então todos os membros veem e usam a mesma lista.
+
+Qualquer membro do workspace pode criar, editar e excluir etiquetas. Elas ficam em **Configurações → Etiquetas**.
+
+## Criar uma etiqueta
+
+Clique em **Nova Etiqueta**, informe um **Nome**, escolha uma **Cor** e clique em **Criar Etiqueta**.
+
+A lista mostra quantos posts usam cada etiqueta. **Ver posts** abre a área Publicar filtrada por aquela etiqueta. Busque na lista pelo nome.
+
+## Adicionar etiquetas
+
+- **Posts**: no [editor](/knowledge-base/publish/composer), ou pelo menu de um post na página Publicar, com **Editar labels**. Um post pode ter várias etiquetas.
+- **Ideias**: no editor de ideias. Veja [Ideias](/knowledge-base/create/ideas).
+
+## Filtrar por etiqueta
+
+- **Publicar**: o filtro **Etiquetas** mostra só os posts com as etiquetas que você escolher. **Sem label** mostra os posts sem nenhuma etiqueta, e **Gerenciar labels** abre esta página de configurações. Veja [Publicar](/knowledge-base/publish/overview).
+- **Insights do canal**: filtre o desempenho por post de um canal pela etiqueta para comparar campanhas. Veja [Insights do canal](/knowledge-base/insights/channel-insights).
+- **Ideias**: filtre o quadro ou a galeria pela etiqueta.
+
+## Editar ou excluir
+
+Use **Editar etiqueta** para mudar o nome ou a cor; posts e ideias mostram a mudança na hora. **Excluir etiqueta** remove a etiqueta de todos os posts e ideias, depois de uma confirmação. Os posts e as ideias continuam.
+
+## Pela API e pelo MCP
+
+| Tarefa | REST | MCP |
+|--------|------|-----|
+| Listar | [List labels](/api-reference/labels/list-labels) | `list-labels-tool` |
+| Criar | [Create label](/api-reference/labels/create-label) | `create-label-tool` |
+| Atualizar | [Update label](/api-reference/labels/update-label) | `update-label-tool` |
+| Excluir | [Delete label](/api-reference/labels/delete-label) | `delete-label-tool` |
+
+Na API, a cor é um código hexadecimal no formato `#RRGGBB`. Para colocar etiquetas num post, envie `label_ids` ao [criar](/api-reference/posts/create-post) ou [atualizar](/api-reference/posts/update-post) o post.

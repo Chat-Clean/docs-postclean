@@ -1,0 +1,31 @@
+---
+title: "Notificações"
+description: "Escolha quais e-mails o PostClean manda para você."
+icon: "bell"
+---
+
+O PostClean avisa você **só por e-mail**. Não existe central de notificações dentro do app.
+
+Abra **Configurações → Notificações** para escolher quais e-mails você recebe. Cada chave é salva assim que você muda; se o salvamento falhar, a chave volta para a posição anterior e aparece uma mensagem de erro.
+
+## Notificações por e-mail
+
+| Chave | O que cobre | Quem recebe |
+|-------|-------------|-------------|
+| **Post publicado** | Um post foi publicado com sucesso. | O dono da conta |
+| **Post falhou** | Um post falhou ao publicar em um ou mais canais. | O dono da conta |
+| **Conta desconectada** | Um canal perdeu a conexão, a verificação diária encontrou canais desconectados num workspace, ou posts que vão sair em breve estão em risco porque o canal precisa ser reconectado. | O dono da conta |
+| **Nova nota em uma publicação** | Alguém da equipe adicionou uma [nota](/knowledge-base/publish/overview) a um post. | Todos os membros do workspace, menos o autor da nota (num post aguardando aprovação: só quem aprova e quem pediu) |
+| **Colaboração** | Pedidos de [aprovação](/knowledge-base/publish/approvals) e posts aprovados ou rejeitados. | Os pedidos vão para todos que aprovam, menos quem pediu; as decisões vão para quem pediu |
+
+Todas as chaves vêm ligadas. As configurações são pessoais: desligar uma só para o e-mail para você.
+
+## E-mails que você não pode desligar
+
+- **Convites para o workspace**, enviados para a pessoa convidada. Veja [Membros e permissões](/knowledge-base/settings/members-and-permissions).
+- **Webhook pausado**, enviado ao dono da conta quando um webhook é pausado depois de várias entregas com falha. Veja [Webhooks](/knowledge-base/settings/webhooks).
+- E-mails da conta, como verificação de e-mail e redefinição de senha.
+
+## Idioma e horários
+
+Os e-mails chegam no idioma da sua interface, e todos os horários neles aparecem no seu fuso horário e no seu formato de hora. Mude isso em [Preferências](/knowledge-base/settings/preferences).

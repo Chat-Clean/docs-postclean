@@ -1,0 +1,66 @@
+---
+title: TikTok
+description: Conecte sua conta do TikTok ao PostClean
+icon: "tiktok"
+---
+
+O PostClean publica vídeos e carrosséis de fotos no TikTok.
+
+## Conectar sua conta
+
+1. Na barra lateral, abra **Canais** e clique em **Conectar canal** (ou use **Novo** > **Conectar um novo canal**)
+2. Escolha **TikTok** e clique em **Conectar TikTok**
+3. Autorize o PostClean no TikTok
+4. Na página de confirmação, marque a conta e clique em **Concluir conexão**
+
+O PostClean abre a página **Publicar** do novo canal e pergunta quantas vezes por semana você quer postar. Veja o fluxo completo em [Conectar canais](/knowledge-base/channels/connecting).
+
+## Tipos de conteúdo
+
+| Tipo | `content_type` | Proporção | Descrição |
+|------|---------------|-----------|-----------|
+| **Vídeo** | `tiktok_video` | 9:16 | Um vídeo |
+| **Carrossel de fotos** | `tiktok_photo` | — | De 1 a 35 imagens |
+
+As fotos podem ter qualquer formato; **Editar mídia** oferece 4:3, 16:9, 9:16 e 1:1.
+
+O TikTok não tem seletor de tipo de post: a mídia anexada decide. Um vídeo gera um `tiktok_video`, imagens geram um `tiktok_photo`, e os dois nunca se misturam no mesmo post.
+
+## Limites de mídia
+
+| `content_type` | Imagem | Vídeo | Duração | Formato |
+|----------------|--------|-------|---------|---------|
+| `tiktok_video` | — | 1 GB (limite do PostClean; o TikTok aceita 4 GB) | 10 minutos, ou menos se a sua conta do TikTok permitir menos | MP4 ou MOV (o PostClean não aceita upload de WebM) |
+| `tiktok_photo` | 10 MB | — | — | JPEG/WebP, até 35 imagens |
+
+Especificações oficiais: [Media Transfer Guide](https://developers.tiktok.com/doc/content-posting-api-media-transfer-guide). Catálogo completo: [Mídia](/knowledge-base/media#tiktok).
+
+## Texto e opções do post
+
+O TikTok aceita **2.200 caracteres** de legenda. As configurações do TikTok no editor (ou `meta` na API) trazem as opções que o TikTok exige que sejam mostradas:
+
+| Configuração | Chave em `meta` | Valores | Vale para |
+|--------------|-----------------|---------|-----------|
+| **Visibilidade** | `privacy_level` | `PUBLIC_TO_EVERYONE`, `MUTUAL_FOLLOW_FRIENDS`, `FOLLOWER_OF_CREATOR`, `SELF_ONLY` | Vídeo + Foto. **Obrigatória para agendar** — não há valor padrão |
+| **Permitir comentários** | `allow_comments` | booleano, desligado por padrão | Vídeo + Foto |
+| **Permitir Dueto** / **Permitir Stitch** | `allow_duet` / `allow_stitch` | booleano, desligado por padrão | Só vídeo |
+| **Divulgar conteúdo do vídeo** | `disclose` | booleano | Vídeo + Foto. Quando ligado, escolha **Sua marca**, **Conteúdo patrocinado** ou os dois, ou o post não pode ser agendado |
+| **Sua marca** / **Conteúdo patrocinado** | `brand_organic_toggle` / `brand_content_toggle` | booleano | Vídeo + Foto. Conteúdo patrocinado não pode ser **Apenas eu** (`SELF_ONLY`) |
+| **Gerado por IA** | `is_aigc` | booleano | Só vídeo |
+| **Adicionar música automaticamente** | `auto_add_music` | booleano | Só foto |
+
+As opções que você vê vêm da sua conta do TikTok: o TikTok pode encurtar a duração máxima do vídeo e desligar comentários, Dueto ou Stitch, e o PostClean mostra essas opções como **Desativado nas configurações da sua conta TikTok**. A API traz os mesmos dados em [Get TikTok creator info](/api-reference/social-accounts/get-tiktok-creator-info) (`GET /social-accounts/{account}/tiktok-creator-info`).
+
+<Note>
+  O TikTok não tem API para apagar posts. Apagar um post no PostClean nunca o remove do TikTok (nem de nenhuma outra rede) — remova no app do TikTok.
+</Note>
+
+## Insights
+
+Os vídeos e os seguidores do TikTok aparecem em [Insights](/knowledge-base/insights/overview).
+
+## Escopos OAuth
+
+`user.info.basic`, `user.info.profile`, `user.info.stats`, `video.publish`, `video.upload`, `video.list`
+
+`user.info.stats` e `video.list` são necessários para as métricas do TikTok em Insights.

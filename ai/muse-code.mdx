@@ -1,0 +1,109 @@
+---
+title: "Muse Code"
+description: "Conecte o PostClean ao Muse Code para gerenciar suas redes sociais com IA pelo terminal"
+icon: "/images/ai/muse.svg"
+---
+
+O [Muse Code](https://dev.meta.ai/docs/muse-code) é o agente de programação da Meta para o terminal. Você pode conectá-lo ao servidor MCP do PostClean e gerenciar seus agendamentos em linguagem natural. Este é o caminho que verificamos.
+
+O agente pessoal (o personagem em [muse.ai](https://muse.ai)) é o [Muse AI Agent](/ai/muse).
+
+## Pré-requisitos
+
+- Muse Code instalado:
+
+  ```bash
+  curl -fsSL https://dev.meta.ai/install.sh | bash
+  ```
+
+- Uma conta no PostClean com assinatura ativa ([planos e cobrança](/knowledge-base/settings/plans-and-billing))
+
+## Configuração
+
+<Steps>
+  <Step title="Inicie o Muse Code">
+    ```bash
+    muse
+    ```
+  </Step>
+  <Step title="Peça para ele adicionar o servidor MCP do PostClean">
+    Cole a URL e deixe o Muse escrever a configuração. Por exemplo:
+
+    ```
+    Add the PostClean MCP server at https://post.chatclean.com.br/mcp/trypost
+    ```
+
+    O Muse dá ao servidor o nome `postclean` e pede que você o autorize com:
+
+    ```bash
+    muse mcp login postclean
+    ```
+  </Step>
+  <Step title="Autorize no navegador">
+    Rode esse comando no seu terminal (fora da sessão do Muse, se ele mostrou o comando como próximo passo). O Muse abre o navegador no PostClean. Entre na sua conta, escolha o **Workspace** que essa conexão pode usar e clique em **Autorizar**. Para usar outro workspace, conecte de novo e escolha-o.
+
+    O argumento do login precisa ser igual à chave do servidor nas configurações: `postclean`, se foi esse o nome que o Muse escolheu.
+  </Step>
+  <Step title="Use o PostClean no Muse Code">
+    De volta à sessão, peça:
+
+    ```
+    Liste todos os meus posts agendados
+    ```
+  </Step>
+</Steps>
+
+<Note>
+  O MCP do PostClean aceita **OAuth** com o escopo `mcp:use`. Personal Access Tokens criados em **Configurações → API Keys** são recusados (`403`). Depois de `muse mcp login postclean`, o Muse guarda e renova a autorização. Para desconectar: `muse mcp logout postclean`.
+</Note>
+
+<Note>
+  As tools MCP no Muse Code **não rodam em sandbox**. Elas funcionam como uma conexão de rede direta, fora da sandbox do sistema de arquivos. A aprovação continua valendo.
+</Note>
+
+## Configuração manual
+
+Se preferir editar o arquivo você mesmo, coloque isto em `~/.config/muse/settings.json`. O arquivo **precisa** ter `"schema_version": 1`. O Muse Code 1.1 grava o bloco em `mcpServers` (e não em `mcp_servers`):
+
+```json
+{
+  "schema_version": 1,
+  "mcpServers": {
+    "postclean": {
+      "mode": "optional",
+      "transport": "streamable_http",
+      "url": "https://post.chatclean.com.br/mcp/trypost"
+    }
+  }
+}
+```
+
+Junte ao arquivo que já existe. Não adicione um segundo bloco `mcp_servers` ao lado de `mcpServers`: isso quebra a configuração e o `muse mcp login` se recusa a rodar. Depois:
+
+```bash
+muse mcp login postclean
+```
+
+Não use cabeçalho `Authorization`. O OAuth é descoberto pela URL.
+
+## Exemplos de prompts
+
+```
+Mostre todas as minhas contas de redes sociais conectadas
+```
+
+```
+Crie um rascunho de post no LinkedIn para amanhã às 9h, horário de Brasília
+```
+
+```
+Quais posts eu tenho agendados para esta semana?
+```
+
+```
+Crie uma etiqueta chamada "Campanha" com a cor #f59e0b
+```
+
+## Guias relacionados
+
+Vai usar o agente pessoal em vez do terminal? Veja o [Muse AI Agent](/ai/muse).

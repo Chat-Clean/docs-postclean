@@ -1,0 +1,72 @@
+---
+title: "Ideias"
+description: "Reúna, organize e desenvolva ideias de posts num quadro antes que elas virem posts."
+---
+
+**Criar › Ideias** é onde o conteúdo começa. Registre uma ideia, passe-a pelos seus próprios grupos e transforme-a em post quando estiver pronta. Abra pela barra lateral ou registre uma ideia de qualquer lugar com **Novo** → **Ideia**.
+
+Todos os membros do workspace podem criar e editar ideias.
+
+## Quadro e Galeria
+
+Troque a visualização entre **Quadro** e **Galeria**.
+
+- **Quadro** mostra uma coluna por grupo. Um workspace novo começa com **A fazer**, **Em andamento** e **Concluído**. As ideias sem grupo ficam em **Sem grupo**.
+- **Galeria** mostra cada ideia como um cartão e carrega mais conforme você rola a página.
+
+No quadro, cada coluna carrega 10 ideias por vez enquanto você rola. O número de cada coluna é o total real, não só os cartões carregados até ali.
+
+## Grupos
+
+- **Novo grupo** adiciona uma coluna.
+- **Renomear**, ou arraste a alça de uma coluna para reordenar.
+- **Excluir** remove o grupo, não as ideias: "As ideias não são excluídas. Elas vão para "Sem grupo"."
+
+## Escrever uma ideia
+
+<Steps>
+  <Step title="Abra o editor">
+    Clique em **Nova ideia** (ou **Novo** → **Ideia**).
+  </Step>
+  <Step title="Preencha">
+    Dê um título, escreva o texto e adicione mídia. Se quiser, escolha um **Grupo** e **Etiquetas**. Para salvar, a ideia precisa de um título, algum texto ou mídia.
+  </Step>
+  <Step title="Salve">
+    Clique em **Salvar ideia**.
+  </Step>
+</Steps>
+
+No editor você também pode clicar em **Usar o assistente de IA** para ajudar a escrever o texto, ou em **Criar post** para abrir o [editor de posts](/knowledge-base/publish/composer) com o conteúdo da ideia.
+
+## Organizar ideias
+
+- Arraste um cartão para outra posição ou coluna.
+- No menu de um cartão: **Duplicar**, **Mover para grupo** ou **Excluir**.
+- Use **Selecionar** para marcar várias ideias e depois **Excluir 3 ideias** (com o número selecionado) para removê-las de uma vez.
+- Filtre por **Grupos** (inclusive **Sem grupo**) e por **Etiquetas**. Com um filtro de etiquetas ativo, não dá para arrastar: "Limpe o filtro de etiquetas para reordenar as ideias."
+
+As ideias salvas a partir de um artigo em [Feeds](/knowledge-base/create/feeds) com **Salvar como ideia** vêm parar aqui.
+
+## Gerar ideias
+
+**Gerar ideias** usa IA para sugerir ideias a partir de três perguntas:
+
+1. **Sobre o que é o seu negócio?**
+2. **Quem é o seu público?**
+3. **Mais alguma coisa? (opcional)**: tom, assuntos para abordar ou evitar, lançamentos futuros.
+
+Escolha **Usar esta ideia** para guardar uma sugestão, ou **Gerar outra** para receber novas. As ideias são escritas no idioma da sua interface (Configurações › [Preferências](/knowledge-base/settings/preferences)).
+
+## API e MCP
+
+Ideias e grupos estão disponíveis pela API e pelo MCP. Gerar ideias com IA só funciona no app web.
+
+| Tarefa | API REST | Ferramenta MCP |
+| --- | --- | --- |
+| Listar e ler ideias | [List ideas](/api-reference/ideas/list-ideas), [Get idea](/api-reference/ideas/get-idea) | `list-ideas-tool`, `get-idea-tool` |
+| Criar e editar | [Create idea](/api-reference/ideas/create-idea), [Update idea](/api-reference/ideas/update-idea) | `create-idea-tool`, `update-idea-tool` |
+| Mover e duplicar | [Move idea](/api-reference/ideas/move-idea), [Duplicate idea](/api-reference/ideas/duplicate-idea) | `move-ideas-tool`, `duplicate-idea-tool` |
+| Excluir | [Delete idea](/api-reference/ideas/delete-idea), [Delete ideas](/api-reference/ideas/delete-ideas) | `delete-ideas-tool` |
+| Grupos | [List idea stages](/api-reference/idea-stages/list-idea-stages), [Create idea stage](/api-reference/idea-stages/create-idea-stage), [Update idea stage](/api-reference/idea-stages/update-idea-stage), [Reorder idea stages](/api-reference/idea-stages/reorder-idea-stages), [Delete idea stage](/api-reference/idea-stages/delete-idea-stage) | `list-idea-stages-tool`, `create-idea-stage-tool`, `update-idea-stage-tool`, `reorder-idea-stages-tool`, `delete-idea-stage-tool` |
+
+Na API e no MCP, os grupos se chamam *idea stages*. Veja a [referência das ferramentas MCP](/ai/tools-reference).
