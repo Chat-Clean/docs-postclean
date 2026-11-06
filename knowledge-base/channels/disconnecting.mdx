@@ -35,6 +35,7 @@ A palavra de confirmação é traduzida: em outro idioma da interface, você dig
 - **Posts**: todos os posts do canal são apagados, qualquer que seja o status, com as mídias. Nenhum [webhook](/knowledge-base/settings/webhooks) `post.deleted` nem e-mail é enviado para esses posts.
 - **Fila**: a fila e a agenda de postagem do canal vão junto.
 - **Repost**: um [repost](/knowledge-base/repurpose) que usava este canal como origem é pausado, e a mensagem de confirmação diz quantos foram pausados. Um repost que publicava neste canal tira ele dos destinos e é pausado se não sobrar nenhum destino.
+- **Automações**: as [automações](/knowledge-base/automations/overview) de um canal do Instagram não são apagadas; elas são desligadas e ficam sem canal. Os [contatos](/knowledge-base/automations/contacts) continuam no workspace. O [agente externo](/knowledge-base/automations/external-agent) do canal é removido.
 - **Insights**: o canal sai dos [Insights](/knowledge-base/insights/overview). Se você conectar a mesma conta de novo depois, o PostClean importa de novo os posts recentes dela.
 - **A rede**: nada muda na rede. Para revogar o acesso do PostClean lá também, remova o app nas configurações da própria rede.
 

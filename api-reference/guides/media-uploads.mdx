@@ -8,9 +8,9 @@ A mídia de um post é uma lista de arquivos de três tipos: **imagem**, **víde
 
 | O arquivo está... | Use |
 |---|---|
-| Numa URL pública | `media[].url` na criação ou na atualização, ou [Attach media from URL](/api-reference/media-and-uploads/attach-media-from-url) |
-| No seu computador ou servidor, e o post ainda não existe | [Create upload](/api-reference/media-and-uploads/create-upload) e depois `media[].upload_token` |
-| No seu computador ou servidor, e o post já existe | [Upload media](/api-reference/media-and-uploads/upload-media), ou [Create upload](/api-reference/media-and-uploads/create-upload) + [Attach media from upload](/api-reference/media-and-uploads/attach-media-from-upload) |
+| Numa URL pública | `media[].url` na criação ou na atualização, ou [Anexar mídia por URL](/api-reference/media-and-uploads/attach-media-from-url) |
+| No seu computador ou servidor, e o post ainda não existe | [Criar upload](/api-reference/media-and-uploads/create-upload) e depois `media[].upload_token` |
+| No seu computador ou servidor, e o post já existe | [Enviar mídia](/api-reference/media-and-uploads/upload-media), ou [Criar upload](/api-reference/media-and-uploads/create-upload) + [Anexar mídia de um upload](/api-reference/media-and-uploads/attach-media-from-upload) |
 | Já em outro post do workspace | `media[].id` |
 
 ## Arquivos aceitos
@@ -23,16 +23,16 @@ A mídia de um post é uma lista de arquivos de três tipos: **imagem**, **víde
 
 Fotos HEIC e HEIF também são aceitas quando o servidor consegue convertê-las, e são guardadas como JPEG.
 
-Esses são os limites para qualquer upload. Cada rede tem os seus próprios limites, geralmente menores, de quantidade, tamanho, duração e proporção, conferidos quando o post é agendado ou publicado. [List content types](/api-reference/platform/list-content-types) devolve esses limites por tipo de conteúdo (`max_media_count`, `max_image_bytes`, `max_video_bytes`, `max_video_duration_sec`, …), e a página de cada rede também os lista, por exemplo [Instagram](/platforms/instagram), [TikTok](/platforms/tiktok) ou [LinkedIn](/platforms/linkedin). Um arquivo de um tipo que o canal não aceita é recusado com `422`.
+Esses são os limites para qualquer upload. Cada rede tem os seus próprios limites, geralmente menores, de quantidade, tamanho, duração e proporção, conferidos quando o post é agendado ou publicado. [Listar tipos de conteúdo](/api-reference/platform/list-content-types) devolve esses limites por tipo de conteúdo (`max_media_count`, `max_image_bytes`, `max_video_bytes`, `max_video_duration_sec`, …), e a página de cada rede também os lista, por exemplo [Instagram](/platforms/instagram), [TikTok](/platforms/tiktok) ou [LinkedIn](/platforms/linkedin). Um arquivo de um tipo que o canal não aceita é recusado com `422`.
 
 ## Mídia na criação e na atualização
 
-[Create post](/api-reference/posts/create-post), [Create posts in batch](/api-reference/posts/create-posts-in-batch) e [Update post](/api-reference/posts/update-post) aceitam uma lista `media`. Cada item informa **exatamente uma** origem:
+[Criar post](/api-reference/posts/create-post), [Criar posts em lote](/api-reference/posts/create-posts-in-batch) e [Atualizar post](/api-reference/posts/update-post) aceitam uma lista `media`. Cada item informa **exatamente uma** origem:
 
 | Chave | Origem |
 |---|---|
 | `url` | Uma URL pública `http` ou `https` do próprio arquivo. O PostClean baixa o arquivo uma vez |
-| `upload_token` | Um token de [Create upload](/api-reference/media-and-uploads/create-upload) ou de uma URL de upload assinada |
+| `upload_token` | Um token de [Criar upload](/api-reference/media-and-uploads/create-upload) ou de uma URL de upload assinada |
 | `id` | Um item de mídia que já está neste workspace, como o `media[].id` de outro post. O arquivo é copiado |
 
 ```bash
@@ -53,11 +53,11 @@ curl -X POST https://post.chatclean.com.br/api/posts \
   }'
 ```
 
-A ordem da lista é a ordem da mídia no post. Em [Update post](/api-reference/posts/update-post), `media` substitui a mídia do post; omita o campo para manter a mídia atual.
+A ordem da lista é a ordem da mídia no post. Em [Atualizar post](/api-reference/posts/update-post), `media` substitui a mídia do post; omita o campo para manter a mídia atual.
 
 ## Envie um arquivo
 
-[Create upload](/api-reference/media-and-uploads/create-upload) recebe um arquivo como `multipart/form-data`, sem post, e devolve um `upload_token`:
+[Criar upload](/api-reference/media-and-uploads/create-upload) recebe um arquivo como `multipart/form-data`, sem post, e devolve um `upload_token`:
 
 ```bash
 curl -X POST https://post.chatclean.com.br/api/uploads \
@@ -80,7 +80,7 @@ curl -X POST https://post.chatclean.com.br/api/uploads \
 
 O campo `url` traz o endereço público do arquivo enviado; o exemplo acima usa um endereço fictício.
 
-Use o token como item de mídia (`{ "upload_token": "..." }`) na criação ou na atualização, ou anexe-o a um post que já existe com [Attach media from upload](/api-reference/media-and-uploads/attach-media-from-upload):
+Use o token como item de mídia (`{ "upload_token": "..." }`) na criação ou na atualização, ou anexe-o a um post que já existe com [Anexar mídia de um upload](/api-reference/media-and-uploads/attach-media-from-upload):
 
 ```bash
 curl -X POST https://post.chatclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/media/from-upload \
@@ -91,9 +91,9 @@ curl -X POST https://post.chatclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7
 ```
 
 - O token é de **uso único**: o primeiro post que o recebe o consome. Para colocar o mesmo arquivo num segundo post, use o `media[].id` daquele post.
-- Use o token antes de `expires_at`, 24 horas depois do upload. Depois disso os uploads não usados são apagados, e um token já usado ou expirado falha com `422`: `This upload expired. Add the file again.`
+- Use o token antes de `expires_at`, 24 horas depois do upload. Depois disso os uploads não usados são apagados, e um token já usado ou expirado falha com `422`: `Este envio expirou. Adicione o arquivo novamente.`
 
-Para enviar direto para um post que já existe, [Upload media](/api-reference/media-and-uploads/upload-media) faz as duas etapas numa chamada só:
+Para enviar direto para um post que já existe, [Enviar mídia](/api-reference/media-and-uploads/upload-media) faz as duas etapas numa chamada só:
 
 ```bash
 curl -X POST https://post.chatclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/media \
@@ -106,7 +106,7 @@ Os dois colocam o arquivo no fim da mídia do post e devolvem o post.
 
 ## Anexe a partir de URLs
 
-[Attach media from URL](/api-reference/media-and-uploads/attach-media-from-url) baixa de **1 a 10** arquivos e os adiciona a um post:
+[Anexar mídia por URL](/api-reference/media-and-uploads/attach-media-from-url) baixa de **1 a 10** arquivos e os adiciona a um post:
 
 ```bash
 curl -X POST https://post.chatclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/media/from-url \
@@ -144,11 +144,11 @@ Um item `media[].url` na criação ou na atualização é baixado do mesmo jeito
 
 ## Reutilize a mídia de outro post
 
-A API não tem uma biblioteca de mídia separada. Para reutilizar um arquivo, pegue o `id` de um item da `media` de outro post (em [Get post](/api-reference/posts/get-post) ou [List posts](/api-reference/posts/list-posts)) e envie-o como `{ "id": "..." }`. O PostClean copia o arquivo, então excluir um dos posts não mexe na mídia do outro.
+A API não tem uma biblioteca de mídia separada. Para reutilizar um arquivo, pegue o `id` de um item da `media` de outro post (em [Ver post](/api-reference/posts/get-post) ou [Listar posts](/api-reference/posts/list-posts)) e envie-o como `{ "id": "..." }`. O PostClean copia o arquivo, então excluir um dos posts não mexe na mídia do outro.
 
 ## URLs de upload assinadas
 
-Assistentes de IA conectados pelo [servidor MCP](/ai/introduction) não conseguem enviar o conteúdo de arquivos pelo MCP. A ferramenta `request-media-upload-tool` dá a eles uma URL assinada de uso único, e o arquivo vai para [Upload to signed URL](/api-reference/media-and-uploads/upload-to-signed-url) **sem** chave de API; a assinatura autoriza a requisição:
+Assistentes de IA conectados pelo [servidor MCP](/ai/introduction) não conseguem enviar o conteúdo de arquivos pelo MCP. A ferramenta `request-media-upload-tool` dá a eles uma URL assinada de uso único, e o arquivo vai para [Enviar para URL assinada](/api-reference/media-and-uploads/upload-to-signed-url) **sem** chave de API; a assinatura autoriza a requisição:
 
 ```bash
 curl -X POST "<upload_url>" \
@@ -157,9 +157,9 @@ curl -X POST "<upload_url>" \
 ```
 
 - A URL funciona uma vez, até expirar (15 minutos por padrão). Um segundo upload para ela devolve `409`.
-- A resposta traz um `upload_token`, usado como um token de [Create upload](/api-reference/media-and-uploads/create-upload).
+- A resposta traz um `upload_token`, usado como um token de [Criar upload](/api-reference/media-and-uploads/create-upload).
 
-Scripts com chave de API não precisam desse fluxo: use [Create upload](/api-reference/media-and-uploads/create-upload).
+Scripts com chave de API não precisam desse fluxo: use [Criar upload](/api-reference/media-and-uploads/create-upload).
 
 ## Texto alternativo e configurações da mídia
 
@@ -188,4 +188,4 @@ Cada item de mídia aceita configurações opcionais:
 
 ## Quais posts aceitam mídia
 
-A mídia pode ser adicionada e substituída até o post sair. Posts em `publishing`, `published` ou `failed` não aceitam mídia: a API responde `422` com `This post has already been processed and cannot be re-published. Duplicate it to try again.`
+A mídia pode ser adicionada e substituída até o post sair. Posts em `publishing`, `published`, `partially_published` ou `failed` não aceitam mídia: a API responde `422` com `Este post já foi processado e não pode ser republicado. Duplique-o para tentar de novo.`

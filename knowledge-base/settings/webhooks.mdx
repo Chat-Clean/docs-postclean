@@ -39,6 +39,7 @@ Um webhook novo começa **Ativo**. Criar ou editar um webhook não envia nenhuma
 | `post.scheduled` | Post agendado | Um post que já existia passa para agendado | Payload do post |
 | `post.unscheduled` | Post desagendado | Um post agendado volta para rascunho, ou volta para aguardando aprovação | Payload do post |
 | `post.published` | Post publicado | Um post foi publicado no canal | Payload do post |
+| `post.partially_published` | Post parcialmente publicado | Alguns canais publicaram e outros falharam (só em posts antigos com mais de um canal) | Payload do post |
 | `post.failed` | Post falhou | Um post falhou ao publicar | Payload do post |
 | `post.deleted` | Post excluído | Um post é excluído | Só `{ "id", "workspace_id" }` |
 
@@ -126,7 +127,7 @@ Em todos os eventos, menos `post.deleted`, `data` é o post no momento do evento
 | `id` | Id do post |
 | `workspace_id` | Id do workspace |
 | `user_id` | Id do usuário autor, ou `null` |
-| `status` | `draft`, `pending_approval`, `scheduled`, `publishing`, `published` ou `failed` |
+| `status` | `draft`, `pending_approval`, `scheduled`, `publishing`, `published`, `partially_published` ou `failed` |
 | `created_via` | `web`, `api`, `mcp`, `repurpose` ou `null` |
 | `content` | Texto do post. Pode conter HTML do editor, ou estar vazio |
 | `scheduled_at`, `published_at`, `created_at`, `updated_at` | ISO 8601, ou `null`. `published_at` é quando a rede publicou o post; `updated_at` só muda quando o próprio post é editado, não quando ele é publicado |

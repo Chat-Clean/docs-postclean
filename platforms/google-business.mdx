@@ -23,7 +23,7 @@ Todos os locais de todas as contas de empresa que esse login gerencia aparecem n
 
 | Tipo | `content_type` | Descrição |
 |------|----------------|-----------|
-| **Post** | `google_business_post` | Texto com uma imagem opcional. Aparece no Perfil da Empresa na Busca e no Maps |
+| **Publicação** | `google_business_post` | Texto com uma imagem opcional. Aparece no Perfil da Empresa na Busca e no Maps |
 
 ## Limites de mídia
 
@@ -37,13 +37,13 @@ O PostClean converte a imagem para JPEG (até 2048 px de largura, abaixo de 5 MB
 
 **Texto.** Até **1.500 caracteres**, enviados como texto simples. O texto e a imagem são opcionais.
 
-**Tipo de post** (`meta.topic_type`):
+**Tipo de publicação** (`meta.topic_type`):
 
-| Tipo de post | `topic_type` | O que precisa |
+| Tipo de publicação | `topic_type` | O que precisa |
 |--------------|--------------|---------------|
 | **Novidades** (padrão) | `STANDARD` | Nada a mais. Notícias e atualizações sobre a sua empresa |
-| **Evento** | `EVENT` | **Título do evento** (até 58 caracteres), datas de **Início** e **Término**. Horários de início e fim opcionais, no horário local do endereço |
-| **Oferta** | `OFFER` | **Título da oferta** (até 58 caracteres), datas de **Início** e **Término**. Código de cupom, link para resgatar e termos (até 5.000 caracteres) opcionais. O Google adiciona um botão **Ver oferta** |
+| **Evento** | `EVENT` | **Título do evento** (até 58 caracteres), datas de **Início** e **Término**. **Hora de início** e **Hora de término** opcionais (em **Incluir horário**), no fuso da localização |
+| **Oferta** | `OFFER` | **Título da oferta** (até 58 caracteres), datas de **Início** e **Término**. **Código do cupom**, **Link da oferta** e **Termos e condições** (até 5.000 caracteres) opcionais, em **Mais detalhes**. O Google adiciona um botão **Ver oferta** |
 
 Na API, as datas vão em `meta.event` (`title`, `start_date`, `end_date` no formato `YYYY-MM-DD`, `start_time`, `end_time` no formato `HH:MM`) e os detalhes da oferta em `meta.offer` (`coupon_code`, `redeem_online_url`, `terms_conditions`). A data de término precisa ser igual ou posterior à de início, e um horário de término no mesmo dia precisa ser depois do de início.
 

@@ -126,12 +126,12 @@ Com o servidor autorizado, o Hermes consegue:
 |------|----------|
 | **Posts** | Listar, criar, editar, agendar, colocar na fila, publicar, pré-visualizar, excluir, aprovar e buscar métricas |
 | **Mídia** | Anexar a partir de uma URL pública, enviar um arquivo local (você roda o comando de upload; agentes de CLI conseguem rodar sozinhos) e reaproveitar um arquivo que já está em outro post |
-| **Contas** | Listar as contas sociais conectadas, definir horários de postagem, gerenciar a fila e encontrar boards do Pinterest e canais do Discord |
-| **Workspace** | Ler o workspace atual; gerenciar ideias, assinaturas, etiquetas, webhooks, reposts e chaves de API; ler análises |
+| **Contas** | Listar as contas sociais conectadas, definir horários de postagem, gerenciar a fila e encontrar pastas do Pinterest e canais do Discord |
+| **Workspace** | Ler o workspace atual; gerenciar ideias, assinaturas, etiquetas, webhooks, reposts e chaves de API; ler análises e o relatório de tráfego pago |
 
 Algumas dessas ações dependem das suas permissões no workspace (aprovar exige publicação direta; horários de postagem, webhooks e chaves de API exigem administrador). Veja as permissões na [introdução](/ai/introduction).
 
-O Pinterest precisa de um `board_id`, o Discord de um `channel_id` e o TikTok de um `privacy_level` antes de publicar. Peça ao Hermes para listar os boards ou canais primeiro. Detalhes e os nomes originais das tools (use esses em `tools.include` / `tools.exclude`, e não os nomes convertidos `mcp__…`): [referência de tools](/ai/tools-reference).
+O Pinterest precisa de um `board_id`, o Discord de um `channel_id` e o TikTok de um `privacy_level` antes de publicar. Peça ao Hermes para listar as pastas ou os canais primeiro. Detalhes e os nomes originais das tools (use esses em `tools.include` / `tools.exclude`, e não os nomes convertidos `mcp__…`): [referência de tools](/ai/tools-reference).
 
 As mesmas tools ficam disponíveis no `hermes chat`, no Hermes Desktop e em qualquer [gateway de mensagens](https://hermes-agent.nousresearch.com/docs/user-guide/messaging) dessa instalação (Telegram, Discord, Slack e os demais).
 

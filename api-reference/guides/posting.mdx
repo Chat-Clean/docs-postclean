@@ -6,10 +6,6 @@ icon: "paper-plane"
 
 Este guia acompanha um post do começo ao fim: encontrar o canal, conferir o que a rede dele exige, criar o post e depois agendá-lo, colocá-lo na fila ou publicá-lo na hora. Todos os exemplos rodam em `https://post.chatclean.com.br/api` com uma [chave de API do workspace](/api-reference/introduction).
 
-<Warning>
-  Os exemplos deste guia seguem a API atual do PostClean. Algumas páginas da referência de endpoints ainda descrevem campos de uma versão mais nova do projeto original (por exemplo, `social_account_id` no nível de cima em [Create post](/api-reference/posts/create-post)). Quando houver diferença, vale o que está neste guia.
-</Warning>
-
 <Steps>
   <Step title="Liste as contas sociais">
     Encontre o canal em que vai publicar e veja os limites dele.
@@ -27,7 +23,7 @@ Este guia acompanha um post do começo ao fim: encontrar o canal, conferir o que
 
 ## 1. Liste as contas sociais
 
-[List social accounts](/api-reference/social-accounts/list-social-accounts) devolve os canais conectados ao workspace. Os canais são conectados e removidos no app; a API só os lê.
+[Listar contas sociais](/api-reference/social-accounts/list-social-accounts) devolve os canais conectados ao workspace. Os canais são conectados e removidos no app; a API só os lê.
 
 ```bash
 curl https://post.chatclean.com.br/api/social-accounts \
@@ -70,7 +66,7 @@ Os campos que importam para publicar:
 
 ## 2. Confira os tipos de conteúdo
 
-[List content types](/api-reference/platform/list-content-types) descreve cada rede: seus tipos de conteúdo, limites de texto e de hashtags, as configurações obrigatórias e a mídia que cada formato aceita.
+[Listar tipos de conteúdo](/api-reference/platform/list-content-types) descreve cada rede: seus tipos de conteúdo, limites de texto e de hashtags, as configurações obrigatórias e a mídia que cada formato aceita.
 
 ```bash
 curl https://post.chatclean.com.br/api/content-types \
@@ -99,17 +95,17 @@ O post leva as configurações da rede em `meta`. Um rascunho pode ser salvo sem
 
 | Rede | Obrigatório em `meta` | Onde conseguir o valor |
 |---|---|---|
-| TikTok | `privacy_level`: `PUBLIC_TO_EVERYONE`, `MUTUAL_FOLLOW_FRIENDS`, `FOLLOWER_OF_CREATOR` ou `SELF_ONLY` | [Get TikTok creator info](/api-reference/social-accounts/get-tiktok-creator-info) lista os níveis que a conta permite |
-| Pinterest | `board_id` | [List Pinterest boards](/api-reference/social-accounts/list-pinterest-boards) ou [Create Pinterest board](/api-reference/social-accounts/create-pinterest-board) |
-| Discord | `channel_id` | [List Discord channels](/api-reference/social-accounts/list-discord-channels) |
+| TikTok | `privacy_level`: `PUBLIC_TO_EVERYONE`, `MUTUAL_FOLLOW_FRIENDS`, `FOLLOWER_OF_CREATOR` ou `SELF_ONLY` | [Ver dados de criador do TikTok](/api-reference/social-accounts/get-tiktok-creator-info) lista os níveis que a conta permite |
+| Pinterest | `board_id` | [Listar pastas do Pinterest](/api-reference/social-accounts/list-pinterest-boards) ou [Criar pasta do Pinterest](/api-reference/social-accounts/create-pinterest-board) |
+| Discord | `channel_id` | [Listar canais do Discord](/api-reference/social-accounts/list-discord-channels) |
 | YouTube | Um título: `title`, ou a primeira linha do texto | Até 100 caracteres, sem `<` nem `>` |
 | Google Business | `event` com `title`, `start_date` e `end_date` quando `topic_type` é `EVENT` ou `OFFER`; um `call_to_action` precisa de `url`, a menos que o `action_type` seja `NONE` ou `CALL` | Definido por você |
 
-As demais configurações são opcionais: prévias de links, rótulos de conteúdo gerado por IA, privacidade e categoria no YouTube, avisos de conteúdo no Mastodon, tópicos no Threads e outras. A lista completa por rede está em `meta` em [Create post](/api-reference/posts/create-post) (veja o aviso sobre a referência no início desta página). Chaves que o PostClean não conhece são descartadas; configurações de outra rede são aceitas, mas não são usadas.
+As demais configurações são opcionais: prévias de links, rótulos de conteúdo gerado por IA, privacidade e categoria no YouTube, avisos de conteúdo no Mastodon, tópicos no Threads e outras. A lista completa por rede está em `meta` em [Criar post](/api-reference/posts/create-post). Chaves que o PostClean não conhece são descartadas; configurações de outra rede são aceitas, mas não são usadas.
 
 ## 3. Crie o post
 
-[Create post](/api-reference/posts/create-post) cria um post em **um** canal: envie em `platforms` uma lista com exatamente um item, com o `social_account_id` do canal e, ao lado dele, o `content_type` e o `meta`. Sem `status`, o post é salvo como rascunho.
+[Criar post](/api-reference/posts/create-post) cria um post em **um** canal: envie em `platforms` uma lista com exatamente um item, com o `social_account_id` do canal e, ao lado dele, o `content_type` e o `meta`. Sem `status`, o post é salvo como rascunho.
 
 ```bash
 curl -X POST https://post.chatclean.com.br/api/posts \
@@ -138,7 +134,7 @@ A resposta é o post (`201`), com `status: "draft"` e o canal em `platforms`: ca
 
 ### Vários canais de uma vez
 
-Para enviar o mesmo post a vários canais, use [Create posts in batch](/api-reference/posts/create-posts-in-batch). Ele cria um post independente por destino, todos com o mesmo `post_group_id`, igual a selecionar vários canais no app. Cada destino pode sobrescrever o `content`, a `media`, o `content_type` e o `meta` compartilhados. Aqui o `status` é obrigatório.
+Para enviar o mesmo post a vários canais, use [Criar posts em lote](/api-reference/posts/create-posts-in-batch). Ele cria um post independente por destino, todos com o mesmo `post_group_id`, igual a selecionar vários canais no app. Cada destino pode sobrescrever o `content`, a `media`, o `content_type` e o `meta` compartilhados. Aqui o `status` é obrigatório.
 
 ```bash
 curl -X POST https://post.chatclean.com.br/api/posts/batch \
@@ -165,7 +161,7 @@ A resposta é `{ "posts": [...] }`, um post por destino. Um erro de validação 
 
 ## 4. Agende, coloque na fila ou publique
 
-O `status` decide o que acontece com o post. Envie-o na criação ou depois, com [Update post](/api-reference/posts/update-post):
+O `status` decide o que acontece com o post. Envie-o na criação ou depois, com [Atualizar post](/api-reference/posts/update-post):
 
 | `status` | Resultado |
 |---|---|
@@ -198,9 +194,9 @@ Quando o canal tem horários de publicação (`has_posting_schedule: true`), env
 }
 ```
 
-Para ocupar um horário exato, envie `queue_slot` com um instante tirado de [List free queue slots](/api-reference/channels/list-free-queue-slots). Isso só funciona em [Create post](/api-reference/posts/create-post) e falha com `422` quando o horário foi ocupado nesse meio-tempo. `queue` não pode ser combinado com `scheduled_at` nem com `queue_slot`. Quando você envia `queue_slot`, é ele que define o horário; não envie `scheduled_at` junto.
+Para ocupar um horário exato, envie `queue_slot` com um instante tirado de [Listar horários livres da fila](/api-reference/channels/list-free-queue-slots). Isso só funciona em [Criar post](/api-reference/posts/create-post) e falha com `422` quando o horário foi ocupado nesse meio-tempo. `queue` não pode ser combinado com `scheduled_at` nem com `queue_slot`. Quando você envia `queue_slot`, é ele que define o horário; não envie `scheduled_at` junto.
 
-Um post na fila mantém o horário dele. Para mudar a ordem, use [Reorder queue](/api-reference/channels/reorder-queue) ou [Move post to queue slot](/api-reference/channels/move-post-to-queue-slot); para mudar os horários, [Update posting schedule](/api-reference/channels/update-posting-schedule) (ele substitui a programação inteira: envie o `timezone` (obrigatório) e o `posting_goal` e o `posting_schedule` atuais para mantê-los, porque os valores omitidos são apagados). Para repetir um post agendado, veja [Set post recurrence](/api-reference/recurrence/set-post-recurrence).
+Um post na fila mantém o horário dele. Para mudar a ordem, use [Reordenar a fila](/api-reference/channels/reorder-queue) ou [Mover post para um horário da fila](/api-reference/channels/move-post-to-queue-slot); para mudar os horários, [Atualizar horários de postagem](/api-reference/channels/update-posting-schedule) (ele substitui a programação inteira: envie o `timezone` (obrigatório) e o `posting_goal` e o `posting_schedule` atuais para mantê-los, porque os valores omitidos são apagados). Para repetir um post agendado, veja [Definir repetição do post](/api-reference/recurrence/set-post-recurrence).
 
 <Note>
   Outra alteração na mesma fila do canal pode estar rodando quando você chamar. Nesse caso a API responde `409`; repita a requisição.
@@ -218,37 +214,41 @@ curl -X PUT https://post.chatclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b
   -d '{ "status": "publishing" }'
 ```
 
-A resposta volta com `status: "publishing"` enquanto a rede recebe o post. Depois ele passa a `published` ou `failed`. O lado da rede fica em `platforms[].status` (`pending`, `publishing`, `retrying`, `pending_review`, `published`, `failed` ou `rejected`); `platforms[].platform_url` leva ao post publicado e `platforms[].error_message` diz o que deu errado. Consulte [Get post](/api-reference/posts/get-post) periodicamente ou inscreva um [webhook](/api-reference/webhooks/create-webhook) em `post.published` e `post.failed`.
+A resposta volta com `status: "publishing"` enquanto a rede recebe o post. Depois ele passa a `published` ou `failed` (`partially_published` em posts antigos com vários destinos, quando só parte deles saiu). O lado da rede fica em `platforms[].status` (`pending`, `publishing`, `retrying`, `pending_review`, `published`, `failed` ou `rejected`); `platforms[].platform_url` leva ao post publicado e `platforms[].error_message` diz o que deu errado. Consulte [Ver post](/api-reference/posts/get-post) periodicamente ou inscreva um [webhook](/api-reference/webhooks/create-webhook) em `post.published` e `post.failed`.
 
 Posts criados pela API são publicados direto: as chaves de API pertencem a administradores do workspace, então não há etapa de aprovação (veja [Aprovações](/api-reference/introduction)).
 
 ## Respostas em fio
 
-Posts no X, no Bluesky e no Mastodon podem levar até **24** respostas, publicadas uma embaixo da outra, abaixo do primeiro post. Envie-as em `meta.thread_replies`, cada uma como `{ "text", "media" }`:
+Posts no X, no Bluesky e no Mastodon podem levar até **24** respostas, publicadas uma embaixo da outra, abaixo do primeiro post. Envie-as em `platforms[0].meta.thread_replies`, cada uma como `{ "text", "media" }`:
 
 ```json
 {
   "content": "1/ We rebuilt scheduling from scratch. Here is what changed.",
   "status": "scheduled",
   "queue": "next",
-  "social_account_id": "9c8b7a65-4d3e-4f2a-8b1c-0d9e8f7a6b54",
-  "content_type": "x_post",
-  "meta": {
-    "thread_replies": [
-      { "text": "2/ Every channel now has its own posting times." },
-      {
-        "text": "3/ Full changelog below.",
-        "media": [{ "url": "https://example.com/changelog.png" }]
+  "platforms": [
+    {
+      "social_account_id": "9c8b7a65-4d3e-4f2a-8b1c-0d9e8f7a6b54",
+      "content_type": "x_post",
+      "meta": {
+        "thread_replies": [
+          { "text": "2/ Every channel now has its own posting times." },
+          {
+            "text": "3/ Full changelog below.",
+            "media": [{ "url": "https://example.com/changelog.png" }]
+          }
+        ]
       }
-    ]
-  }
+    }
+  ]
 }
 ```
 
 - Uma resposta precisa de texto ou de mídia.
 - O texto de cada resposta precisa caber no limite da conta: 280 no X (25000 com posts longos), 300 no Bluesky e 500 no Mastodon. No Mastodon, o aviso de conteúdo (`spoiler_text`) se repete em cada resposta e entra na contagem.
 - A mídia de uma resposta pertence só a ela: até 4 itens, informados por `url`, `id` ou `upload_token`, seguindo as regras de mídia da rede.
-- Em [Update post](/api-reference/posts/update-post), `thread_replies` substitui a lista inteira.
+- Em [Atualizar post](/api-reference/posts/update-post), `thread_replies` substitui a lista inteira.
 
 Se a publicação parar no meio, as respostas já publicadas são mantidas, e uma nova tentativa continua da próxima, sem publicá-las de novo.
 
@@ -259,15 +259,15 @@ Os limites da rede são conferidos quando um post é agendado ou publicado; rasc
 - **Texto por conta.** O texto precisa caber no `max_content_length` da conta, medido no texto que a rede recebe. Uma conta do X com posts longos aceita 25000 caracteres; as outras contas do X aceitam 280. Um emoji conta como um caractere.
 - **Hashtags no Instagram.** O Instagram aceita no máximo **5** hashtags por post.
 - **Stories não têm legenda.** `instagram_story` e `facebook_story` não enviam texto, então o texto deles não é publicado nem medido, e o limite de hashtags não se aplica.
-- **Mídia.** Cada tipo de conteúdo tem suas próprias regras de quantidade, tamanho, duração e proporção de mídia, listadas por [List content types](/api-reference/platform/list-content-types) e na página de cada rede, por exemplo [Instagram](/platforms/instagram), [X](/platforms/x-twitter) ou [TikTok](/platforms/tiktok).
+- **Mídia.** Cada tipo de conteúdo tem suas próprias regras de quantidade, tamanho, duração e proporção de mídia, listadas por [Listar tipos de conteúdo](/api-reference/platform/list-content-types) e na página de cada rede, por exemplo [Instagram](/platforms/instagram), [X](/platforms/x-twitter) ou [TikTok](/platforms/tiktok).
 
 <Tip>
-  [Get post preview](/api-reference/posts/get-post-preview) devolve o texto que o canal do post vai receber (`sanitized_content`), o tamanho dele e o limite da conta.
+  [Ver prévia do post](/api-reference/posts/get-post-preview) devolve o texto que o canal do post vai receber (`sanitized_content`), o tamanho dele e o limite da conta.
 </Tip>
 
 ## Edição, exclusão e erros
 
-- [Update post](/api-reference/posts/update-post) altera só os campos que você envia. O canal é fixo (`social_account_id` é recusado); para publicar em outro lugar, crie um novo post. Envie as configurações como `content_type` e `meta` no nível de cima, ou em `platforms`, com o `id` do item de `platforms` do post. O `meta` é mesclado com as configurações salvas; envie `null` numa chave para apagá-la. Configurações booleanas não podem ser apagadas: envie `true` ou `false`.
-- Posts em `publishing`, `published` ou `failed` não podem ser editados nem excluídos: a API responde `422`.
-- [Delete post](/api-reference/posts/delete-post) remove o post só do PostClean. Ele nunca apaga nada que já foi publicado numa rede.
-- Os erros de validação vêm com o campo como chave: `platforms.0.meta.board_id`, `platforms.0.content_type`, `content`, `media` em [Create post](/api-reference/posts/create-post) e [Update post](/api-reference/posts/update-post); `destinations.N.…` em [Create posts in batch](/api-reference/posts/create-posts-in-batch).
+- [Atualizar post](/api-reference/posts/update-post) altera só os campos que você envia. O canal é fixo (`social_account_id` é recusado); para publicar em outro lugar, crie um novo post. Envie as configurações como `content_type` e `meta` no nível de cima, ou em `platforms`, com o `id` do item de `platforms` do post. O `meta` é mesclado com as configurações salvas, chave por chave; envie `null` numa chave para apagá-la. `thread_replies` substitui a lista inteira.
+- Posts em `publishing`, `published`, `partially_published` ou `failed` não podem ser editados: a API responde `422` com `Este post já foi processado e não pode ser republicado. Duplique-o para tentar de novo.`
+- [Excluir post](/api-reference/posts/delete-post) remove o post só do PostClean e nunca apaga nada numa rede. Só posts que ainda não foram enviados podem ser excluídos; os demais respondem `422` em `post` com `Posts enviados não podem ser excluídos.`
+- Os erros de validação vêm com o campo como chave. Em [Criar post](/api-reference/posts/create-post) e [Atualizar post](/api-reference/posts/update-post), o formato dos campos é conferido em `platforms.0.*` (`platforms.0.content_type`, `platforms.0.meta.board_id`) e nos campos do nível de cima (`content`, `media`); as checagens feitas ao montar o post (configuração obrigatória da rede, formato que não combina com a mídia, falta de texto e de mídia) voltam em `destinations.0.*`, por exemplo `destinations.0.meta.board_id`. Em [Criar posts em lote](/api-reference/posts/create-posts-in-batch), tudo o que é de um destino vem em `destinations.N.*`.

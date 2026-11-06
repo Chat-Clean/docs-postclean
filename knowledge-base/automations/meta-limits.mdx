@@ -18,7 +18,7 @@ As automações do PostClean conversam pelo Instagram usando a API oficial da Me
 
 Quando alguém comenta, a Meta deixa a conta mandar **uma** mensagem privada para essa pessoa em resposta ao comentário, em até **7 dias**. É a primeira mensagem do fluxo.
 
-Depois dela, o fluxo só continua quando a pessoa **toca num botão** ou **responde** a mensagem. Esse toque abre a janela de 24 horas, e aí dá para checar se ela segue o perfil, pedir dados e mandar lembrete. Por isso os modelos de comentário começam com uma **Mensagem de abertura** com botão. Veja [Editor de fluxo](/knowledge-base/automations/flow-editor).
+Depois dela, o fluxo só continua quando a pessoa **toca num botão** ou **responde** a mensagem. Esse toque abre a janela de 24 horas, e aí dá para checar se ela segue o perfil, pedir dados e mandar lembrete. Por isso os modelos de comentário começam com uma **Mensagem de abertura** com botão. Veja [Formulário e editor de blocos](/knowledge-base/automations/flow-editor).
 
 A opção **Responder também os comentários dos últimos 7 dias** usa o mesmo prazo: ela alcança só os comentários que ainda estão dentro dos 7 dias e respeita o limite por hora.
 
@@ -26,7 +26,7 @@ A opção **Responder também os comentários dos últimos 7 dias** usa o mesmo 
 
 Fora da resposta a um comentário, a Meta só aceita mensagens até **24 horas depois da última ação da pessoa** (uma mensagem, uma resposta ou um toque num botão). Cada nova ação reabre a janela.
 
-- Os blocos **Esperar** aceitam de 1 minuto a 23 horas, e o **Lembrete para quem não clicou** pode sair até 20 horas depois, para caber na janela.
+- O bloco **Esperar** e o **Lembrete para quem não clicou** vão de 30 minutos a 20 horas, para caber na janela.
 - O PostClean deixa uma margem de 10 minutos antes do fim da janela.
 - Se a janela fechar antes de uma mensagem sair, a conversa termina com o status **Encerrada**.
 - Uma conversa que espera um toque ou uma resposta há mais de 7 dias também é **Encerrada**.

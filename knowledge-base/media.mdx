@@ -83,6 +83,21 @@ O editor mostra um aviso num canal quando a mídia não cabe e leva à seção c
 
 As respostas de sequências no X, no Bluesky e no Mastodon seguem as mesmas regras de um post naquela rede, resposta por resposta.
 
+### Proporção
+
+O editor também confere a proporção (largura por altura) onde a rede documenta um limite, ao salvar e ao publicar:
+
+| Tipo de post | Proporção aceita |
+| --- | --- |
+| Instagram **Post do Feed**, imagens | De 3:4 a 1.91:1 |
+| Instagram **Post do Feed** e **Reels**, vídeos | De 1:100 a 10:1 |
+| Instagram **Story**, vídeos | De 1:10 a 10:1 |
+| Facebook **Reels** e **Story**, vídeos | 9:16 |
+| Threads, imagens | De 1:10 a 10:1 |
+| Telegram, imagens | De 1:20 a 20:1 |
+
+GIFs e imagens de Stories (que são encaixadas na tela 9:16) não são conferidos. Um **Post do Feed** do Instagram com um único vídeo é publicado como Reels.
+
 ### Instagram
 
 | Tipo de post | Mídia |
