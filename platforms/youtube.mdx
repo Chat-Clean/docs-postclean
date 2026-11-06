@@ -31,7 +31,7 @@ Especificações oficiais: [`videos.insert`](https://developers.google.com/youtu
 
 ## Título, descrição e configurações
 
-**Título.** Defina nas configurações do YouTube (**Título**, `meta.title`, até 100 caracteres, sem `<` nem `>` — recusado até em rascunhos). Se deixar vazio, o PostClean usa a primeira linha não vazia do texto do post, sem `<` e `>` e cortada em 100 caracteres. O YouTube recusa envios sem título, então um post sem título e sem texto não pode ser agendado nem publicado.
+**Título.** Defina nas configurações do YouTube (**Título**, `meta.title`, até 100 caracteres, sem `<` nem `>`, recusado até em rascunhos). Se deixar vazio, o PostClean usa a primeira linha não vazia do texto do post, sem `<` e `>` e cortada em 100 caracteres. O YouTube recusa envios sem título, então um post sem título e sem texto não pode ser agendado nem publicado.
 
 **Descrição.** O texto do post, a menos que você preencha **Descrição** (`meta.description`, texto simples, no máximo 5.000 bytes).
 
@@ -45,7 +45,7 @@ O texto do post (a sua descrição, quando **Descrição** está vazia) é limit
 | **Notificar inscritos** | `notify_subscribers` | booleano, ligado por padrão |
 | **Permitir incorporar** | `embeddable` | booleano, ligado por padrão |
 | **Para crianças** | `made_for_kids` | booleano, desligado por padrão |
-| **Gerado por IA** | `is_ai_generated` | booleano — informa conteúdo alterado ou sintético |
+| **Gerado por IA** | `is_ai_generated` | booleano; informa conteúdo alterado ou sintético |
 
 ## Insights
 

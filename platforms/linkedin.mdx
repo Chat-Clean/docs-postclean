@@ -8,7 +8,7 @@ O PostClean publica posts em perfis pessoais do LinkedIn e nas páginas de empre
 
 ## Conectar sua conta
 
-Um único card **LinkedIn** cobre o seu perfil pessoal e as páginas da empresa — não existe um card separado de "LinkedIn Page".
+Um único card **LinkedIn** cobre o seu perfil pessoal e as páginas da empresa. Não existe um card separado de "LinkedIn Page".
 
 1. Na barra lateral, abra **Canais** e clique em **Conectar canal** (ou use **Novo** > **Conectar um novo canal**)
 2. Escolha **LinkedIn** e clique em **Conectar LinkedIn**
@@ -25,7 +25,7 @@ O PostClean abre a página **Publicar** do novo canal e pergunta quantas vezes p
 
 | Tipo | `content_type` | Descrição |
 |------|----------------|-----------|
-| **Post** | `linkedin_post` / `linkedin_page_post` | Texto com mídia opcional — até **10 imagens**, **1 vídeo** ou **1 PDF**. Os arquivos anexados definem o formato; não há um tipo separado para carrossel ou documento. |
+| **Post** | `linkedin_post` / `linkedin_page_post` | Texto com mídia opcional: até **10 imagens**, **1 vídeo** ou **1 PDF**. Os arquivos anexados definem o formato; não há um tipo separado para carrossel ou documento. |
 
 Perfis pessoais usam `linkedin_post`; páginas de empresa usam `linkedin_page_post`.
 
@@ -41,9 +41,9 @@ Imagens, vídeo e PDF nunca se misturam no mesmo post, e GIFs não são aceitos.
 
 - **3.000 caracteres** por post. Os caracteres são contados como code points, então um emoji conta como um.
 - O negrito do editor é convertido nos caracteres em negrito do LinkedIn; o resto da formatação vai como texto simples.
-- **Prévia do link** — o primeiro link do texto ganha um card de prévia. Remova com o **×** no card (`meta.link_preview: false` na API).
-- **Título do documento** — em posts com PDF, defina o título exibido no documento (`meta.document_title`, até 300 caracteres). O padrão é o nome do arquivo.
-- **Texto alternativo** — até 4.086 caracteres por imagem.
+- **Prévia do link**: o primeiro link do texto ganha um card de prévia. Remova com o **×** no card (`meta.link_preview: false` na API).
+- **Título do documento**: em posts com PDF, defina o título exibido no documento (`meta.document_title`, até 300 caracteres). O padrão é o nome do arquivo.
+- **Texto alternativo**: até 4.086 caracteres por imagem.
 
 ## Insights
 

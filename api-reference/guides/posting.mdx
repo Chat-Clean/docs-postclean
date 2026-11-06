@@ -103,7 +103,7 @@ O post leva as configurações da rede em `meta`. Um rascunho pode ser salvo sem
 | Pinterest | `board_id` | [List Pinterest boards](/api-reference/social-accounts/list-pinterest-boards) ou [Create Pinterest board](/api-reference/social-accounts/create-pinterest-board) |
 | Discord | `channel_id` | [List Discord channels](/api-reference/social-accounts/list-discord-channels) |
 | YouTube | Um título: `title`, ou a primeira linha do texto | Até 100 caracteres, sem `<` nem `>` |
-| Google Business | `event` com `title`, `start_date` e `end_date` quando `topic_type` é `EVENT` ou `OFFER`; um `call_to_action` precisa de `url`, a menos que o `action_type` seja `NONE` ou `CALL` | — |
+| Google Business | `event` com `title`, `start_date` e `end_date` quando `topic_type` é `EVENT` ou `OFFER`; um `call_to_action` precisa de `url`, a menos que o `action_type` seja `NONE` ou `CALL` | Definido por você |
 
 As demais configurações são opcionais: prévias de links, rótulos de conteúdo gerado por IA, privacidade e categoria no YouTube, avisos de conteúdo no Mastodon, tópicos no Threads e outras. A lista completa por rede está em `meta` em [Create post](/api-reference/posts/create-post) (veja o aviso sobre a referência no início desta página). Chaves que o PostClean não conhece são descartadas; configurações de outra rede são aceitas, mas não são usadas.
 

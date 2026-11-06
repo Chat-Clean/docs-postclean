@@ -252,13 +252,13 @@ O agente legado **Cascade** ainda usa um arquivo separado e `"serverUrl"`. Em or
   <Accordion title="O devin mcp add não atualizou o arquivo que eu editei">
     O escopo padrão é **local** (`.devin/mcp_config.local.json`), e não `~/.config/devin/mcp_config.json`. Use `-s user` ou `-s project`, ou edite o arquivo local.
   </Accordion>
-  <Accordion title="HTTP 402 — Active subscription required">
+  <Accordion title="HTTP 402: Active subscription required">
     A autorização OAuth funcionou, mas a conta do PostClean não está ativa. Abra o [PostClean](https://post.chatclean.com.br), escolha um plano e reconecte. Veja a [introdução](/ai/introduction).
   </Accordion>
   <Accordion title="HTTP 401 ou preciso entrar de novo">
     A sessão OAuth expirou ou foi revogada. No Cloud: comece uma nova sessão e aprove de novo. No CLI: `devin mcp logout postclean` e depois `devin mcp login postclean`. No Cascade: dispare uma chamada de tool e conclua o fluxo no navegador.
   </Accordion>
-  <Accordion title="HTTP 403 — MCP OAuth authorization required">
+  <Accordion title="HTTP 403: MCP OAuth authorization required">
     A requisição usou uma chave de API (Personal Access Token) ou um token OAuth sem `mcp:use`. Remova qualquer cabeçalho `Authorization` / Auth Header e entre com OAuth.
   </Accordion>
   <Accordion title="O navegador não abre no login pelo CLI">

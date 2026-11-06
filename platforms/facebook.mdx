@@ -19,7 +19,7 @@ Todas as páginas que você gerencia aparecem na lista, e você pode conectar v�
 
 | Tipo | `content_type` | Proporção | Descrição |
 |------|----------------|-----------|-----------|
-| **Post** | `facebook_post` | — | Texto com até 10 imagens ou 1 vídeo |
+| **Post** | `facebook_post` | Livre | Texto com até 10 imagens ou 1 vídeo |
 | **Reels** | `facebook_reel` | 9:16 | Vídeo vertical curto |
 | **Story** | `facebook_story` | 9:16 | Uma imagem ou um vídeo, visível por 24 horas. Stories não têm legenda, então o texto do post não é enviado |
 
@@ -30,7 +30,7 @@ O editor permite misturar imagens e um vídeo num Post, mas o Facebook recebe s�
 | `content_type` | Imagem | Vídeo | Duração | Formato |
 |----------------|--------|-------|---------|---------|
 | `facebook_post` | 4 MB | 1 GB | 240 minutos | JPEG/PNG/WebP (sem GIF). Vídeo MP4 ou MOV |
-| `facebook_reel` | — | 1 GB | 90 segundos | MP4 recomendado, 9:16 |
+| `facebook_reel` | Não aceita | 1 GB | 90 segundos | MP4 recomendado, 9:16 |
 | `facebook_story` | 10 MB | 1 GB | 60 segundos | As imagens são ajustadas para 9:16. MP4 recomendado |
 
 Os vídeos de Reels e Stories precisam ser verticais, perto de 9:16 (largura ÷ altura entre 0,5 e 0,6), ou o post não pode ser agendado.
@@ -40,8 +40,8 @@ As imagens são publicadas na proporção original; o PostClean não as recorta 
 ## Texto e opções do post
 
 - **10.000 caracteres** por post.
-- **Prévia do link** — o primeiro link do post ganha um card de prévia. Remova com o **×** no card (`meta.link_preview: false` na API), ou use **Trocar prévia do link por mídia**.
-- **Texto alternativo** — até 1.000 caracteres por imagem.
+- **Prévia do link**: o primeiro link do post ganha um card de prévia. Remova com o **×** no card (`meta.link_preview: false` na API), ou use **Trocar prévia do link por mídia**.
+- **Texto alternativo**: até 1.000 caracteres por imagem.
 
 ## Insights
 

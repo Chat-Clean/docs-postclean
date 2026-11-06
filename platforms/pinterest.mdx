@@ -19,7 +19,7 @@ O PostClean abre a página **Publicar** do novo canal e pergunta quantas vezes p
 
 O Pinterest exige que todo pin pertença a uma **pasta** (board). Quando você posta num canal do Pinterest, as configurações dele no editor mostram **Fixar em** com uma lista de pastas que dá para pesquisar. Escolha uma pasta, ou digite um nome e clique em **Criar** para fazer uma nova.
 
-Um post sem pasta não pode ser agendado nem publicado — o editor, a [API REST](/api-reference/introduction) e o MCP recusam o post pedindo que você selecione uma pasta do Pinterest. Na API, envie a pasta em `meta.board_id`; liste as pastas com [List Pinterest boards](/api-reference/social-accounts/list-pinterest-boards) (`GET /social-accounts/{account}/boards`) e crie uma com [Create Pinterest board](/api-reference/social-accounts/create-pinterest-board) (`POST /social-accounts/{account}/boards`).
+Um post sem pasta não pode ser agendado nem publicado: o editor, a [API REST](/api-reference/introduction) e o MCP recusam o post pedindo que você selecione uma pasta do Pinterest. Na API, envie a pasta em `meta.board_id`; liste as pastas com [List Pinterest boards](/api-reference/social-accounts/list-pinterest-boards) (`GET /social-accounts/{account}/boards`) e crie uma com [Create Pinterest board](/api-reference/social-accounts/create-pinterest-board) (`POST /social-accounts/{account}/boards`).
 
 ## Tipos de conteúdo
 
@@ -35,19 +35,19 @@ A mídia anexada define o tipo.
 
 | `content_type` | Imagem | Vídeo | Duração | Formato |
 |----------------|--------|-------|---------|---------|
-| `pinterest_pin` | 10 MB | — | — | JPEG/PNG |
-| `pinterest_video_pin` | — | 1 GB | 15 minutos | MP4 ou MOV |
-| `pinterest_carousel` | 10 MB | — | — | JPEG/PNG, de 2 a 5 imagens |
+| `pinterest_pin` | 10 MB | Não aceita | Não se aplica | JPEG/PNG |
+| `pinterest_video_pin` | Não aceita | 1 GB | 15 minutos | MP4 ou MOV |
+| `pinterest_carousel` | 10 MB | Não aceita | Não se aplica | JPEG/PNG, de 2 a 5 imagens |
 
 Especificações oficiais: [Creating boards and pins](https://developers.pinterest.com/docs/work-with-organic-content-and-users/create-boards-and-pins/), [Product specs](https://help.pinterest.com/en/business/article/pinterest-product-specs). Catálogo completo: [Mídia](/knowledge-base/media#pinterest).
 
 ## Texto e opções do post
 
-- **Descrição** — o texto do post, até **800 caracteres**.
-- **Título** — título opcional do pin (`meta.title`, até 100 caracteres).
-- **Link de destino** — para onde o pin leva (`meta.link`, http ou https, até 2.048 caracteres).
-- **Capa do vídeo** — escolha o quadro de capa de um pin de vídeo em **Editar mídia** > **Miniatura**.
-- **Texto alternativo** — até 500 caracteres por imagem.
+- **Descrição**: o texto do post, até **800 caracteres**.
+- **Título**: título opcional do pin (`meta.title`, até 100 caracteres).
+- **Link de destino**: para onde o pin leva (`meta.link`, http ou https, até 2.048 caracteres).
+- **Capa do vídeo**: escolha o quadro de capa de um pin de vídeo em **Editar mídia** > **Miniatura**.
+- **Texto alternativo**: até 500 caracteres por imagem.
 
 ## Insights
 

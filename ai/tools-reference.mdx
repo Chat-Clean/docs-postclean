@@ -112,18 +112,18 @@ Arquivos aceitos: imagens JPEG, PNG, GIF e WebP (HEIC e HEIF quando o servidor c
 
 | Plataforma | Chaves | Obrigatório para agendar ou publicar |
 |----------|------|---------------------------------|
-| X, Bluesky, Mastodon | `thread_replies`: até 24 respostas publicadas abaixo do post, cada uma `{text, media}` (até 4 mídias por resposta) ou uma string simples. Cada resposta cabe no limite de texto da conta (Bluesky 300, Mastodon 500 com o aviso de conteúdo, X 280 ou 25000 para contas com posts longos). O X também aceita `is_ai_generated` | — |
-| Mastodon | `spoiler_text` (aviso de conteúdo, até 500; conta dentro dos 500 caracteres e se repete em cada resposta) | — |
+| X, Bluesky, Mastodon | `thread_replies`: até 24 respostas publicadas abaixo do post, cada uma `{text, media}` (até 4 mídias por resposta) ou uma string simples. Cada resposta cabe no limite de texto da conta (Bluesky 300, Mastodon 500 com o aviso de conteúdo, X 280 ou 25000 para contas com posts longos). O X também aceita `is_ai_generated` | Nada |
+| Mastodon | `spoiler_text` (aviso de conteúdo, até 500; conta dentro dos 500 caracteres e se repete em cada resposta) | Nada |
 | TikTok | `privacy_level` (`PUBLIC_TO_EVERYONE` \| `MUTUAL_FOLLOW_FRIENDS` \| `FOLLOWER_OF_CREATOR` \| `SELF_ONLY`); `allow_comments`, `disclose`, `brand_content_toggle`, `brand_organic_toggle`; em `tiktok_video` também `allow_duet`, `allow_stitch`, `is_aigc`; em `tiktok_photo` também `auto_add_music`. `SELF_ONLY` não pode ser combinado com `brand_content_toggle` | `privacy_level` |
 | Pinterest | `board_id`, `title` (até 100), `link` | `board_id` |
 | Discord | `channel_id`, `channel_name` (o nome do canal mostrado no app), `mentions` (`[{token, label}]`), `embeds` (até 10 `{title, description, url, image, color}`) | `channel_id` |
 | YouTube | `title` (até 100, sem `<` nem `>`), `description` (até 5000 bytes), `category_id` (padrão `22`), `privacy_status` (`public` \| `unlisted` \| `private`), `license`, `notify_subscribers`, `embeddable`, `made_for_kids`, `is_ai_generated` | Um título, ou texto de onde tirar o título |
-| Instagram | `is_ai_generated` (feed, reels, stories e carrosséis); em `instagram_reel` também `share_to_feed` (padrão `true`). Um post `instagram_feed` com um único vídeo é publicado como Reel. As marcações de pessoas e a capa do vídeo ficam em cada item de mídia (veja a seção Mídia, acima). No máximo 5 hashtags | — |
-| Threads | `topic_tag` (1 a 50 caracteres, sem `.` nem `&`). O tipo `threads_ghost_post` é um post só de texto arquivado depois de 24 horas | — |
-| Facebook, Bluesky, LinkedIn | `link_preview` (padrão `true`; `false` publica o link sem o cartão de prévia) | — |
-| LinkedIn, LinkedIn Page | `document_title` (até 300, para posts de documento PDF) | — |
+| Instagram | `is_ai_generated` (feed, reels, stories e carrosséis); em `instagram_reel` também `share_to_feed` (padrão `true`). Um post `instagram_feed` com um único vídeo é publicado como Reel. As marcações de pessoas e a capa do vídeo ficam em cada item de mídia (veja a seção Mídia, acima). No máximo 5 hashtags | Nada |
+| Threads | `topic_tag` (1 a 50 caracteres, sem `.` nem `&`). O tipo `threads_ghost_post` é um post só de texto arquivado depois de 24 horas | Nada |
+| Facebook, Bluesky, LinkedIn | `link_preview` (padrão `true`; `false` publica o link sem o cartão de prévia) | Nada |
+| LinkedIn, LinkedIn Page | `document_title` (até 300, para posts de documento PDF) | Nada |
 | Google Business | `topic_type` (`STANDARD` \| `EVENT` \| `OFFER`), `call_to_action` `{action_type, url}`, `event` `{title, start_date, end_date, start_time, end_time}`, `offer` `{coupon_code, redeem_online_url, terms_conditions}` | `event` em `EVENT`/`OFFER`; `call_to_action.url` exceto em `NONE`/`CALL`. `action_type` é um de `NONE`, `BOOK`, `ORDER`, `SHOP`, `LEARN_MORE`, `SIGN_UP`, `CALL`; ofertas não aceitam chamada para ação |
-| Telegram, reels e stories do Facebook | nenhuma | — |
+| Telegram, reels e stories do Facebook | nenhuma | Nada |
 
 Stories do Instagram e do Facebook não publicam texto.
 

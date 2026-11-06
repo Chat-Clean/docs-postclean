@@ -254,13 +254,13 @@ Ordem de tentativa, segundo o guia [OAuth over SSH](https://hermes-agent.nousres
   <Accordion title="O Hermes não consegue acessar o servidor">
     O Hermes se conecta a partir da máquina em que o agente roda. O endpoint do PostClean é público, então essa máquina precisa ter acesso à internet por HTTPS. Confira se a URL está exatamente como acima. Se o erro continuar, fale com o [suporte](/support).
   </Accordion>
-  <Accordion title="HTTP 402 — Active subscription required">
+  <Accordion title="HTTP 402: Active subscription required">
     A autorização OAuth funcionou, mas a conta do PostClean não está ativa. Abra o [PostClean](https://post.chatclean.com.br), ative a assinatura e rode `hermes mcp login postclean` de novo. Veja a [introdução](/ai/introduction).
   </Accordion>
   <Accordion title="HTTP 401 ou preciso entrar de novo">
     O token expirou ou foi revogado. Rode `hermes mcp login postclean` de novo.
   </Accordion>
-  <Accordion title="HTTP 403 — MCP OAuth authorization required">
+  <Accordion title="HTTP 403: MCP OAuth authorization required">
     A requisição usou `--auth header` ou um Bearer token em `headers`, ou um token OAuth sem `mcp:use`. Remova o cabeçalho, mantenha `auth: oauth` e entre de novo.
   </Accordion>
   <Accordion title="Usei hermes mcp install postclean e nada aconteceu">

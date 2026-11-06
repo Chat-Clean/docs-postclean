@@ -54,20 +54,20 @@ Não há um tipo separado para carrossel: um post com várias imagens é um `ins
 | `content_type` | Imagem | Vídeo | Duração | Proporção | Formato |
 |----------------|--------|-------|---------|-----------|---------|
 | `instagram_feed` | 8 MB | 100 MB | 60 segundos | Imagens de 3:4 a 1,91:1 | JPEG depois do upload. Vídeo MP4 ou MOV |
-| `instagram_reel` | — | 300 MB | 15 minutos | — | MOV ou MP4 |
+| `instagram_reel` | Não aceita | 300 MB | 15 minutos | Sem regra | MOV ou MP4 |
 | `instagram_story` | 8 MB | 100 MB | 60 segundos | Imagens ajustadas para 9:16 | Igual ao feed |
 
-Uma imagem de feed fora de 3:4 a 1,91:1 impede o agendamento e a publicação; use os recortes prontos (3:4, 4:5, 1:1, 1,91:1) em **Editar mídia**. GIFs não são aceitos. Um vídeo sozinho em `instagram_feed` é publicado pelo contêiner de Reels; os 100 MB / 60 segundos de `instagram_feed` são uma regra conservadora do PostClean (a Meta só documenta a especificação de Reels) — use `instagram_reel` para vídeos mais longos. Especificações oficiais: [IG User Media](https://developers.facebook.com/docs/instagram-platform/instagram-graph-api/reference/ig-user/media/). Catálogo completo: [Mídia](/knowledge-base/media#instagram).
+Uma imagem de feed fora de 3:4 a 1,91:1 impede o agendamento e a publicação; use os recortes prontos (3:4, 4:5, 1:1, 1,91:1) em **Editar mídia**. GIFs não são aceitos. Um vídeo sozinho em `instagram_feed` é publicado pelo contêiner de Reels; os 100 MB / 60 segundos de `instagram_feed` são uma regra conservadora do PostClean (a Meta só documenta a especificação de Reels). Use `instagram_reel` para vídeos mais longos. Especificações oficiais: [IG User Media](https://developers.facebook.com/docs/instagram-platform/instagram-graph-api/reference/ig-user/media/). Catálogo completo: [Mídia](/knowledge-base/media#instagram).
 
 ## Texto e opções do post
 
 - **2.200 caracteres** por legenda.
 - **No máximo 5 hashtags.** Um post com mais não pode ser agendado nem publicado (no app, na API e no MCP); um rascunho ainda pode ser salvo. Stories ficam de fora porque não enviam legenda.
-- **Enviar ao feed** — um Reel também aparece na grade do seu perfil por padrão; desligue em **Enviar ao feed** (`meta.share_to_feed`). Vale só para o tipo **Reels**: um **Post do Feed** com um vídeo sozinho também é publicado como Reel, mas sem essa opção.
-- **Gerado por IA** — identifique o post como feito com IA (`meta.is_ai_generated`).
-- **Marcar pessoas** — marque até 20 contas em cada imagem do feed em **Editar mídia** > **Marcar pessoas** (`media[].meta.user_tags`).
-- **Capa do vídeo** — escolha o quadro exibido como capa de um vídeo do feed ou de um reel em **Editar mídia** > **Miniatura**.
-- **Texto alternativo** — até 1.000 caracteres por imagem.
+- **Enviar ao feed**: um Reel também aparece na grade do seu perfil por padrão; desligue em **Enviar ao feed** (`meta.share_to_feed`). Vale só para o tipo **Reels**: um **Post do Feed** com um vídeo sozinho também é publicado como Reel, mas sem essa opção.
+- **Gerado por IA**: identifique o post como feito com IA (`meta.is_ai_generated`).
+- **Marcar pessoas**: marque até 20 contas em cada imagem do feed em **Editar mídia** > **Marcar pessoas** (`media[].meta.user_tags`).
+- **Capa do vídeo**: escolha o quadro exibido como capa de um vídeo do feed ou de um reel em **Editar mídia** > **Miniatura**.
+- **Texto alternativo**: até 1.000 caracteres por imagem.
 
 ## Insights
 
