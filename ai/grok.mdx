@@ -23,7 +23,7 @@ Esta página trata dos **conectores do chat do Grok**. Ela não cobre o [Grok Bu
 Use exatamente esta URL. Não coloque barra no final. Não cole uma URL de autorização OAuth.
 
 ```
-https://post.chatclean.com.br/mcp/trypost
+https://postclean.com.br/mcp/trypost
 ```
 
 ## Configuração
@@ -42,7 +42,7 @@ https://post.chatclean.com.br/mcp/trypost
     Cole a URL do servidor MCP:
 
     ```
-    https://post.chatclean.com.br/mcp/trypost
+    https://postclean.com.br/mcp/trypost
     ```
 
     Se o Grok pedir um nome, use `PostClean`.
@@ -103,7 +103,7 @@ Nesses planos, os membros só conseguem adicionar um conector personalizado depo
 <Accordion title="Administrador: libere o PostClean para o time">
   1. Entre em [console.x.ai](https://console.x.ai), selecione o time e abra **Grok Business → Connectors**
   2. Clique em **+ Add Connector** → **Other**
-  3. Cole `https://post.chatclean.com.br/mcp/trypost`
+  3. Cole `https://postclean.com.br/mcp/trypost`
   4. Conclua o login no PostClean se o Grok pedir
 
   Adicionar e remover conectores exige a permissão **Team Read-Write**. A página de [gerenciamento de conectores](https://docs.x.ai/grok/connector-management) da xAI tem o fluxo completo para administradores.
@@ -115,7 +115,7 @@ Nesses planos, os membros só conseguem adicionar um conector personalizado depo
 
 <AccordionGroup>
   <Accordion title="O Grok nunca pede para eu entrar no PostClean">
-    Talvez você tenha colado a URL errada. Use `https://post.chatclean.com.br/mcp/trypost`, e não `/oauth/authorize`, nem `/api`, nem com barra no final. Remova o conector, adicione de novo e permita pop-ups para a janela do OAuth poder abrir.
+    Talvez você tenha colado a URL errada. Use `https://postclean.com.br/mcp/trypost`, e não `/oauth/authorize`, nem `/api`, nem com barra no final. Remova o conector, adicione de novo e permita pop-ups para a janela do OAuth poder abrir.
   </Accordion>
   <Accordion title="O conector foi adicionado, mas o Grok não chama as tools do PostClean">
     Conclua o OAuth. O Grok pode listar um servidor personalizado antes de você autorizá-lo. Abra **[grok.com/connectors](https://grok.com/connectors)**, conecte o PostClean, escolha o workspace e clique em **Autorizar** na tela do PostClean. Depois comece uma conversa **nova** e peça para ele usar o conector do PostClean.
@@ -124,7 +124,7 @@ Nesses planos, os membros só conseguem adicionar um conector personalizado depo
     O Grok acessa o servidor MCP a partir da nuvem da xAI. O endpoint do PostClean é público, então confira se a URL está exatamente como acima. Se o erro continuar, fale com o [suporte](/support).
   </Accordion>
   <Accordion title="HTTP 402: Active subscription required">
-    A autorização OAuth funcionou, mas a conta do PostClean não está ativa. Abra o [PostClean](https://post.chatclean.com.br), ative a assinatura e reconecte o conector. Veja a [introdução](/ai/introduction).
+    A autorização OAuth funcionou, mas a conta do PostClean não está ativa. Abra o [PostClean](https://postclean.com.br), ative a assinatura e reconecte o conector. Veja a [introdução](/ai/introduction).
   </Accordion>
   <Accordion title="HTTP 401 ou preciso entrar de novo">
     A sessão OAuth expirou ou foi revogada. Abra o conector e faça o login de novo.

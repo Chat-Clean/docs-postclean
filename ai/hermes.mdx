@@ -28,7 +28,7 @@ Esta página trata do **Hermes como cliente MCP**: você aponta o Hermes para o 
 Use exatamente esta URL. Não coloque barra no final. Não cole uma URL de autorização OAuth. Não use `/api`.
 
 ```
-https://post.chatclean.com.br/mcp/trypost
+https://postclean.com.br/mcp/trypost
 ```
 
 Deixe o transporte no padrão do Hermes (Streamable HTTP). Não defina `transport: sse`.
@@ -44,7 +44,7 @@ Escolha **um** jeito de adicionar o servidor. Não rode `login` depois de um `ad
     **Pelo CLI.** O [`hermes mcp add`](https://hermes-agent.nousresearch.com/docs/reference/cli-commands) grava o servidor e já conecta (essa conexão é o primeiro OAuth). Dê tempo para o teste de conexão esperar o login no navegador:
 
     ```bash
-    hermes mcp add postclean --url https://post.chatclean.com.br/mcp/trypost --auth oauth --connect-timeout 300
+    hermes mcp add postclean --url https://postclean.com.br/mcp/trypost --auth oauth --connect-timeout 300
     ```
 
     O `--auth` só aceita `oauth` ou `header`. Use **`oauth`**.
@@ -142,7 +142,7 @@ Configuração equivalente à que o `hermes mcp add` grava, no [formato HTTP com
 ```yaml
 mcp_servers:
   postclean:
-    url: "https://post.chatclean.com.br/mcp/trypost"
+    url: "https://postclean.com.br/mcp/trypost"
     auth: oauth
 ```
 
@@ -202,7 +202,7 @@ Ordem de tentativa, segundo o guia [OAuth over SSH](https://hermes-agent.nousres
   ```yaml
   mcp_servers:
     postclean:
-      url: "https://post.chatclean.com.br/mcp/trypost"
+      url: "https://postclean.com.br/mcp/trypost"
       auth: oauth
       oauth:
         redirect_port: 8765
@@ -230,7 +230,7 @@ Ordem de tentativa, segundo o guia [OAuth over SSH](https://hermes-agent.nousres
 
 | Comando | O que faz |
 |---------|----------------|
-| `hermes mcp add postclean --url https://post.chatclean.com.br/mcp/trypost --auth oauth --connect-timeout 300` | Grava o servidor e roda o OAuth durante o teste de conexão |
+| `hermes mcp add postclean --url https://postclean.com.br/mcp/trypost --auth oauth --connect-timeout 300` | Grava o servidor e roda o OAuth durante o teste de conexão |
 | `hermes mcp login postclean` | Apaga o token guardado e roda o OAuth de novo (ou pela primeira vez, depois de adicionar só pelo YAML) |
 | `hermes mcp reauth postclean` | O mesmo que `login`, para um servidor (`--all` passa por todos os servidores OAuth) |
 | `hermes mcp list` | Mostra os servidores configurados |
@@ -255,7 +255,7 @@ Ordem de tentativa, segundo o guia [OAuth over SSH](https://hermes-agent.nousres
     O Hermes se conecta a partir da máquina em que o agente roda. O endpoint do PostClean é público, então essa máquina precisa ter acesso à internet por HTTPS. Confira se a URL está exatamente como acima. Se o erro continuar, fale com o [suporte](/support).
   </Accordion>
   <Accordion title="HTTP 402: Active subscription required">
-    A autorização OAuth funcionou, mas a conta do PostClean não está ativa. Abra o [PostClean](https://post.chatclean.com.br), ative a assinatura e rode `hermes mcp login postclean` de novo. Veja a [introdução](/ai/introduction).
+    A autorização OAuth funcionou, mas a conta do PostClean não está ativa. Abra o [PostClean](https://postclean.com.br), ative a assinatura e rode `hermes mcp login postclean` de novo. Veja a [introdução](/ai/introduction).
   </Accordion>
   <Accordion title="HTTP 401 ou preciso entrar de novo">
     O token expirou ou foi revogado. Rode `hermes mcp login postclean` de novo.

@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://post.chatclean.com.br/api",
+      "url": "https://postclean.com.br/api",
       "description": "PostClean"
     }
   ],
@@ -182,7 +182,7 @@
                         {
                           "id": "9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f",
                           "path": "medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
-                          "url": "https://post.chatclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
+                          "url": "https://postclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
                           "type": "image",
                           "mime_type": "image/jpeg",
                           "original_filename": "lancamento.jpg",
@@ -254,8 +254,8 @@
                     }
                   ],
                   "links": {
-                    "first": "https://post.chatclean.com.br/api/posts?page=1",
-                    "last": "https://post.chatclean.com.br/api/posts?page=1",
+                    "first": "https://postclean.com.br/api/posts?page=1",
+                    "last": "https://postclean.com.br/api/posts?page=1",
                     "prev": null,
                     "next": null
                   },
@@ -271,7 +271,7 @@
                         "active": false
                       },
                       {
-                        "url": "https://post.chatclean.com.br/api/posts?page=1",
+                        "url": "https://postclean.com.br/api/posts?page=1",
                         "label": "1",
                         "page": 1,
                         "active": true
@@ -283,7 +283,7 @@
                         "active": false
                       }
                     ],
-                    "path": "https://post.chatclean.com.br/api/posts",
+                    "path": "https://postclean.com.br/api/posts",
                     "per_page": 25,
                     "to": 1,
                     "total": 1
@@ -515,7 +515,7 @@
                     {
                       "id": "9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f",
                       "path": "medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
-                      "url": "https://post.chatclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
+                      "url": "https://postclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
                       "type": "image",
                       "mime_type": "image/jpeg",
                       "original_filename": "lancamento.jpg",
@@ -792,7 +792,7 @@
                         {
                           "id": "9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f",
                           "path": "medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
-                          "url": "https://post.chatclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
+                          "url": "https://postclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
                           "type": "image",
                           "mime_type": "image/jpeg",
                           "original_filename": "lancamento.jpg",
@@ -859,7 +859,7 @@
                         {
                           "id": "9d3c1f31-9b0c-4d1e-8f2a-3b4c5d6e7f80",
                           "path": "medias/9d3c1f31-9b0c-4d1e-8f2a-3b4c5d6e7f80.jpg",
-                          "url": "https://post.chatclean.com.br/storage/medias/9d3c1f31-9b0c-4d1e-8f2a-3b4c5d6e7f80.jpg",
+                          "url": "https://postclean.com.br/storage/medias/9d3c1f31-9b0c-4d1e-8f2a-3b4c5d6e7f80.jpg",
                           "type": "image",
                           "mime_type": "image/jpeg",
                           "original_filename": "lancamento.jpg",
@@ -980,7 +980,7 @@
                     {
                       "id": "9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f",
                       "path": "medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
-                      "url": "https://post.chatclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
+                      "url": "https://postclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
                       "type": "image",
                       "mime_type": "image/jpeg",
                       "original_filename": "lancamento.jpg",
@@ -1251,7 +1251,7 @@
                     {
                       "id": "9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f",
                       "path": "medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
-                      "url": "https://post.chatclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
+                      "url": "https://postclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
                       "type": "image",
                       "mime_type": "image/jpeg",
                       "original_filename": "lancamento.jpg",
@@ -1618,15 +1618,15 @@
                       "author": {
                         "id": "9b1e2d3c-4f5a-4b6c-8d7e-9f0a1b2c3d4e",
                         "name": "Ana Souza",
-                        "photo_url": "https://post.chatclean.com.br/storage/avatars/9b1e2d3c-4f5a-4b6c-8d7e-9f0a1b2c3d4e.jpg"
+                        "photo_url": "https://postclean.com.br/storage/avatars/9b1e2d3c-4f5a-4b6c-8d7e-9f0a1b2c3d4e.jpg"
                       },
                       "created_at": "2026-11-06 14:02:45",
                       "updated_at": "2026-11-06 14:02:45"
                     }
                   ],
                   "links": {
-                    "first": "https://post.chatclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/notes?page=1",
-                    "last": "https://post.chatclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/notes?page=1",
+                    "first": "https://postclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/notes?page=1",
+                    "last": "https://postclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/notes?page=1",
                     "prev": null,
                     "next": null
                   },
@@ -1642,7 +1642,7 @@
                         "active": false
                       },
                       {
-                        "url": "https://post.chatclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/notes?page=1",
+                        "url": "https://postclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/notes?page=1",
                         "label": "1",
                         "page": 1,
                         "active": true
@@ -1654,7 +1654,7 @@
                         "active": false
                       }
                     ],
-                    "path": "https://post.chatclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/notes",
+                    "path": "https://postclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/notes",
                     "per_page": 25,
                     "to": 1,
                     "total": 1
@@ -1728,7 +1728,7 @@
                   "author": {
                     "id": "9b1e2d3c-4f5a-4b6c-8d7e-9f0a1b2c3d4e",
                     "name": "Ana Souza",
-                    "photo_url": "https://post.chatclean.com.br/storage/avatars/9b1e2d3c-4f5a-4b6c-8d7e-9f0a1b2c3d4e.jpg"
+                    "photo_url": "https://postclean.com.br/storage/avatars/9b1e2d3c-4f5a-4b6c-8d7e-9f0a1b2c3d4e.jpg"
                   },
                   "created_at": "2026-11-06 14:02:45",
                   "updated_at": "2026-11-06 14:02:45"
@@ -1814,7 +1814,7 @@
                   "author": {
                     "id": "9b1e2d3c-4f5a-4b6c-8d7e-9f0a1b2c3d4e",
                     "name": "Ana Souza",
-                    "photo_url": "https://post.chatclean.com.br/storage/avatars/9b1e2d3c-4f5a-4b6c-8d7e-9f0a1b2c3d4e.jpg"
+                    "photo_url": "https://postclean.com.br/storage/avatars/9b1e2d3c-4f5a-4b6c-8d7e-9f0a1b2c3d4e.jpg"
                   },
                   "created_at": "2026-11-06 14:02:45",
                   "updated_at": "2026-11-06 14:10:02"
@@ -1937,7 +1937,7 @@
                     {
                       "id": "9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f",
                       "path": "medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
-                      "url": "https://post.chatclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
+                      "url": "https://postclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
                       "type": "image",
                       "mime_type": "image/jpeg",
                       "original_filename": "lancamento.jpg",
@@ -2076,7 +2076,7 @@
                     {
                       "id": "9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f",
                       "path": "medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
-                      "url": "https://post.chatclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
+                      "url": "https://postclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
                       "type": "image",
                       "mime_type": "image/jpeg",
                       "original_filename": "lancamento.jpg",
@@ -2250,7 +2250,7 @@
                     {
                       "id": "9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f",
                       "path": "medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
-                      "url": "https://post.chatclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
+                      "url": "https://postclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
                       "type": "image",
                       "mime_type": "image/jpeg",
                       "original_filename": "lancamento.jpg",
@@ -2377,7 +2377,7 @@
                     {
                       "id": "9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f",
                       "path": "medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
-                      "url": "https://post.chatclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
+                      "url": "https://postclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
                       "type": "image",
                       "mime_type": "image/jpeg",
                       "original_filename": "lancamento.jpg",
@@ -3333,8 +3333,8 @@
                     }
                   ],
                   "links": {
-                    "first": "https://post.chatclean.com.br/api/social-accounts?page=1",
-                    "last": "https://post.chatclean.com.br/api/social-accounts?page=1",
+                    "first": "https://postclean.com.br/api/social-accounts?page=1",
+                    "last": "https://postclean.com.br/api/social-accounts?page=1",
                     "prev": null,
                     "next": null
                   },
@@ -3350,7 +3350,7 @@
                         "active": false
                       },
                       {
-                        "url": "https://post.chatclean.com.br/api/social-accounts?page=1",
+                        "url": "https://postclean.com.br/api/social-accounts?page=1",
                         "label": "1",
                         "page": 1,
                         "active": true
@@ -3362,7 +3362,7 @@
                         "active": false
                       }
                     ],
-                    "path": "https://post.chatclean.com.br/api/social-accounts",
+                    "path": "https://postclean.com.br/api/social-accounts",
                     "per_page": 25,
                     "to": 2,
                     "total": 2
@@ -4878,8 +4878,8 @@
                     }
                   ],
                   "links": {
-                    "first": "https://post.chatclean.com.br/api/ideas?page=1",
-                    "last": "https://post.chatclean.com.br/api/ideas?page=1",
+                    "first": "https://postclean.com.br/api/ideas?page=1",
+                    "last": "https://postclean.com.br/api/ideas?page=1",
                     "prev": null,
                     "next": null
                   },
@@ -4895,7 +4895,7 @@
                         "active": false
                       },
                       {
-                        "url": "https://post.chatclean.com.br/api/ideas?page=1",
+                        "url": "https://postclean.com.br/api/ideas?page=1",
                         "label": "1",
                         "page": 1,
                         "active": true
@@ -4907,7 +4907,7 @@
                         "active": false
                       }
                     ],
-                    "path": "https://post.chatclean.com.br/api/ideas",
+                    "path": "https://postclean.com.br/api/ideas",
                     "per_page": 25,
                     "to": 1,
                     "total": 1
@@ -7222,8 +7222,8 @@
                     }
                   ],
                   "links": {
-                    "first": "https://post.chatclean.com.br/api/channels/9c8b7a65-4d3e-4f2a-8b1c-0d9e8f7a6b54/insights/publications?page=1",
-                    "last": "https://post.chatclean.com.br/api/channels/9c8b7a65-4d3e-4f2a-8b1c-0d9e8f7a6b54/insights/publications?page=1",
+                    "first": "https://postclean.com.br/api/channels/9c8b7a65-4d3e-4f2a-8b1c-0d9e8f7a6b54/insights/publications?page=1",
+                    "last": "https://postclean.com.br/api/channels/9c8b7a65-4d3e-4f2a-8b1c-0d9e8f7a6b54/insights/publications?page=1",
                     "prev": null,
                     "next": null
                   },
@@ -7239,7 +7239,7 @@
                         "active": false
                       },
                       {
-                        "url": "https://post.chatclean.com.br/api/channels/9c8b7a65-4d3e-4f2a-8b1c-0d9e8f7a6b54/insights/publications?page=1",
+                        "url": "https://postclean.com.br/api/channels/9c8b7a65-4d3e-4f2a-8b1c-0d9e8f7a6b54/insights/publications?page=1",
                         "label": "1",
                         "page": 1,
                         "active": true
@@ -7251,7 +7251,7 @@
                         "active": false
                       }
                     ],
-                    "path": "https://post.chatclean.com.br/api/channels/9c8b7a65-4d3e-4f2a-8b1c-0d9e8f7a6b54/insights/publications",
+                    "path": "https://postclean.com.br/api/channels/9c8b7a65-4d3e-4f2a-8b1c-0d9e8f7a6b54/insights/publications",
                     "per_page": 25,
                     "to": 1,
                     "total": 1
@@ -7359,8 +7359,8 @@
                     }
                   ],
                   "links": {
-                    "first": "https://post.chatclean.com.br/api/labels?page=1",
-                    "last": "https://post.chatclean.com.br/api/labels?page=1",
+                    "first": "https://postclean.com.br/api/labels?page=1",
+                    "last": "https://postclean.com.br/api/labels?page=1",
                     "prev": null,
                     "next": null
                   },
@@ -7376,7 +7376,7 @@
                         "active": false
                       },
                       {
-                        "url": "https://post.chatclean.com.br/api/labels?page=1",
+                        "url": "https://postclean.com.br/api/labels?page=1",
                         "label": "1",
                         "page": 1,
                         "active": true
@@ -7388,7 +7388,7 @@
                         "active": false
                       }
                     ],
-                    "path": "https://post.chatclean.com.br/api/labels",
+                    "path": "https://postclean.com.br/api/labels",
                     "per_page": 25,
                     "to": 1,
                     "total": 1
@@ -7657,8 +7657,8 @@
                     }
                   ],
                   "links": {
-                    "first": "https://post.chatclean.com.br/api/signatures?page=1",
-                    "last": "https://post.chatclean.com.br/api/signatures?page=1",
+                    "first": "https://postclean.com.br/api/signatures?page=1",
+                    "last": "https://postclean.com.br/api/signatures?page=1",
                     "prev": null,
                     "next": null
                   },
@@ -7674,7 +7674,7 @@
                         "active": false
                       },
                       {
-                        "url": "https://post.chatclean.com.br/api/signatures?page=1",
+                        "url": "https://postclean.com.br/api/signatures?page=1",
                         "label": "1",
                         "page": 1,
                         "active": true
@@ -7686,7 +7686,7 @@
                         "active": false
                       }
                     ],
-                    "path": "https://post.chatclean.com.br/api/signatures",
+                    "path": "https://postclean.com.br/api/signatures",
                     "per_page": 25,
                     "to": 1,
                     "total": 1
@@ -7999,8 +7999,8 @@
                     }
                   ],
                   "links": {
-                    "first": "https://post.chatclean.com.br/api/api-keys?page=1",
-                    "last": "https://post.chatclean.com.br/api/api-keys?page=1",
+                    "first": "https://postclean.com.br/api/api-keys?page=1",
+                    "last": "https://postclean.com.br/api/api-keys?page=1",
                     "prev": null,
                     "next": null
                   },
@@ -8016,7 +8016,7 @@
                         "active": false
                       },
                       {
-                        "url": "https://post.chatclean.com.br/api/api-keys?page=1",
+                        "url": "https://postclean.com.br/api/api-keys?page=1",
                         "label": "1",
                         "page": 1,
                         "active": true
@@ -8028,7 +8028,7 @@
                         "active": false
                       }
                     ],
-                    "path": "https://post.chatclean.com.br/api/api-keys",
+                    "path": "https://postclean.com.br/api/api-keys",
                     "per_page": 25,
                     "to": 1,
                     "total": 1
@@ -8241,8 +8241,8 @@
                     }
                   ],
                   "links": {
-                    "first": "https://post.chatclean.com.br/api/webhooks?page=1",
-                    "last": "https://post.chatclean.com.br/api/webhooks?page=1",
+                    "first": "https://postclean.com.br/api/webhooks?page=1",
+                    "last": "https://postclean.com.br/api/webhooks?page=1",
                     "prev": null,
                     "next": null
                   },
@@ -8258,7 +8258,7 @@
                         "active": false
                       },
                       {
-                        "url": "https://post.chatclean.com.br/api/webhooks?page=1",
+                        "url": "https://postclean.com.br/api/webhooks?page=1",
                         "label": "1",
                         "page": 1,
                         "active": true
@@ -8270,7 +8270,7 @@
                         "active": false
                       }
                     ],
-                    "path": "https://post.chatclean.com.br/api/webhooks",
+                    "path": "https://postclean.com.br/api/webhooks",
                     "per_page": 25,
                     "to": 1,
                     "total": 1
@@ -8694,8 +8694,8 @@
                     }
                   ],
                   "links": {
-                    "first": "https://post.chatclean.com.br/api/webhooks/9b2c3d4e-5f6a-4b7c-8d9e-0f1a2b3c4d5e/logs?page=1",
-                    "last": "https://post.chatclean.com.br/api/webhooks/9b2c3d4e-5f6a-4b7c-8d9e-0f1a2b3c4d5e/logs?page=1",
+                    "first": "https://postclean.com.br/api/webhooks/9b2c3d4e-5f6a-4b7c-8d9e-0f1a2b3c4d5e/logs?page=1",
+                    "last": "https://postclean.com.br/api/webhooks/9b2c3d4e-5f6a-4b7c-8d9e-0f1a2b3c4d5e/logs?page=1",
                     "prev": null,
                     "next": null
                   },
@@ -8711,7 +8711,7 @@
                         "active": false
                       },
                       {
-                        "url": "https://post.chatclean.com.br/api/webhooks/9b2c3d4e-5f6a-4b7c-8d9e-0f1a2b3c4d5e/logs?page=1",
+                        "url": "https://postclean.com.br/api/webhooks/9b2c3d4e-5f6a-4b7c-8d9e-0f1a2b3c4d5e/logs?page=1",
                         "label": "1",
                         "page": 1,
                         "active": true
@@ -8723,7 +8723,7 @@
                         "active": false
                       }
                     ],
-                    "path": "https://post.chatclean.com.br/api/webhooks/9b2c3d4e-5f6a-4b7c-8d9e-0f1a2b3c4d5e/logs",
+                    "path": "https://postclean.com.br/api/webhooks/9b2c3d4e-5f6a-4b7c-8d9e-0f1a2b3c4d5e/logs",
                     "per_page": 25,
                     "to": 1,
                     "total": 1
@@ -9093,8 +9093,8 @@
                     }
                   ],
                   "links": {
-                    "first": "https://post.chatclean.com.br/api/repurposes?page=1",
-                    "last": "https://post.chatclean.com.br/api/repurposes?page=1",
+                    "first": "https://postclean.com.br/api/repurposes?page=1",
+                    "last": "https://postclean.com.br/api/repurposes?page=1",
                     "prev": null,
                     "next": null
                   },
@@ -9110,7 +9110,7 @@
                         "active": false
                       },
                       {
-                        "url": "https://post.chatclean.com.br/api/repurposes?page=1",
+                        "url": "https://postclean.com.br/api/repurposes?page=1",
                         "label": "1",
                         "page": 1,
                         "active": true
@@ -9122,7 +9122,7 @@
                         "active": false
                       }
                     ],
-                    "path": "https://post.chatclean.com.br/api/repurposes",
+                    "path": "https://postclean.com.br/api/repurposes",
                     "per_page": 25,
                     "to": 1,
                     "total": 1
@@ -9882,8 +9882,8 @@
                     }
                   ],
                   "links": {
-                    "first": "https://post.chatclean.com.br/api/repurposes/9a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d/items?page=1",
-                    "last": "https://post.chatclean.com.br/api/repurposes/9a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d/items?page=1",
+                    "first": "https://postclean.com.br/api/repurposes/9a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d/items?page=1",
+                    "last": "https://postclean.com.br/api/repurposes/9a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d/items?page=1",
                     "prev": null,
                     "next": null
                   },
@@ -9899,7 +9899,7 @@
                         "active": false
                       },
                       {
-                        "url": "https://post.chatclean.com.br/api/repurposes/9a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d/items?page=1",
+                        "url": "https://postclean.com.br/api/repurposes/9a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d/items?page=1",
                         "label": "1",
                         "page": 1,
                         "active": true
@@ -9911,7 +9911,7 @@
                         "active": false
                       }
                     ],
-                    "path": "https://post.chatclean.com.br/api/repurposes/9a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d/items",
+                    "path": "https://postclean.com.br/api/repurposes/9a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d/items",
                     "per_page": 25,
                     "to": 1,
                     "total": 1
@@ -10382,7 +10382,7 @@
               {
                 "id": "9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f",
                 "path": "medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
-                "url": "https://post.chatclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
+                "url": "https://postclean.com.br/storage/medias/9d3c1f30-8a9b-4c0d-9e1f-2a3b4c5d6e7f.jpg",
                 "type": "image",
                 "mime_type": "image/jpeg",
                 "original_filename": "lancamento.jpg",

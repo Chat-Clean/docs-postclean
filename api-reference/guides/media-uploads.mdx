@@ -36,7 +36,7 @@ Esses são os limites para qualquer upload. Cada rede tem os seus próprios limi
 | `id` | Um item de mídia que já está neste workspace, como o `media[].id` de outro post. O arquivo é copiado |
 
 ```bash
-curl -X POST https://post.chatclean.com.br/api/posts \
+curl -X POST https://postclean.com.br/api/posts \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json" \
@@ -60,7 +60,7 @@ A ordem da lista é a ordem da mídia no post. Em [Atualizar post](/api-referenc
 [Criar upload](/api-reference/media-and-uploads/create-upload) recebe um arquivo como `multipart/form-data`, sem post, e devolve um `upload_token`:
 
 ```bash
-curl -X POST https://post.chatclean.com.br/api/uploads \
+curl -X POST https://postclean.com.br/api/uploads \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Accept: application/json" \
   -F media=@launch-video.mp4
@@ -83,7 +83,7 @@ O campo `url` traz o endereço público do arquivo enviado; o exemplo acima usa 
 Use o token como item de mídia (`{ "upload_token": "..." }`) na criação ou na atualização, ou anexe-o a um post que já existe com [Anexar mídia de um upload](/api-reference/media-and-uploads/attach-media-from-upload):
 
 ```bash
-curl -X POST https://post.chatclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/media/from-upload \
+curl -X POST https://postclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/media/from-upload \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json" \
@@ -96,7 +96,7 @@ curl -X POST https://post.chatclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7
 Para enviar direto para um post que já existe, [Enviar mídia](/api-reference/media-and-uploads/upload-media) faz as duas etapas numa chamada só:
 
 ```bash
-curl -X POST https://post.chatclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/media \
+curl -X POST https://postclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/media \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Accept: application/json" \
   -F media=@launch.jpg
@@ -109,7 +109,7 @@ Os dois colocam o arquivo no fim da mídia do post e devolvem o post.
 [Anexar mídia por URL](/api-reference/media-and-uploads/attach-media-from-url) baixa de **1 a 10** arquivos e os adiciona a um post:
 
 ```bash
-curl -X POST https://post.chatclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/media/from-url \
+curl -X POST https://postclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41/media/from-url \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json" \

@@ -9,9 +9,9 @@
 
 | Serviço | URL |
 | --- | --- |
-| App | `https://post.chatclean.com.br` |
-| API REST | `https://post.chatclean.com.br/api` |
-| Servidor MCP | `https://post.chatclean.com.br/mcp/trypost` (o caminho é esse mesmo) |
+| App | `https://postclean.com.br` |
+| API REST | `https://postclean.com.br/api` |
+| Servidor MCP | `https://postclean.com.br/mcp/trypost` (o caminho é esse mesmo) |
 | Suporte | `contato@chatclean.com.br` |
 
 Nos guias de clientes de IA, o nome do servidor MCP é `postclean`.

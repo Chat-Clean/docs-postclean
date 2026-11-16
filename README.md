@@ -1,6 +1,6 @@
 # Documentação do PostClean
 
-Documentação do [PostClean](https://post.chatclean.com.br), o agendador de redes sociais da ChatClean. Site em Mintlify, servido em https://docs.postclean.com.br.
+Documentação do [PostClean](https://postclean.com.br), o agendador de redes sociais da ChatClean. Site em Mintlify, servido em https://docs.postclean.com.br.
 
 Adaptada da documentação do [TryPost](https://github.com/trypostit/trypost-docs) (MIT). Veja `LICENSE`.
 
