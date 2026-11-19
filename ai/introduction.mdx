@@ -30,7 +30,7 @@ O servidor oferece 82 ferramentas. Veja a [referência de ferramentas](/ai/tools
 ### O que o MCP não faz
 
 - **Gerar conteúdo com IA.** Não existe ferramenta MCP para gerar ou reescrever conteúdo. O próprio assistente escreve o texto e envia para o PostClean; o assistente de escrita com IA fica no app web. O Repost pode encurtar legendas com IA em segundo plano, inclusive nas regras criadas pelo MCP.
-- Conectar, reconectar ou desconectar canais, transformar ideias em posts, gerenciar modelos, membros, convites, cobrança ou as automações do Instagram. Para isso, use o [app web](https://postclean.com.br).
+- Conectar, reconectar ou desconectar canais, transformar ideias em posts, gerenciar modelos, membros, convites, cobrança ou as automações do Instagram. Para isso, use o [app web](https://app.postclean.com.br).
 
 ## Como funciona
 
@@ -40,7 +40,7 @@ O servidor oferece 82 ferramentas. Veja a [referência de ferramentas](/ai/tools
 
 <Steps>
   <Step title="Adicione o servidor MCP do PostClean no seu assistente">
-    Na configuração de MCP do assistente, adicione um servidor HTTP remoto apontando para `https://postclean.com.br/mcp/trypost`. Cada guia de cliente, no fim desta página, traz o comando ou o arquivo de configuração exato.
+    Na configuração de MCP do assistente, adicione um servidor HTTP remoto apontando para `https://app.postclean.com.br/mcp/trypost`. Cada guia de cliente, no fim desta página, traz o comando ou o arquivo de configuração exato.
 
     No app, **Configurações → MCP** mostra a mesma URL em **Copie a URL do servidor PostClean** (botão **Copiar URL**), atalhos para o Claude e o ChatGPT e, em **Outros apps**, o **Nome**, a **URL do servidor** e o **Config** prontos para Cursor, VS Code, Claude Code e qualquer cliente que leia um config `mcpServers`. O nome do servidor é só um rótulo: o app sugere `PostClean`, e estes guias usam `postclean`.
   </Step>
@@ -55,7 +55,7 @@ O servidor oferece 82 ferramentas. Veja a [referência de ferramentas](/ai/tools
 ## URL do servidor
 
 ```
-https://postclean.com.br/mcp/trypost
+https://app.postclean.com.br/mcp/trypost
 ```
 
 <Note>
@@ -87,7 +87,7 @@ Veja [Membros e permissões](/knowledge-base/settings/members-and-permissions) e
 
 <AccordionGroup>
   <Accordion title="HTTP 402: Active subscription required">
-    A autorização OAuth é válida e a configuração está certa, mas a conta não tem assinatura ativa. Abra o [PostClean](https://postclean.com.br), escolha um plano e conecte o servidor MCP de novo.
+    A autorização OAuth é válida e a configuração está certa, mas a conta não tem assinatura ativa. Abra o [PostClean](https://app.postclean.com.br), escolha um plano e conecte o servidor MCP de novo.
   </Accordion>
   <Accordion title="HTTP 401: Unauthenticated">
     A sessão OAuth expirou e a renovação falhou; o token de acesso está faltando, malformado ou foi revogado (sair do workspace revoga o token); ou o workspace ligado a ele foi excluído (`No workspace selected.`). Rode de novo o fluxo de conexão do assistente para entrar outra vez.

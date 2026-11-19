@@ -9,7 +9,7 @@ A API REST do PostClean permite que scripts e integrações façam o que você f
 ## URL base
 
 ```
-https://postclean.com.br/api
+https://app.postclean.com.br/api
 ```
 
 ## Autenticação
@@ -17,7 +17,7 @@ https://postclean.com.br/api
 Toda requisição envia uma chave de API do workspace como token Bearer no cabeçalho `Authorization`:
 
 ```bash
-curl https://postclean.com.br/api/workspace \
+curl https://app.postclean.com.br/api/workspace \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Accept: application/json"
 ```
@@ -138,7 +138,7 @@ Posts, notas, ideias, etapas de ideias, etiquetas, assinaturas e o workspace tra
 Listas como posts, ideias, etiquetas, assinaturas, contas sociais, chaves de API, webhooks, logs de webhook, reposts e notas de posts são paginadas. Escolha a página com o parâmetro de consulta `page`:
 
 ```bash
-curl "https://postclean.com.br/api/posts?page=2" \
+curl "https://app.postclean.com.br/api/posts?page=2" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Accept: application/json"
 ```
@@ -151,25 +151,25 @@ O servidor define o tamanho da página; não existe parâmetro `per_page`. Leia 
     { "id": "9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41", "...": "..." }
   ],
   "links": {
-    "first": "https://postclean.com.br/api/posts?page=1",
-    "last": "https://postclean.com.br/api/posts?page=3",
-    "prev": "https://postclean.com.br/api/posts?page=1",
-    "next": "https://postclean.com.br/api/posts?page=3"
+    "first": "https://app.postclean.com.br/api/posts?page=1",
+    "last": "https://app.postclean.com.br/api/posts?page=3",
+    "prev": "https://app.postclean.com.br/api/posts?page=1",
+    "next": "https://app.postclean.com.br/api/posts?page=3"
   },
   "meta": {
     "current_page": 2,
     "from": 26,
     "last_page": 3,
-    "path": "https://postclean.com.br/api/posts",
+    "path": "https://app.postclean.com.br/api/posts",
     "per_page": 25,
     "to": 50,
     "total": 72,
     "links": [
-      { "url": "https://postclean.com.br/api/posts?page=1", "label": "&laquo; Previous", "page": 1, "active": false },
-      { "url": "https://postclean.com.br/api/posts?page=1", "label": "1", "page": 1, "active": false },
-      { "url": "https://postclean.com.br/api/posts?page=2", "label": "2", "page": 2, "active": true },
-      { "url": "https://postclean.com.br/api/posts?page=3", "label": "3", "page": 3, "active": false },
-      { "url": "https://postclean.com.br/api/posts?page=3", "label": "Next &raquo;", "page": 3, "active": false }
+      { "url": "https://app.postclean.com.br/api/posts?page=1", "label": "&laquo; Previous", "page": 1, "active": false },
+      { "url": "https://app.postclean.com.br/api/posts?page=1", "label": "1", "page": 1, "active": false },
+      { "url": "https://app.postclean.com.br/api/posts?page=2", "label": "2", "page": 2, "active": true },
+      { "url": "https://app.postclean.com.br/api/posts?page=3", "label": "3", "page": 3, "active": false },
+      { "url": "https://app.postclean.com.br/api/posts?page=3", "label": "Next &raquo;", "page": 3, "active": false }
     ]
   }
 }

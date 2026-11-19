@@ -23,7 +23,7 @@ Esta página trata do **Devin como cliente MCP**: você aponta o Devin para o Po
 Use exatamente esta URL. Não coloque barra no final. Não cole `/api`, uma URL de autorização OAuth ou `https://mcp.devin.ai/mcp`.
 
 ```
-https://postclean.com.br/mcp/trypost
+https://app.postclean.com.br/mcp/trypost
 ```
 
 O transporte é **HTTP** (Streamable HTTP). Não escolha **SSE** nem **STDIO**.
@@ -54,7 +54,7 @@ Usar o nome de campo errado (`url` em vez de `serverUrl`, ou o contrário) faz o
     | **Server Name** | `PostClean` |
     | **Short Description** (opcional) | `Agende e publique posts nas redes sociais com o PostClean` |
     | **Transport** | **HTTP** |
-    | **Server URL** | `https://postclean.com.br/mcp/trypost` |
+    | **Server URL** | `https://app.postclean.com.br/mcp/trypost` |
     | **Authentication** | **OAuth** |
     | **Access** | **Personal** |
 
@@ -126,7 +126,7 @@ Diferente do Cascade, o Devin Local e o CLI **pedem confirmação antes de cada 
 <Steps>
   <Step title="Adicione o servidor">
     ```bash
-    devin mcp add postclean https://postclean.com.br/mcp/trypost
+    devin mcp add postclean https://app.postclean.com.br/mcp/trypost
     ```
 
     O escopo padrão é **local**: `.devin/mcp_config.local.json` (ignorado pelo git). Mude o escopo com `-s`:
@@ -173,7 +173,7 @@ JSON equivalente (sem cabeçalho `Authorization`, sem `serverUrl`):
 {
   "mcpServers": {
     "postclean": {
-      "url": "https://postclean.com.br/mcp/trypost",
+      "url": "https://app.postclean.com.br/mcp/trypost",
       "transport": "http"
     }
   }
@@ -202,7 +202,7 @@ O agente legado **Cascade** ainda usa um arquivo separado e `"serverUrl"`. Em or
     {
       "mcpServers": {
         "postclean": {
-          "serverUrl": "https://postclean.com.br/mcp/trypost"
+          "serverUrl": "https://app.postclean.com.br/mcp/trypost"
         }
       }
     }
@@ -227,7 +227,7 @@ O agente legado **Cascade** ainda usa um arquivo separado e `"serverUrl"`. Em or
 
 <AccordionGroup>
   <Accordion title="Adicionei mcp.devin.ai ou uma chave cog_">
-    Esse é o [próprio servidor MCP do Devin](https://docs.devin.ai/work-with-devin/devin-mcp) (o Devin como tool para outros clientes). Remova. A URL do PostClean é `https://postclean.com.br/mcp/trypost`, com OAuth: sem chave de API do Devin e sem chave de API do PostClean.
+    Esse é o [próprio servidor MCP do Devin](https://docs.devin.ai/work-with-devin/devin-mcp) (o Devin como tool para outros clientes). Remova. A URL do PostClean é `https://app.postclean.com.br/mcp/trypost`, com OAuth: sem chave de API do Devin e sem chave de API do PostClean.
   </Accordion>
   <Accordion title="A opção Add a custom MCP não aparece">
     Você precisa da permissão **Manage MCP Servers**. Peça a um administrador da organização ou use **Suggest MCP Integration**. A mesma permissão é necessária para concluir o OAuth no Cloud.
@@ -253,7 +253,7 @@ O agente legado **Cascade** ainda usa um arquivo separado e `"serverUrl"`. Em or
     O escopo padrão é **local** (`.devin/mcp_config.local.json`), e não `~/.config/devin/mcp_config.json`. Use `-s user` ou `-s project`, ou edite o arquivo local.
   </Accordion>
   <Accordion title="HTTP 402: Active subscription required">
-    A autorização OAuth funcionou, mas a conta do PostClean não está ativa. Abra o [PostClean](https://postclean.com.br), escolha um plano e reconecte. Veja a [introdução](/ai/introduction).
+    A autorização OAuth funcionou, mas a conta do PostClean não está ativa. Abra o [PostClean](https://app.postclean.com.br), escolha um plano e reconecte. Veja a [introdução](/ai/introduction).
   </Accordion>
   <Accordion title="HTTP 401 ou preciso entrar de novo">
     A sessão OAuth expirou ou foi revogada. No Cloud: comece uma nova sessão e aprove de novo. No CLI: `devin mcp logout postclean` e depois `devin mcp login postclean`. No Cascade: dispare uma chamada de tool e conclua o fluxo no navegador.
@@ -265,7 +265,7 @@ O agente legado **Cascade** ainda usa um arquivo separado e `"serverUrl"`. Em or
     Por SSH ou dentro de um container, o `devin mcp login` mostra a URL de autorização em vez de abrir o navegador. Copie a URL para um navegador local, escolha o workspace, clique em **Autorizar** e o CLI recebe o callback. Se a porta de loopback estiver bloqueada, conclua o OAuth numa máquina que consiga receber o callback ou use a [API REST](/api-reference/introduction) com uma chave de API (só administradores do workspace).
   </Accordion>
   <Accordion title="O time Enterprise bloqueou o servidor">
-    Um administrador do Devin pode desativar o MCP, exigir que ele seja ativado nas configurações do time ou liberar só alguns servidores. No Enterprise, o Cascade fica desligado até um administrador ativá-lo. Se o PostClean nunca conectar num plano Teams / Enterprise, peça a um administrador para liberar um servidor custom HTTP em `https://postclean.com.br/mcp/trypost`.
+    Um administrador do Devin pode desativar o MCP, exigir que ele seja ativado nas configurações do time ou liberar só alguns servidores. No Enterprise, o Cascade fica desligado até um administrador ativá-lo. Se o PostClean nunca conectar num plano Teams / Enterprise, peça a um administrador para liberar um servidor custom HTTP em `https://app.postclean.com.br/mcp/trypost`.
   </Accordion>
 </AccordionGroup>
 

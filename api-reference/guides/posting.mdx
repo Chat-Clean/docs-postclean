@@ -4,7 +4,7 @@ description: "Crie, agende e publique posts pela API: destinos, configurações 
 icon: "paper-plane"
 ---
 
-Este guia acompanha um post do começo ao fim: encontrar o canal, conferir o que a rede dele exige, criar o post e depois agendá-lo, colocá-lo na fila ou publicá-lo na hora. Todos os exemplos rodam em `https://postclean.com.br/api` com uma [chave de API do workspace](/api-reference/introduction).
+Este guia acompanha um post do começo ao fim: encontrar o canal, conferir o que a rede dele exige, criar o post e depois agendá-lo, colocá-lo na fila ou publicá-lo na hora. Todos os exemplos rodam em `https://app.postclean.com.br/api` com uma [chave de API do workspace](/api-reference/introduction).
 
 <Steps>
   <Step title="Liste as contas sociais">
@@ -26,7 +26,7 @@ Este guia acompanha um post do começo ao fim: encontrar o canal, conferir o que
 [Listar contas sociais](/api-reference/social-accounts/list-social-accounts) devolve os canais conectados ao workspace. Os canais são conectados e removidos no app; a API só os lê.
 
 ```bash
-curl https://postclean.com.br/api/social-accounts \
+curl https://app.postclean.com.br/api/social-accounts \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Accept: application/json"
 ```
@@ -69,7 +69,7 @@ Os campos que importam para publicar:
 [Listar tipos de conteúdo](/api-reference/platform/list-content-types) descreve cada rede: seus tipos de conteúdo, limites de texto e de hashtags, as configurações obrigatórias e a mídia que cada formato aceita.
 
 ```bash
-curl https://postclean.com.br/api/content-types \
+curl https://app.postclean.com.br/api/content-types \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Accept: application/json"
 ```
@@ -108,7 +108,7 @@ As demais configurações são opcionais: prévias de links, rótulos de conteú
 [Criar post](/api-reference/posts/create-post) cria um post em **um** canal: envie em `platforms` uma lista com exatamente um item, com o `social_account_id` do canal e, ao lado dele, o `content_type` e o `meta`. Sem `status`, o post é salvo como rascunho.
 
 ```bash
-curl -X POST https://postclean.com.br/api/posts \
+curl -X POST https://app.postclean.com.br/api/posts \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json" \
@@ -137,7 +137,7 @@ A resposta é o post (`201`), com `status: "draft"` e o canal em `platforms`: ca
 Para enviar o mesmo post a vários canais, use [Criar posts em lote](/api-reference/posts/create-posts-in-batch). Ele cria um post independente por destino, todos com o mesmo `post_group_id`, igual a selecionar vários canais no app. Cada destino pode sobrescrever o `content`, a `media`, o `content_type` e o `meta` compartilhados. Aqui o `status` é obrigatório.
 
 ```bash
-curl -X POST https://postclean.com.br/api/posts/batch \
+curl -X POST https://app.postclean.com.br/api/posts/batch \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json" \
@@ -207,7 +207,7 @@ Um post na fila mantém o horário dele. Para mudar a ordem, use [Reordenar a fi
 Envie `status: publishing`, na criação ou num rascunho ou post agendado que já existe:
 
 ```bash
-curl -X PUT https://postclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41 \
+curl -X PUT https://app.postclean.com.br/api/posts/9d3c1f2a-6b4e-4c8a-9f1e-2a7b5c8d0e41 \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Accept: application/json" \
   -H "Content-Type: application/json" \
